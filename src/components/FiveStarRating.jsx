@@ -12,11 +12,10 @@ const useStyles = makeStyles({
 export default function FiveStarRating(props) {
   const classes = useStyles();
   const { rating } = props;
-  const [emptyStar, setEmptyStar] = useState(5 - rating);
+  const [emptyStar] = useState(5 - rating);
   return (
     <div>
       {[...Array(rating)].map((star, index) => {
-          console.log(index);
         return (
           <span key={index}>
             <StarIcon className={classes.star} />

@@ -10,7 +10,6 @@ import {
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import CustomButton from './custom-controls/CustomButton';
 
 const pages = [
   { title: 'Home', path: '/' },
@@ -68,10 +67,10 @@ export default function CustomAppBar() {
           </NavLink>
         </Grid>
         {/* <CustomButton text='Enroll Now' variant='outlined' /> */}
-        <Grid container wrap className={classes.linkSection}>
-          {pages.map((page) => {
+        <Grid container className={classes.linkSection}>
+          {pages.map((page, index) => {
             return (
-              <Grid item>
+              <Grid item key={index}>
                 <NavLink
                   className={({ isActive }) =>
                     isActive ? classes.activeNavLink : classes.navlink

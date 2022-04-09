@@ -7,12 +7,9 @@ import { list } from '../../data/courses';
 
 const useStyles = makeStyles({
   mainContainer: {
-    position: 'absolute',
     backgroundColor: '#E0E8EC',
     marginTop: '20px',
     width: '100%',
-    left: '0px',
-    right: '0px',
     minHeight: '50vh',
     borderTop: '2px solid #E0E8EC',
     borderBottom: '2px solid #E0E8EC',
@@ -76,7 +73,11 @@ export default function MostPopularCourses() {
       <Typography variant='h4' className={classes.mainTitle}>
         <span className={classes.spans}>Most Popular</span> Courses
       </Typography>
-      <Grid container wrap className={classes.categories}>
+      <Grid
+        container
+        // wrap
+        className={classes.categories}
+      >
         <Grid item className={classes.category}>
           <Button onClick={() => filterByCategory('')} variant='contained'>
             All Courses
@@ -104,7 +105,6 @@ export default function MostPopularCourses() {
             lg={4}
             xl={3}
             className={classes.courses}
-            justifyContent='space-around'
             justifyItems='center'
           >
             <CourseCard

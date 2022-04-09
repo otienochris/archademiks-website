@@ -23,20 +23,16 @@ const useStyles = makeStyles({
   mainTitle: {
     marginBottom: '20px',
   },
+  allCoursesBtn: {
+    textDecoration: 'none',
+  },
 });
 
 export default function SecondDescription(props) {
   const classes = useStyles();
   return (
     <Grid container justifyContent='center' className={classes.mainGrid}>
-      <Grid
-        item
-        xs={10}
-        sm={8}
-        md={4}
-        justifyContent='center'
-        className={classes.gridItem}
-      >
+      <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
         <Typography variant='h4' className={classes.mainTitle}>
           Excelent Learning <span className={classes.spans}>Experience</span>
         </Typography>
@@ -46,7 +42,7 @@ export default function SecondDescription(props) {
           vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum earum
           accusantium ut aspernatur!
         </Typography>
-        <NavLink to={'/courses'}>
+        <NavLink to={'/courses'} className={classes.allCoursesBtn}>
           <CustomButton text='View All Courses' />
         </NavLink>
       </Grid>

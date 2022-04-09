@@ -54,7 +54,7 @@ export const list = [
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
   },
   {
-    id: 1,
+    id: 4,
     title: 'Introduction to Academic Writing',
     thumbnail: 'https://www.deccanherald.com/sites/dh/files/1_169.jpg',
     description:
@@ -65,14 +65,14 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    topics: [{ id: 1, courseId: 1, content: 'Tools and Skills required' }],
+    topics: [{ id: 1, courseId: 4, content: 'Tools and Skills required' }],
     subTopics: [{ id: 1, topicId: 1, content: 'Grammarly' }],
     content: [{ id: 1, subTopicId: 1, content: 'some random content ' }],
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
   },
 
   {
-    id: 1,
+    id: 5,
     title: 'Introduction to Academic Writing',
     thumbnail: 'https://www.deccanherald.com/sites/dh/files/1_169.jpg',
     description:
@@ -83,13 +83,13 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    topics: [{ id: 1, courseId: 1, content: 'Tools and Skills required' }],
+    topics: [{ id: 1, courseId: 5, content: 'Tools and Skills required' }],
     subTopics: [{ id: 1, topicId: 1, content: 'Grammarly' }],
     content: [{ id: 1, subTopicId: 1, content: 'some random content ' }],
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
   },
   {
-    id: 2,
+    id: 6,
     title: 'Introduction to Git and Github',
     thumbnail:
       'https://cdn.hashnode.com/res/hashnode/image/upload/v1591131852370/IFpbWxxJU.png',
@@ -101,14 +101,14 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    topics: [{ id: 1, courseId: 1, content: 'Tools and Skills required' }],
+    topics: [{ id: 1, courseId: 6, content: 'Tools and Skills required' }],
     subTopics: [{ id: 1, topicId: 1, content: 'Grammarly' }],
     content: [{ id: 1, subTopicId: 1, content: 'some random content ' }],
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
   },
 
   {
-    id: 3,
+    id: 7,
     title: 'Introduction to HTML, CSS and Javascript',
     thumbnail:
       'https://cdn3.vectorstock.com/i/1000x1000/91/17/website-development-banner-programming-technology-vector-25839117.jpg',
@@ -120,13 +120,13 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    topics: [{ id: 1, courseId: 1, content: 'Tools and Skills required' }],
+    topics: [{ id: 1, courseId: 7, content: 'Tools and Skills required' }],
     subTopics: [{ id: 1, topicId: 1, content: 'Grammarly' }],
     content: [{ id: 1, subTopicId: 1, content: 'some random content ' }],
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
   },
   {
-    id: 1,
+    id: 8,
     title: 'Introduction to Academic Writing',
     thumbnail: 'https://www.deccanherald.com/sites/dh/files/1_169.jpg',
     description:
@@ -137,7 +137,7 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    topics: [{ id: 1, courseId: 1, content: 'Tools and Skills required' }],
+    topics: [{ id: 1, courseId: 8, content: 'Tools and Skills required' }],
     subTopics: [{ id: 1, topicId: 1, content: 'Grammarly' }],
     content: [{ id: 1, subTopicId: 1, content: 'some random content ' }],
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],

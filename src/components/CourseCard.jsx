@@ -15,8 +15,7 @@ const useStyles = makeStyles({
     height: '150px',
   },
   openBtn: {
-    position: 'relative',
-    bottom: '0px',
+    textDecoration: 'none',
   },
 });
 
@@ -35,16 +34,14 @@ export default function CourseCard(props) {
         <Typography gutterBottom variant='h5' component='div'>
           {title}
         </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {description.substr(1, 150)}
-        </Typography>
+        <Typography variant='body2'>{description.substr(1, 150)}</Typography>
         <Typography variant='h6'>
           <FiveStarRating rating={rating} />
         </Typography>
         <Typography variant='h6'>ksh. {price}</Typography>
       </CardContent>
       <CardActions>
-        <NavLink to={`/courses/` + id}>
+        <NavLink to={`/courses/` + id} className={classes.openBtn}>
           <Button
             variant='contained'
             endIcon={<ReadMoreIcon fontSize='large' />}

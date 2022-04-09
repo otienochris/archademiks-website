@@ -31,7 +31,6 @@ export default function Description() {
       container
       justifyContent='center'
       justifyItems='center'
-      // spacing={8}
       className={classes.mainGrid}
     >
       <Grid
@@ -39,7 +38,7 @@ export default function Description() {
         xs={10}
         sm={8}
         md={4}
-        justifyContent='center'
+        // justifyContent='center'
         justifyItems='center'
         className={classes.gridItem}
       >
@@ -63,7 +62,7 @@ export default function Description() {
         sm={8}
         md={4}
         className={classes.gridItem}
-        ustifyContent='center'
+        // ustifyContent='center'
         justifyItems='center'
       >
         <img
