@@ -9,9 +9,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function FiveStarRating(props) {
+export default function FiveStarRating({ rating }) {
   const classes = useStyles();
-  const { rating } = props;
   const [emptyStar] = useState(5 - rating);
   return (
     <div>

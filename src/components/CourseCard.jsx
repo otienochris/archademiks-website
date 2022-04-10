@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles({
   course: {
     margin: '20px',
+    position: 'relative',
     // height: '400px',
   },
   image: {
@@ -16,6 +17,9 @@ const useStyles = makeStyles({
   },
   openBtn: {
     textDecoration: 'none',
+    position: 'absolute',
+    bottom: '40px',
+    right: '15px',
   },
 });
 
@@ -34,7 +38,11 @@ export default function CourseCard(props) {
         <Typography gutterBottom variant='h5' component='div'>
           {title}
         </Typography>
-        <Typography variant='body2'>{description.substr(1, 150)}</Typography>
+        <Typography variant='body2'>
+          {description.length < 150
+            ? description
+            : description.substr(1, 150) + '...'}
+        </Typography>
         <Typography variant='h6'>
           <FiveStarRating rating={rating} />
         </Typography>

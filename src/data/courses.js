@@ -113,7 +113,7 @@ export const list = [
     thumbnail:
       'https://cdn3.vectorstock.com/i/1000x1000/91/17/website-development-banner-programming-technology-vector-25839117.jpg',
     description:
-      'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
+      'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions. A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 4,
     price: '0.00',
     categories: ['English', 'Online', 'Work'],
@@ -127,13 +127,13 @@ export const list = [
   },
   {
     id: 8,
-    title: 'Introduction to Academic Writing',
-    thumbnail: 'https://www.deccanherald.com/sites/dh/files/1_169.jpg',
+    title: 'Introduction to AI',
+    thumbnail: 'http://news.callapr.co.ke/wp-content/uploads/2021/09/AI.jpg',
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 5,
     price: '999.00',
-    categories: ['IT', 'Coding', 'Software'],
+    categories: ['AI', 'Software'],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',

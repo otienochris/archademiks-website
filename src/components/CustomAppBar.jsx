@@ -46,7 +46,7 @@ const useStyle = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     justifyItems: 'center',
-    width: '100vw',
+    width: '100%',
     padding: '10px',
   },
   logoUserSection: {},

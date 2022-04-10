@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     margin: '30px auto',
     textAlign: 'center',
     // backgroundColor: 'green',
-    width: '400px',
+    width: '100%',
   },
   gridContainer: {
     margin: '60px auto',
