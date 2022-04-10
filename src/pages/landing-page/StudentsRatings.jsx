@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentReview from '../../components/StudentReview';
 import { reviews } from '../../data/reviews';
 
@@ -36,7 +36,14 @@ const useStyles = makeStyles({
 
 export default function StudentsRatings() {
   const classes = useStyles();
-  const [listOfReviews, setListOfReviews] = useState(reviews);
+  const [listOfReviews, setListOfReviews] = useState([]);
+
+  useEffect(() => {
+    const systemRatings = reviews.filter((review) =>
+      review.type.startsWith('S')
+    );
+    setListOfReviews(systemRatings);
+  }, []);
 
   return (
     <Grid container justifyContent='center' className={classes.mainContainer}>
@@ -46,8 +53,16 @@ export default function StudentsRatings() {
         </Typography>
       </Grid>
       <Grid container className={classes.reviewsSection}>
-        {listOfReviews.map((review) => (
-          <Grid item xs={12} sm={8} md={6} lg={4} className={classes.review}>
+        {listOfReviews.map((review, index) => (
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={8}
+            md={6}
+            lg={4}
+            className={classes.review}
+          >
             <StudentReview key={review.id} review={review} />
           </Grid>
         ))}

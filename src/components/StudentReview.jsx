@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
-import React, { useEffect } from 'react';
+import React from 'react';
 import FiveStarRating from './FiveStarRating';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Button } from '@mui/material';

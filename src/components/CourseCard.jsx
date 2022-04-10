@@ -23,9 +23,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CourseCard(props) {
+export default function CourseCard({ course }) {
   const classes = useStyles();
-  const { id, title, thumbnail, description, rating, price } = props;
+  const { id, title, thumbnail, description, rating, price } = course;
   return (
     <Card sx={{ width: 350 }} className={classes.course}>
       <CardMedia

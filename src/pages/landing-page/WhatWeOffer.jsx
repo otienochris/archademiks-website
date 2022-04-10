@@ -45,7 +45,7 @@ export default function WhatWeOffer(props) {
     <Container style={{ maxWidth: '100vw' }}>
       <Typography variant='h3' className={classes.whatWeOfferTitle}>
         What we <span className={classes.spans}>Offer</span>
-        <hr />
+        {/* <hr /> */}
       </Typography>
       <Grid
         container

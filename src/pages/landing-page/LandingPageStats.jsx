@@ -1,7 +1,7 @@
-import { Grid, Container } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import { Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import CourseStats from '../../components/CourseStats';
 
 const stats = [
@@ -85,12 +85,3 @@ export default function LandingPageStats() {
     </Grid>
   );
 }
-
-{
-  /* <Grid key={index} className={classes.statSection}> */
-}
-
-// </Grid>
-/* <Grid item xs={false} sm={false} md={1}>
-            <div className={classes.leadingLine}></div>
-          </Grid> */

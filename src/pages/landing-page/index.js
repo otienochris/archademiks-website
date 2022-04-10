@@ -1,5 +1,6 @@
 import { Container } from '@material-ui/core';
 import React from 'react';
+import Footer from '../../components/Footer';
 import Description from './Description';
 import LandingPageStats from './LandingPageStats';
 import MostPopularCourses from './MostPopularCourses';
@@ -16,6 +17,7 @@ export default function Index() {
       <MostPopularCourses />
       <LandingPageStats />
       <StudentsRatings />
+      <Footer />
     </Container>
   );
 }

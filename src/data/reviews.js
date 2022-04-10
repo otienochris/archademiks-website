@@ -44,7 +44,7 @@ export const reviews = [
   },
   {
     id: 4,
-    type: 'Course',
+    type: 'System',
     typeId: 2,
     student: {
       id: 1,
