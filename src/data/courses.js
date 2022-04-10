@@ -24,7 +24,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 5,
-    price: '999.00',
+    price: 999.0,
     category: courseCategories[1],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -42,7 +42,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 1,
-    price: '90.00',
+    price: 90.0,
     category: courseCategories[0],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -61,7 +61,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 4,
-    price: '0.00',
+    price: 0.0,
     category: courseCategories[3],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -79,7 +79,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 5,
-    price: '999.00',
+    price: 999.0,
     category: courseCategories[2],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -98,7 +98,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 5,
-    price: '999.00',
+    price: 999.0,
     category: courseCategories[13],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -115,7 +115,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 1,
-    price: '90.00',
+    price: 90.0,
     category: courseCategories[14],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
@@ -134,7 +134,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions. A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 4,
-    price: '0.00',
+    price: 0.0,
     category: courseCategories[4],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
