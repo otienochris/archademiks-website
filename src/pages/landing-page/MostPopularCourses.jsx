@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { list } from '../../data/courses';
 const useStyles = makeStyles({
   mainContainer: {
     backgroundColor: '#E0E8EC',
-    marginTop: '20px',
+    marginTop: '30px auto',
     width: '100%',
     minHeight: '50vh',
     borderTop: '2px solid #E0E8EC',
@@ -40,12 +40,20 @@ const useStyles = makeStyles({
 
 export default function MostPopularCourses() {
   const classes = useStyles();
-  const [listOfCourses, setListOfCourse] = useState(list);
+  const [listOfCourses, setListOfCourse] = useState([]);
+  const [backUpofPopularCourses, setBackUpofPopularCourses] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    listOfCourses.map((course) => {
-      categories.push(...course.categories);
+    // get courses that have 5 star ratings
+    const mostPopularCourses = list.filter(
+      (courseItem) => courseItem.rating == 5
+    );
+    setListOfCourse(mostPopularCourses);
+    setBackUpofPopularCourses(mostPopularCourses);
+    // create a set of categories
+    mostPopularCourses.map((course) => {
+      categories.push(course.category);
     });
     const setOfCategories = new Set();
     categories.map((category) => {
@@ -59,10 +67,10 @@ export default function MostPopularCourses() {
   const filterByCategory = (categoryName) => {
     let newListOfCourses;
     if (categoryName === '') {
-      setListOfCourse(list);
+      setListOfCourse(backUpofPopularCourses);
     } else {
-      newListOfCourses = list.filter((course) =>
-        course.categories.includes(categoryName)
+      newListOfCourses = list.filter(
+        (course) => course.category == categoryName
       );
       setListOfCourse(newListOfCourses);
     }
@@ -73,11 +81,7 @@ export default function MostPopularCourses() {
       <Typography variant='h4' className={classes.mainTitle}>
         <span className={classes.spans}>Most Popular</span> Courses
       </Typography>
-      <Grid
-        container
-        // wrap
-        className={classes.categories}
-      >
+      <Grid container className={classes.categories}>
         <Grid item className={classes.category}>
           <Button onClick={() => filterByCategory('')} variant='contained'>
             All Courses
@@ -107,14 +111,7 @@ export default function MostPopularCourses() {
             className={classes.courses}
             justifyItems='center'
           >
-            <CourseCard
-              id={course.id}
-              thumbnail={course.thumbnail}
-              title={course.title}
-              description={course.description}
-              rating={course.rating}
-              price={course.price}
-            />
+            <CourseCard course={course} />
           </Grid>
         ))}
       </Grid>

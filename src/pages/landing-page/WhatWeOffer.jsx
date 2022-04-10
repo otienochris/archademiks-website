@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     margin: '30px auto',
     textAlign: 'center',
     // backgroundColor: 'green',
-    width: '400px',
+    width: '100%',
   },
   gridContainer: {
     margin: '60px auto',
@@ -45,7 +45,7 @@ export default function WhatWeOffer(props) {
     <Container style={{ maxWidth: '100vw' }}>
       <Typography variant='h3' className={classes.whatWeOfferTitle}>
         What we <span className={classes.spans}>Offer</span>
-        <hr />
+        {/* <hr /> */}
       </Typography>
       <Grid
         container
