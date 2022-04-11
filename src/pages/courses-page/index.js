@@ -10,6 +10,7 @@ import CourseCard from '../../components/CourseCard';
 import { list } from '../../data/courses';
 import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import Footer from '../../components/Footer';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -100,6 +101,7 @@ export default function Index() {
           ))}
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }

@@ -151,7 +151,7 @@ export const list = [
     description:
       'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
     rating: 5,
-    price: '999.00',
+    price: '1999.00',
     category: courseCategories[9],
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
