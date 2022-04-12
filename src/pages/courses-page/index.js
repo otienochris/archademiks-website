@@ -14,8 +14,10 @@ import Footer from '../../components/Footer';
 
 const useStyles = makeStyles({
   mainContainer: {
-    display: 'inline-block',
-    width: '95%',
+    display: 'flex',
+    justifyContent: 'center',
+    justifyItems: 'center',
+    width: '100%',
   },
   seachbar: {
     width: '100%',
@@ -23,7 +25,7 @@ const useStyles = makeStyles({
     margin: '30px auto',
   },
   searchBarSection: {
-    margin: '50px auto 20px auto',
+    margin: '20px auto',
   },
 });
 
@@ -69,9 +71,6 @@ export default function Index() {
               Courses
             </Typography>
           </Grid>
-          {/* <Grid item xs={12}>
-            <hr style={{ width: '100%', marginBottom: '10px' }} />
-          </Grid> */}
           <Grid item xs={12} md={9} className={classes.seachbar}>
             <TextField
               className={classes.seachbar}
@@ -95,7 +94,15 @@ export default function Index() {
         </Grid>
         <Grid container justifyContent={'center'} style={{ width: '100%' }}>
           {listOfCourses.map((course, index) => (
-            <Grid key={index} item xs={12} sm={8} md={6} lg={4}>
+            <Grid
+              key={index}
+              item
+              xs={12}
+              sm={7}
+              md={6}
+              lg={4}
+              className={classes.mainContainer}
+            >
               <CourseCard course={course} />
             </Grid>
           ))}

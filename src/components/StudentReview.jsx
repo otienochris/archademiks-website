@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   card: {
     width: '350px',
     position: 'relative',
+    margin: '20px',
   },
   rating: {
     position: 'absolute',

@@ -16,7 +16,7 @@ export const reviews = [
   {
     id: 2,
     type: 'Course',
-    typeId: 2,
+    typeId: 1,
     student: {
       id: 1,
       firstName: 'Pam',
@@ -31,7 +31,7 @@ export const reviews = [
   {
     id: 3,
     type: 'Course',
-    typeId: 2,
+    typeId: 3,
     student: {
       id: 1,
       firstName: 'Samuel',
@@ -40,7 +40,7 @@ export const reviews = [
     },
     rating: 3,
     content:
-      'The best site to get certified and great relevant skills. Their prices are also cheap',
+      'A step by step explanation. Very suitable for beginners that want to understand in depth what they are doing and why',
   },
   {
     id: 4,
@@ -55,5 +55,46 @@ export const reviews = [
     rating: 3,
     content:
       'The best site to get certified and great relevant skills. Their prices are also cheap. The best site to get certified and great relevant skills. Their prices are also cheap.',
+  },
+  {
+    id: 3,
+    type: 'Course',
+    typeId: 1,
+    student: {
+      id: 1,
+      firstName: 'Samuel',
+      lastName: 'Lenganyapuo',
+      country: 'Uganda',
+    },
+    rating: 3,
+    content:
+      'The best site to get certified and great relevant skills. Their prices are also cheap',
+  },
+  {
+    id: 3,
+    type: 'Course',
+    typeId: 1,
+    student: {
+      id: 1,
+      firstName: 'Samuel',
+      lastName: 'Lenganyapuo',
+      country: 'Uganda',
+    },
+    rating: 3,
+    content:
+      'The best site to get certified and great relevant skills. Their prices are also cheap',
+  },
+  {
+    id: 3,
+    type: 'Course',
+    typeId: 2,
+    student: {
+      id: 1,
+      firstName: 'Samuel',
+      lastName: 'Lenganyapuo',
+      country: 'Uganda',
+    },
+    rating: 4,
+    content: 'Git taught well. Very organized',
   },
 ];

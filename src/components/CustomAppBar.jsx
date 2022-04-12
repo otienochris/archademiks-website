@@ -1,14 +1,15 @@
 import {
   AppBar,
-  Avatar,
   Button,
   Grid,
+  IconButton,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const pages = [
   { title: 'Home', path: '/' },
@@ -28,6 +29,7 @@ const useStyle = makeStyles({
   appBar: {
     backgroundColor: '#fefefe',
     color: 'black',
+    height: '65px',
   },
   navlink: {
     color: 'black',
@@ -46,23 +48,29 @@ const useStyle = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     width: '100%',
+    height: '30px',
     padding: '10px',
   },
-  logoUserSection: {},
+  logoUserSection: {
+    height: '30px',
+    width: '100%',
+  },
 });
 
 export default function CustomAppBar() {
   const classes = useStyle();
 
   return (
-    <AppBar position='static' className={classes.appBar} elevation={1}>
+    <AppBar className={classes.appBar} elevation={1}>
       <Toolbar className={classes.toolBar}>
         <Grid container className={classes.logoUserSection}>
           <Typography variant='h6' className={classes.typography}>
             Archademiks
           </Typography>
           <NavLink to={'/login-signup'}>
-            <Button startIcon={<Avatar />} />
+            <IconButton>
+              <AccountCircleIcon fontSize='medium' />
+            </IconButton>
           </NavLink>
         </Grid>
         {/* <CustomButton text='Enroll Now' variant='outlined' /> */}
