@@ -6,6 +6,7 @@ import AboutPage from './pages/about-page';
 import CoursesPage from './pages/courses-page';
 import ContactsPage from './pages/contacts-page';
 import CoursePage from './pages/course-page';
+import CheckOutPage from './pages/checkout-page';
 
 export default function App() {
   return (
@@ -16,6 +17,10 @@ export default function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/courses/:courseId' element={<CoursePage />} />
+          <Route
+            path='/courses/checkout/:courseId'
+            element={<CheckOutPage />}
+          />
           <Route path='/contacts' element={<ContactsPage />} />
         </Routes>
       </Layout>

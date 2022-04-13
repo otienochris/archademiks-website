@@ -6,7 +6,13 @@ import { reviews } from '../../data/reviews';
 
 const useStyles = makeStyles({
   review: {
-    margin: '30px auto',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    justifyItems: 'center',
+  },
+  reviewsSection: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -24,13 +30,6 @@ const useStyles = makeStyles({
   },
   mainContainer: {
     backgroundColor: '#E0E8EC',
-  },
-  reviewsSection: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    justifyItems: 'center',
   },
 });
 
