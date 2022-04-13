@@ -66,6 +66,14 @@ const useStyles = makeStyles({
     height: '290px',
     margin: '20px',
   },
+  paymentOptionTitle: {
+    width: '100%',
+    backgroundColor: 'rgba(210,215,211,.5)',
+    textAlign: 'center',
+    padding: '5px',
+    margin: '20px auto',
+    color: '#393424',
+  },
 });
 
 export default function Index() {
@@ -93,22 +101,24 @@ export default function Index() {
 
   return (
     <Container>
+      <Grid item xs={12}>
+        <Typography
+          variant='h4'
+          style={{
+            textAlign: 'center',
+            width: '100%',
+            backgroundColor: 'rgba(210,215,211,1)',
+          }}
+        >
+          Check Out
+        </Typography>
+      </Grid>
       <Grid container justifyContent='center'>
         <Grid item xs={12} md={6} lg={4}>
           <CourseCard course={course} />
         </Grid>
         <Grid item xs={12} md={6} lg={8} className={classes.options}>
-          <Typography
-            variant='h5'
-            style={{
-              width: '100%',
-              backgroundColor: 'rgba(210,215,211,.5)',
-              textAlign: 'center',
-              padding: '5px',
-              margin: '20px auto',
-              color: '#393424',
-            }}
-          >
+          <Typography variant='h5' className={classes.paymentOptionTitle}>
             Payment Options
           </Typography>
           <Accordion>
@@ -176,7 +186,7 @@ export default function Index() {
           </Accordion>
           <Accordion disabled>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              1. Card payment
+              2. Card payment
             </AccordionSummary>
             <AccordionDetails>
               <Typography variant='h4'>Manual Process</Typography>

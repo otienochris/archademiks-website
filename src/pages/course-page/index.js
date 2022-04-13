@@ -35,15 +35,15 @@ const useStyles = makeStyles({
     width: '100%',
   },
   courseSnapshotDetailsGrid: {
-    width: '80%',
-    padding: '20px',
+    width: '100%',
+    padding: '10px',
   },
   imageGrid: {
     width: '100%',
     boxShadow: '2px black',
   },
   img: {
-    height: '300px',
+    height: '150px',
     width: '100%',
     objectFit: 'cover',
     boxShadow: '2px 5px 8px grey',
@@ -71,8 +71,6 @@ const useStyles = makeStyles({
   categoryBanner: {
     padding: '5px',
     display: 'inline-block',
-    boxShadow: '2px 5px 5px grey',
-    marginBottom: '30px',
   },
   review: {
     width: '100%',
@@ -91,6 +89,15 @@ const useStyles = makeStyles({
   },
   accordion: {
     margin: '2px auto',
+  },
+  price: {
+    color: '#143109',
+    fontWeight: 'bolder',
+    flexGrow: 1,
+    textAlign: 'right',
+    paddingRight: '20px',
+    backgroundImage:
+      'linear-gradient(to right, #AAAE7F, #D0D6B3, #F7F7F7, #EFEFEF)',
   },
 });
 
@@ -160,16 +167,10 @@ export default function Index() {
             alt='course thumbnail'
             className={classes.img}
           />
-        </Grid>
-        <Grid
-          item
-          className={classes.courseSnapshotDetailsGrid}
-          xs={12}
-          sm={6}
-          md={7}
-        >
-          <Typography variant='body1'>
-            <span
+
+          <div style={{ display: 'flex' }}>
+            <Typography
+              variant='body1'
               style={{
                 backgroundColor: `${getColorForCategoryBanner(
                   course.category
@@ -178,39 +179,25 @@ export default function Index() {
               className={classes.categoryBanner}
             >
               {course.category}
-            </span>
-          </Typography>
-          <Typography variant='h4'>{course.title}</Typography>
-          <div style={{ color: '#497592' }}>
-            {course.price <= 0 ? (
-              <Typography
-                variant='h4'
-                style={{
-                  fontWeight: 'bolder',
-                  marginRight: '5px',
-                }}
-              >
-                Free
-              </Typography>
-            ) : course.price <= 1000 ? (
-              <span>
-                ksh.
-                <Typography
-                  variant='h4'
-                  style={{
-                    fontWeight: 'bolder',
-                    marginRight: '5px',
-                    display: 'inline-block',
-                  }}
-                >
-                  {course.price}
-                </Typography>
-              </span>
-            ) : (
-              `ksh. ${course.price}`
-            )}
+            </Typography>
+            <Typography variant='h4' className={classes.price}>
+              {course.price <= 0 ? 'Free' : `ksh. ${course.price}`}
+            </Typography>
           </div>
-          <Typography variant='body1'>{course.description}</Typography>
+        </Grid>
+        <Grid
+          item
+          className={classes.courseSnapshotDetailsGrid}
+          xs={12}
+          sm={6}
+          md={7}
+        >
+          <Typography variant='h4' style={{ width: '100%' }}>
+            {course.title}
+          </Typography>
+          <Typography variant='body1' style={{ width: '100%' }}>
+            {course.description}
+          </Typography>
           <section className={classes.moduleAndRatingSection}>
             <ViewModuleIcon fontSize='large' />
             <Typography className={classes.topics}>
