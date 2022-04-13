@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   children: {
     marginTop: '65px',
     backgroundImage:
-      'linear-gradient(to right, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+      'linear-gradient(to right, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
   },
 });
 
