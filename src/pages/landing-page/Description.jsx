@@ -1,6 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import CustomButton from '../../components/custom-controls/CustomButton';
 
 const useStyles = makeStyles({
@@ -21,6 +22,9 @@ const useStyles = makeStyles({
   },
   mainTitle: {
     marginBottom: '20px',
+  },
+  navlink: {
+    textDecoration: 'none',
   },
 });
 
@@ -53,7 +57,9 @@ export default function Description() {
           vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum earum
           accusantium ut aspernatur!
         </Typography>
-        <CustomButton text='Get Started' />
+        <NavLink className={classes.navlink} to={'/login-signup'}>
+          <CustomButton text='Get Started' />
+        </NavLink>
       </Grid>
 
       <Grid
