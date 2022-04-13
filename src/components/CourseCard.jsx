@@ -107,7 +107,6 @@ export default function CourseCard({ course }) {
         >
           {category}
         </Typography>
-        {/* <div>{category}</div> */}
       </CardContent>
       <CardActions>
         <NavLink to={`/courses/` + id} className={classes.openBtn}>

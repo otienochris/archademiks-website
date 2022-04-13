@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccordionDetails, AppBar, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { list } from '../../data/courses';
 import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
@@ -20,6 +21,9 @@ import Footer from '../../components/Footer';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import StudentReview from '../../components/StudentReview';
+import CustomButton from '../../components/custom-controls/CustomButton';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import StartIcon from '@mui/icons-material/Start';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -28,6 +32,7 @@ const useStyles = makeStyles({
     justifyItems: 'center',
     padding: '10px',
     position: 'relative',
+    width: '100%',
   },
   courseSnapshotDetailsGrid: {
     width: '80%',
@@ -176,7 +181,35 @@ export default function Index() {
             </span>
           </Typography>
           <Typography variant='h4'>{course.title}</Typography>
-          <Typography variant='h5'>Ksh. {course.price}</Typography>
+          <div style={{ color: '#497592' }}>
+            {course.price <= 0 ? (
+              <Typography
+                variant='h4'
+                style={{
+                  fontWeight: 'bolder',
+                  marginRight: '5px',
+                }}
+              >
+                Free
+              </Typography>
+            ) : course.price <= 1000 ? (
+              <span>
+                ksh.
+                <Typography
+                  variant='h4'
+                  style={{
+                    fontWeight: 'bolder',
+                    marginRight: '5px',
+                    display: 'inline-block',
+                  }}
+                >
+                  {course.price}
+                </Typography>
+              </span>
+            ) : (
+              `ksh. ${course.price}`
+            )}
+          </div>
           <Typography variant='body1'>{course.description}</Typography>
           <section className={classes.moduleAndRatingSection}>
             <ViewModuleIcon fontSize='large' />
@@ -190,17 +223,37 @@ export default function Index() {
               <FiveStarRating rating={course.rating} />
             </div>
           </section>
+          {course.price > 0 ? (
+            <NavLink
+              style={{ textDecoration: 'none' }}
+              to={'/courses/checkout/' + courseId}
+            >
+              <CustomButton
+                endIcon={<ShoppingCartCheckoutIcon />}
+                style={{
+                  position: 'sticky',
+                  width: '100%',
+                  backgroundColor: 'gold',
+                  color: 'black',
+                }}
+                text='Buy'
+              />
+            </NavLink>
+          ) : (
+            <CustomButton
+              endIcon={<StartIcon />}
+              style={{ width: '100%' }}
+              text='Get for Free'
+              color='primary'
+            />
+          )}
         </Grid>
       </Grid>
       <Grid item>
         <AppBar position='static' color='default' className={classes.appbar}>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab icon={<SummarizeIcon />} label={'Topics'} />
-            <Tab
-              icon={<ReviewsIcon />}
-              iconPosition='start'
-              label={'reviews'}
-            />
+            <Tab icon={<ReviewsIcon />} label={'reviews'} />
           </Tabs>
         </AppBar>
         {value === 0 ? (

@@ -357,36 +357,36 @@ export const list = [
       },
     ],
   },
-  {
-    id: 8,
-    title: 'Introduction to AI',
-    thumbnail: 'http://news.callapr.co.ke/wp-content/uploads/2021/09/AI.jpg',
-    description:
-      'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
-    rating: 5,
-    price: '1999.00',
-    category: courseCategories[9],
-    numberOfEnrolledStudents: 14,
-    creationDate: '08/04/2022',
-    modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-    topics: [
-      {
-        id: 1,
-        title: 'Tools and Skills required',
-        description: 'Some description',
-        content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-        subTopics: [
-          {
-            id: 1,
-            description: 'Some description',
-            content: 'Grammarly',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-            content: 'Tools and Skills required',
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   id: 8,
+  //   title: 'Introduction to AI',
+  //   thumbnail: 'http://news.callapr.co.ke/wp-content/uploads/2021/09/AI.jpg',
+  //   description:
+  //     'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
+  //   rating: 5,
+  //   price: '1999.00',
+  //   category: courseCategories[9],
+  //   numberOfEnrolledStudents: 14,
+  //   creationDate: '08/04/2022',
+  //   modificationDate: '08/04/2022',
+  //   links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+  //   topics: [
+  //     {
+  //       id: 1,
+  //       title: 'Tools and Skills required',
+  //       description: 'Some description',
+  //       content: 'Tools and Skills required',
+  //       links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+  //       subTopics: [
+  //         {
+  //           id: 1,
+  //           description: 'Some description',
+  //           content: 'Grammarly',
+  //           links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+  //           content: 'Tools and Skills required',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];

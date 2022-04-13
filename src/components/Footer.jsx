@@ -36,6 +36,7 @@ const useStyles = makeStyles({
   mainCointaner: {
     margin: '150px auto 5px auto',
     textAlign: 'center',
+    borderTop: '2px solid gold',
   },
   socials: {
     margin: '15px auto',
