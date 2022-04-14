@@ -1,4 +1,4 @@
-import { makeStyles, Paper, TextField } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
 import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -26,7 +26,7 @@ const schema = yup.object({
   email: yup
     .string()
     .email('Provided Email is invalid')
-    .required('Email is required to login.'),
+    .required('Email is required to signup.'),
   password: yup.string().required('Passord is required to signup.'),
   password2: yup
     .string()
