@@ -54,7 +54,7 @@ export default function SignUp() {
   return (
     <form
       method='post'
-      onChange={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className={classes.form}
     >
       <TextField
