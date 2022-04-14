@@ -28,12 +28,14 @@ const ExpandMore = styled((props) => {
 export default function CourseInProgressPreview({
   course,
   setContinueLearning,
+  setCourseToContinue,
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const handleContinueLearnig = () => {
+    setCourseToContinue(course);
     setContinueLearning(true);
   };
   return (

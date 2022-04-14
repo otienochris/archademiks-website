@@ -105,7 +105,27 @@ export const list = [
         subTopics: [
           {
             id: 1,
-            title: 'Grammarly',
+            title: 'Why',
+            description: 'Some description',
+            links: [
+              {
+                id: 1,
+                title: 'introduction to Grammarly',
+                link: 'RwMzeB7ZSrA',
+              },
+            ],
+            content: 'Tools and Skills required',
+          },
+          {
+            id: 2,
+            title: 'When',
+            description: 'Some description',
+            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            content: 'Tools and Skills required',
+          },
+          {
+            id: 3,
+            title: 'How',
             description: 'Some description',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
