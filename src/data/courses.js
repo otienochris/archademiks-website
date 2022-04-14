@@ -43,7 +43,7 @@ const instructorsList = [
       {
         id: 4,
         title: 'whatsapp',
-        url: '+254742887480',
+        url: '+254772348798',
       },
     ],
   },
