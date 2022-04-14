@@ -16,6 +16,69 @@ const courseCategories = [
   'DevOps',
 ];
 
+const instructorsList = [
+  {
+    id: 1,
+    firstName: 'Christopher',
+    lastName: 'Otieno',
+    title: 'Software Engineer',
+    briefDescription:
+      'Christopher teaches using apt strategies that ensures students achieve the best.',
+    contacts: [
+      {
+        id: 1,
+        title: 'linkedin',
+        url: 'https://www.linkedin.com/in/christopher-otieno-556779193/',
+      },
+      {
+        id: 2,
+        title: 'facebook',
+        url: 'https://www.linkedin.com/in/christopher-otieno-556779193/',
+      },
+      {
+        id: 3,
+        title: 'slack',
+        url: 'https://archademiks.slack.com/archives/C03BAMJV0JJ',
+      },
+      {
+        id: 4,
+        title: 'whatsapp',
+        url: '+254742887480',
+      },
+    ],
+  },
+  {
+    id: 1,
+    firstName: 'Steve',
+    lastName: 'Mboya',
+    title: 'Surveyor',
+    briefDescription:
+      'Steve teaches using apt strategies that ensures students achieve the best.',
+    contacts: [
+      {
+        id: 1,
+        title: 'linkedin',
+        url: '',
+      },
+      {
+        id: 2,
+        title: 'facebook',
+        url: '',
+      },
+      {
+        id: 3,
+        title: 'slack',
+        url: '',
+      },
+      {
+        id: 4,
+        title: 'whatsapp',
+        url: '+254704869094',
+      },
+    ],
+  },
+];
+
 export const list = [
   {
     id: 1,
@@ -30,6 +93,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -43,7 +107,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -60,7 +123,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -77,7 +139,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -95,7 +156,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -112,7 +172,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -129,7 +188,6 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -151,6 +209,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[1]],
     topics: [
       {
         id: 1,
@@ -163,11 +222,8 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-            content: [
-              { id: 1, subTopicId: 1, content: 'some random content ' },
-            ],
+            content: 'some random content ',
           },
         ],
       },
@@ -182,11 +238,8 @@ export const list = [
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            content: 'Grammarly',
+            content: 'some random content ',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-            content: [
-              { id: 1, subTopicId: 1, content: 'some random content ' },
-            ],
           },
         ],
       },
@@ -207,6 +260,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -219,7 +273,6 @@ export const list = [
             id: 1,
             title: '',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -241,6 +294,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -253,7 +307,6 @@ export const list = [
             id: 1,
             title: '',
             description: 'Some description',
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -276,6 +329,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -287,7 +341,6 @@ export const list = [
           {
             id: 1,
             title: 'Grammarly',
-            description: 'Some description',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -308,6 +361,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -317,7 +371,6 @@ export const list = [
         subTopics: [
           {
             id: 1,
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },
@@ -340,6 +393,7 @@ export const list = [
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
     links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
@@ -349,7 +403,6 @@ export const list = [
         subTopics: [
           {
             id: 1,
-            content: 'Grammarly',
             links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
             content: 'Tools and Skills required',
           },

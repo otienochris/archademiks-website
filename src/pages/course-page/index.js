@@ -24,6 +24,8 @@ import StudentReview from '../../components/StudentReview';
 import CustomButton from '../../components/custom-controls/CustomButton';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import StartIcon from '@mui/icons-material/Start';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import InstructorPreview from '../../components/InstructorPreview';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -241,6 +243,7 @@ export default function Index() {
           <Tabs value={value} onChange={handleChange} centered>
             <Tab icon={<SummarizeIcon />} label={'Topics'} />
             <Tab icon={<ReviewsIcon />} label={'reviews'} />
+            <Tab icon={<AssignmentIndIcon />} label={'tutors'} />
           </Tabs>
         </AppBar>
         {value === 0 ? (
@@ -260,7 +263,7 @@ export default function Index() {
               </Accordion>
             ))}
           </div>
-        ) : (
+        ) : value === 1 ? (
           <Grid
             container
             justifyContent={'center'}
@@ -277,6 +280,29 @@ export default function Index() {
                 className={classes.review}
               >
                 <StudentReview key={review.id} review={review} />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Grid
+            container
+            justifyContent={'center'}
+            className={classes.reviewsSection}
+          >
+            {course.instructors.map((instructor, index) => (
+              <Grid
+                key={index}
+                item
+                xs={12}
+                sm={8}
+                md={6}
+                lg={4}
+                className={classes.review}
+              >
+                <InstructorPreview
+                  key={instructor.id}
+                  instructor={instructor}
+                />
               </Grid>
             ))}
           </Grid>
