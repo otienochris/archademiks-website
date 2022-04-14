@@ -5,6 +5,8 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { loggedOnUser } from '../../data/users';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   textField: {
@@ -71,7 +73,13 @@ export default function LogIn() {
         error={errors.password ? true : false}
         helperText={errors.password ? errors.password.message : ''}
       />
-      <CustomButton type='submit' text='Log In' className={classes.textField} />
+      <NavLink to={'/students/' + loggedOnUser.lastName}>
+        <CustomButton
+          type='submit'
+          text='Log In'
+          className={classes.textField}
+        />
+      </NavLink>
     </form>
   );
 }

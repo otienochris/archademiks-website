@@ -1,4 +1,4 @@
-import { Container, makeStyles, Paper } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import SignUp from './SignUp';
