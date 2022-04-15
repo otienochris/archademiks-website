@@ -15,6 +15,7 @@ import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
+import YoutubeReact from '../../components/YoutubeReact';
 
 const useStyles = makeStyles({
   step: {
@@ -60,9 +61,7 @@ export default function TopicDetails({ topic }) {
               <StepLabel>{subTopic.title}</StepLabel>
               <StepContent>
                 <Typography variant='body1'>{subTopic.description}</Typography>
-                {subTopic.links.map((link, index) => (
-                  <YoutubeEmbed key={index} embedId={link.link} />
-                ))}
+                <YoutubeEmbed embedId={'42W4k7C5vmI'} />
 
                 <Typography variant='body2'>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
