@@ -61,7 +61,12 @@ export default function TopicDetails({ topic }) {
               <StepLabel>{subTopic.title}</StepLabel>
               <StepContent>
                 <Typography variant='body1'>{subTopic.description}</Typography>
-                <YoutubeEmbed embedId={'42W4k7C5vmI'} />
+
+                {subTopic.link === '' || subTopic.link === null ? (
+                  ''
+                ) : (
+                  <YoutubeEmbed embedId={subTopic.link} />
+                )}
 
                 <Typography variant='body2'>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.

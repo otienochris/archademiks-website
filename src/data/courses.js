@@ -92,7 +92,7 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[0]],
     topics: [
       {
@@ -101,33 +101,27 @@ export const list = [
         description:
           'In this section, you will learn how to be effective in academic writing. It assumes you have little to no knowledge regarding this topic. Thus, it expounds even the topics one might consider obvious. ',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Why',
             description: 'Some description',
-            links: [
-              {
-                id: 1,
-                title: 'introduction to Grammarly',
-                link: 'RwMzeB7ZSrA',
-              },
-            ],
+            link: 'MyTLosz6aHA',
             content: 'Tools and Skills required',
           },
           {
             id: 2,
             title: 'When',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
           {
             id: 3,
             title: 'How',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -137,13 +131,13 @@ export const list = [
         title: 'Tools and Skills required',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -153,13 +147,13 @@ export const list = [
         title: 'Grammar',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -170,13 +164,13 @@ export const list = [
         description:
           'In this section, you will learn how to be effective in academic writing. It assumes you have little to no knowledge regarding this topic. Thus, it expounds even the topics one might consider obvious. ',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -186,13 +180,13 @@ export const list = [
         title: 'Tools and Skills required',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -202,13 +196,13 @@ export const list = [
         title: 'Grammar',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -228,7 +222,7 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[1]],
     topics: [
       {
@@ -236,13 +230,13 @@ export const list = [
         title: 'Introduction',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'some random content ',
           },
         ],
@@ -252,14 +246,14 @@ export const list = [
         title: 'Commands',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
             description: 'Some description',
             content: 'some random content ',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
           },
         ],
       },
@@ -287,13 +281,13 @@ export const list = [
         title: 'Tools and Skills required',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: '',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -313,7 +307,7 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[0]],
     topics: [
       {
@@ -321,13 +315,13 @@ export const list = [
         title: 'Tools and Skills required',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: '',
             description: 'Some description',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -348,7 +342,7 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[0]],
     topics: [
       {
@@ -356,12 +350,12 @@ export const list = [
         title: 'Tools and Skills required',
         description: 'Some description',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
             title: 'Grammarly',
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -380,18 +374,18 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
         title: 'Tools and Skills required',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
@@ -412,54 +406,22 @@ export const list = [
     numberOfEnrolledStudents: 14,
     creationDate: '08/04/2022',
     modificationDate: '08/04/2022',
-    links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+    link: '',
     instructors: [instructorsList[0]],
     topics: [
       {
         id: 1,
         title: 'Tools and Skills required',
         content: 'Tools and Skills required',
-        links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+        link: '',
         subTopics: [
           {
             id: 1,
-            links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
+            link: '',
             content: 'Tools and Skills required',
           },
         ],
       },
     ],
   },
-  // {
-  //   id: 8,
-  //   title: 'Introduction to AI',
-  //   thumbnail: 'http://news.callapr.co.ke/wp-content/uploads/2021/09/AI.jpg',
-  //   description:
-  //     'A complete introduction to academic writing. This course course is for both beginners and experienced writers. It expores best practices and common mistakes and misconceptions.',
-  //   rating: 5,
-  //   price: '1999.00',
-  //   category: courseCategories[9],
-  //   numberOfEnrolledStudents: 14,
-  //   creationDate: '08/04/2022',
-  //   modificationDate: '08/04/2022',
-  //   links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-  //   topics: [
-  //     {
-  //       id: 1,
-  //       title: 'Tools and Skills required',
-  //       description: 'Some description',
-  //       content: 'Tools and Skills required',
-  //       links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-  //       subTopics: [
-  //         {
-  //           id: 1,
-  //           description: 'Some description',
-  //           content: 'Grammarly',
-  //           links: [{ id: 1, title: 'introduction to Grammarly', link: '' }],
-  //           content: 'Tools and Skills required',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
 ];
