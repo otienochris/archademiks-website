@@ -126,7 +126,7 @@ export default function SignUp() {
       <RadioGroup row className={classes.radiogroup}>
         <FormControlLabel
           value='student'
-          control={<Radio checked />}
+          control={<Radio />}
           label='Student'
           {...register('userType')}
         />
