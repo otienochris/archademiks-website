@@ -4,6 +4,7 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const useStyles = makeStyles({
   textField: {
@@ -18,11 +19,21 @@ const useStyles = makeStyles({
     justifyItems: 'center',
     minHeight: '575px',
   },
+  radiogroup: {
+    display: 'flex',
+    justifyContent: 'center',
+    justifyItems: 'center',
+    // flexDirection: 'column',
+  },
 });
 
 const schema = yup.object({
   firstName: yup.string().required('First name is requried'),
   secondName: yup.string().required('Second name is required'),
+  userType: yup
+    .string()
+    .oneOf(['student', 'instructor'])
+    .required(),
   email: yup
     .string()
     .email('Provided Email is invalid')
@@ -112,7 +123,23 @@ export default function SignUp() {
         error={errors.password2 ? true : false}
         helperText={errors.password2 ? errors.password2.message : ''}
       />
-      <CustomButton type='submit' text='signup' className={classes.textField} />
+      <RadioGroup row className={classes.radiogroup}>
+        <FormControlLabel
+          value='student'
+          control={<Radio checked />}
+          label='Student'
+          {...register('userType')}
+        />
+        <FormControlLabel
+          value='instructor'
+          control={<Radio />}
+          label='Instructor'
+          {...register('userType')}
+        />
+      </RadioGroup>
+      <Button variant='contained' type='submit' className={classes.textField}>
+        signup
+      </Button>
     </form>
   );
 }

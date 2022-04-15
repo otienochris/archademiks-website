@@ -5,8 +5,7 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
-import { loggedOnUser } from '../../data/users';
-import { NavLink } from 'react-router-dom';
+import Redirect, { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
   textField: {
@@ -31,10 +30,8 @@ const schema = yup.object({
   password: yup.string().required('Passord is required to log in.'),
 });
 
-const onSubmit = (data) => {
-  console.log(data);
-};
 export default function LogIn() {
+  const navigate = useNavigate();
   const classes = useStyles();
   const {
     register,
@@ -44,6 +41,16 @@ export default function LogIn() {
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    data.email === 'admin@gmail.com'
+      ? navigate('/instructor/chris')
+      : data.email === 'otienochris98@gmail.com'
+      ? navigate('/students/chris')
+      : navigate('/login-signup', { replace: true });
+  };
+
   return (
     <form
       method='post'
@@ -73,13 +80,7 @@ export default function LogIn() {
         error={errors.password ? true : false}
         helperText={errors.password ? errors.password.message : ''}
       />
-      <NavLink to={'/students/' + loggedOnUser.lastName}>
-        <CustomButton
-          type='submit'
-          text='Log In'
-          className={classes.textField}
-        />
-      </NavLink>
+      <CustomButton type='submit' text='Log In' className={classes.textField} />
     </form>
   );
 }
