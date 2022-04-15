@@ -15,7 +15,6 @@ import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
-import YoutubeReact from '../../components/YoutubeReact';
 
 const useStyles = makeStyles({
   step: {
