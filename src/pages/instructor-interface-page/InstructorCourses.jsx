@@ -2,7 +2,11 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import InstructorCoursePreview from './InstructorCoursePreview';
 
-export default function InstructorCourses({ courses }) {
+export default function InstructorCourses({
+  courses,
+  setCourseToViewOrEdit,
+  setViewCourse,
+}) {
   return (
     <>
       <Typography variant='h6'>My Courses</Typography>
@@ -16,7 +20,11 @@ export default function InstructorCourses({ courses }) {
                 },
               }}
             >
-              <InstructorCoursePreview course={course} />
+              <InstructorCoursePreview
+                setCourseToViewOrEdit={setCourseToViewOrEdit}
+                setViewCourse={setViewCourse}
+                course={course}
+              />
             </Box>
           </Grid>
         ))}

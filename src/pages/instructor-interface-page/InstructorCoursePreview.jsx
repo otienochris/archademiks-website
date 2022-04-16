@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import CustomButton from '../../components/custom-controls/CustomButton';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Button,
-  ButtonGroup,
   Card,
   CardActions,
   CardContent,
   CardMedia,
   Divider,
-  IconButton,
   Typography,
 } from '@material-ui/core';
 
-export default function InstructorCoursePreview({ course }) {
-  const handleViewButton = () => {};
+export default function InstructorCoursePreview({
+  course,
+  setCourseToViewOrEdit,
+  setViewCourse,
+}) {
+  const handleViewButton = () => {
+    setCourseToViewOrEdit(course);
+    setViewCourse(true);
+  };
   return (
     <Card style={{ margin: '20px' }}>
       <CardMedia
