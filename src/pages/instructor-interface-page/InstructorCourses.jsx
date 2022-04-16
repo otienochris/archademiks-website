@@ -1,13 +1,8 @@
-import { Typography } from '@material-ui/core';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import CourseInProgressPreview from '../../components/CourseInProgressPreview';
+import InstructorCoursePreview from './InstructorCoursePreview';
 
-export default function MyCourses({
-  courses,
-  setContinueLearning,
-  setCourseToContinue,
-}) {
+export default function InstructorCourses({ courses }) {
   return (
     <>
       <Typography variant='h6'>My Courses</Typography>
@@ -21,11 +16,7 @@ export default function MyCourses({
                 },
               }}
             >
-              <CourseInProgressPreview
-                course={course}
-                setContinueLearning={setContinueLearning}
-                setCourseToContinue={setCourseToContinue}
-              />
+              <InstructorCoursePreview course={course} />
             </Box>
           </Grid>
         ))}

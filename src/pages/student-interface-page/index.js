@@ -7,14 +7,14 @@ import Support from './Support';
 import Calendar from './Calendar';
 import MyCourses from './MyCourses';
 import { list } from '../../data/courses';
-import { loggedOnUser } from '../../data/users';
+import { users } from '../../data/users';
 import CourseLearningView from './CourseLearningView';
 
 export default function Index() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
   const [enrolledCourse, setEnrolledCourses] = useState([]);
-  const [user] = useState(loggedOnUser);
+  const [user] = useState(users[0]);
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});
 
@@ -37,7 +37,12 @@ export default function Index() {
           <ArrowCircleRightIcon fontSize='large' />
         </IconButton>
       </Tooltip>
-      <Drawer anchor='left' style={{ width: '300px' }} open={openDrawer}>
+      <Drawer
+        variant='persistent'
+        anchor='left'
+        style={{ width: '300px' }}
+        open={openDrawer}
+      >
         <Tooltip title='Close Drawer'>
           <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
             <ArrowCircleLeftIcon fontSize='large' />
