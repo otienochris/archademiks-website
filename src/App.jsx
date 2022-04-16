@@ -9,6 +9,7 @@ import CoursePage from './pages/course-page';
 import CheckOutPage from './pages/checkout-page';
 import LoginSignupPage from './pages/login-signup-page';
 import StudentInterfacePage from './pages/student-interface-page';
+import InstructorInterfacePage from './pages/instructor-interface-page';
 
 export default function App() {
   return (
@@ -23,6 +24,10 @@ export default function App() {
           <Route
             path='/students/:lastName'
             element={<StudentInterfacePage />}
+          />
+          <Route
+            path='/instructor/:lastName'
+            element={<InstructorInterfacePage />}
           />
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
