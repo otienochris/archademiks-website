@@ -1,4 +1,4 @@
-const courseCategories = [
+export const courseCategories = [
   'Tech Tools',
   'Assignment',
   'Agriculture',

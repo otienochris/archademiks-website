@@ -32,8 +32,9 @@ const schema = yup.object({
   secondName: yup.string().required('Second name is required'),
   userType: yup
     .string()
+    .nullable()
     .oneOf(['student', 'instructor'])
-    .required(),
+    .required('A user type is required'),
   email: yup
     .string()
     .email('Provided Email is invalid')
@@ -126,7 +127,7 @@ export default function SignUp() {
       <RadioGroup row className={classes.radiogroup}>
         <FormControlLabel
           value='student'
-          control={<Radio checked />}
+          control={<Radio />}
           label='Student'
           {...register('userType')}
         />
@@ -137,6 +138,9 @@ export default function SignUp() {
           {...register('userType')}
         />
       </RadioGroup>
+      <span style={{ color: 'red', textAlign: 'center', marginBottom: '5px' }}>
+        {errors.userType ? errors.userType.message : ''}
+      </span>
       <Button variant='contained' type='submit' className={classes.textField}>
         signup
       </Button>

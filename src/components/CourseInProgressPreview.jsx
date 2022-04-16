@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { CardActions } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomButton from './custom-controls/CustomButton';
 
@@ -30,7 +30,7 @@ export default function CourseInProgressPreview({
   setContinueLearning,
   setCourseToContinue,
 }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };

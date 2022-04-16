@@ -20,12 +20,30 @@ import { list } from '../../data/courses';
 import { Grid } from '@mui/material';
 import MyCourses from '../student-interface-page/MyCourses';
 import InstructorCourses from './InstructorCourses';
+import CreateCourse from './CreateCourse';
+
+const initialCourse = {
+  id: 0,
+  title: '',
+  thumbnail: '',
+  description: '',
+  rating: 0,
+  price: 0,
+  category: '',
+  numberOfEnrolledStudents: 0,
+  link: '',
+  topics: [],
+};
 
 export default function Index() {
   const [open, setOpen] = React.useState(false);
   const [instructor] = useState(users[1]);
   const [value, setValue] = useState(0);
   const [ownedCourses, setOwnedCourses] = useState([]);
+  const [courseToViewOrEdit, setCourseToViewOrEdit] = useState({});
+  const [viewCourse, setViewCourse] = useState(false);
+  const [createNewCourse, setCreateNewCourse] = useState(true);
+  const [newCourse, setNewCourse] = useState(initialCourse);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,7 +80,7 @@ export default function Index() {
               <MenuIcon />
             </IconButton>
           </div>
-          <Fab color='primary'>
+          <Fab color='primary' onClick={() => setCreateNewCourse(true)}>
             <Tooltip title='Add course'>
               <AddIcon />
             </Tooltip>
@@ -95,7 +113,19 @@ export default function Index() {
       </Drawer>
       <Container>
         <Grid item xs={12}>
-          <InstructorCourses courses={ownedCourses} />
+          {createNewCourse ? (
+            <CreateCourse
+              setNewCourse={setNewCourse}
+              newCourse={newCourse}
+              setCreateNewCourse={setCreateNewCourse}
+            />
+          ) : (
+            <InstructorCourses
+              setCourseToViewOrEdit={setCourseToViewOrEdit}
+              setViewCourse={setViewCourse}
+              courses={ownedCourses}
+            />
+          )}
         </Grid>
       </Container>
     </Container>
