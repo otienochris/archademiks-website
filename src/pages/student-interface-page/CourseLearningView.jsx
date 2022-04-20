@@ -1,6 +1,6 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TopicDetails from './TopicDetails';
 
 const useStyles = makeStyles({

@@ -109,7 +109,6 @@ export default function MostPopularCourses() {
             lg={4}
             xl={3}
             className={classes.courses}
-            justifyItems='center'
           >
             <CourseCard course={course} />
           </Grid>
