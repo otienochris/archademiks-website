@@ -8,7 +8,6 @@ import {
   Tabs,
   Toolbar,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -18,7 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { users } from '../../data/users';
 import { list } from '../../data/courses';
 import { Grid } from '@mui/material';
-import MyCourses from '../student-interface-page/MyCourses';
+// import MyCourses from '../student-interface-page/MyCourses';
 import InstructorCourses from './InstructorCourses';
 import CreateCourse from './CreateCourse';
 
@@ -74,7 +73,7 @@ export default function Index() {
           >
             <IconButton
               aria-label='open drawer'
-              onClick={() => setOpen(true)}
+              onClick={() => setOpen(!open)}
               edge='start'
             >
               <MenuIcon />

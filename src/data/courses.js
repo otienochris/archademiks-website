@@ -573,3 +573,6 @@ export const list = [
     ],
   },
 ];
+
+// https://youtu.be/g05xtKv2NBw
+// https://cdn.pixabay.com/photo/2015/06/21/10/38/silhouettes-816487_1280.jpg

@@ -97,7 +97,7 @@ export default function Index() {
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
     setCourse(filteredCourses[0]);
-  }, [course]);
+  }, [course, courseId]);
 
   return (
     <Container>

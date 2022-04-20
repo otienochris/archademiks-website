@@ -13,7 +13,7 @@ import {
 import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
 
 const useStyles = makeStyles({

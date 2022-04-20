@@ -37,15 +37,7 @@ export default function Description() {
       justifyItems='center'
       className={classes.mainGrid}
     >
-      <Grid
-        item
-        xs={10}
-        sm={8}
-        md={4}
-        // justifyContent='center'
-        justifyItems='center'
-        className={classes.gridItem}
-      >
+      <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
         <Typography variant='h4' className={classes.mainTitle}>
           Get your <span className={classes.spans}>Certification</span> and{' '}
           <span className={classes.spans}>Skills</span> Online
@@ -62,15 +54,7 @@ export default function Description() {
         </NavLink>
       </Grid>
 
-      <Grid
-        item
-        xs={10}
-        sm={8}
-        md={4}
-        className={classes.gridItem}
-        // ustifyContent='center'
-        justifyItems='center'
-      >
+      <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
         <img
           src='https://static.vecteezy.com/system/resources/previews/005/051/189/original/boy-study-in-online-school-illustration-concept-flat-illustration-isolated-on-white-background-vector.jpg'
           alt='A person learning online'
