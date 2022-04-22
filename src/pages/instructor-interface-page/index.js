@@ -21,19 +21,6 @@ import { Grid } from '@mui/material';
 import InstructorCourses from './InstructorCourses';
 import CreateCourse from './CreateCourse';
 
-const initialCourse = {
-  id: 0,
-  title: '',
-  thumbnail: '',
-  description: '',
-  rating: 0,
-  price: 0,
-  category: '',
-  numberOfEnrolledStudents: 0,
-  link: '',
-  topics: [],
-};
-
 export default function Index() {
   const [open, setOpen] = React.useState(false);
   const [instructor] = useState(users[1]);
@@ -41,8 +28,7 @@ export default function Index() {
   const [ownedCourses, setOwnedCourses] = useState([]);
   const [courseToViewOrEdit, setCourseToViewOrEdit] = useState({});
   const [viewCourse, setViewCourse] = useState(false);
-  const [createNewCourse, setCreateNewCourse] = useState(true);
-  const [newCourse, setNewCourse] = useState(initialCourse);
+  const [createNewCourse, setCreateNewCourse] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -53,7 +39,7 @@ export default function Index() {
     setOwnedCourses(
       list.filter((course) => instructor.courses.includes(course.id))
     );
-  }, [list]);
+  }, [instructor]);
 
   return (
     <Container>
@@ -79,11 +65,13 @@ export default function Index() {
               <MenuIcon />
             </IconButton>
           </div>
-          <Fab color='primary' onClick={() => setCreateNewCourse(true)}>
-            <Tooltip title='Add course'>
-              <AddIcon />
-            </Tooltip>
-          </Fab>
+          {!createNewCourse && (
+            <Fab color='primary' onClick={() => setCreateNewCourse(true)}>
+              <Tooltip title='Add course'>
+                <AddIcon />
+              </Tooltip>
+            </Fab>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -105,7 +93,7 @@ export default function Index() {
           value={value}
           onChange={handleChange}
         >
-          <Tab label='My Courses' />
+          <Tab label='My Courses' onClick={() => setCreateNewCourse(false)} />
           <Tab label='Calendar' />
           <Tab label='Support' />
         </Tabs>
@@ -113,11 +101,7 @@ export default function Index() {
       <Container>
         <Grid item xs={12}>
           {createNewCourse ? (
-            <CreateCourse
-              setNewCourse={setNewCourse}
-              newCourse={newCourse}
-              setCreateNewCourse={setCreateNewCourse}
-            />
+            <CreateCourse setCreateNewCourse={setCreateNewCourse} />
           ) : (
             <InstructorCourses
               setCourseToViewOrEdit={setCourseToViewOrEdit}

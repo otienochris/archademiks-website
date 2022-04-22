@@ -39,13 +39,17 @@ export default function TopicDetails({ topic }) {
   return (
     <Accordion style={{ width: '100%' }}>
       <AccordionSummary expandIcon={<ExpandMore />}>
-        <Grid item xs={12}>
-          <Typography style={{ width: '100%' }} align='center' variant='h6'>
-            {topic.title}{' '}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant='body2'>{topic.description}</Typography>
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography style={{ width: '100%' }} align='center' variant='h6'>
+              {topic.title}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align='center' variant='body2'>
+              {topic.description}
+            </Typography>
+          </Grid>
         </Grid>
         <Divider />
       </AccordionSummary>

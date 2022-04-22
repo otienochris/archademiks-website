@@ -25,7 +25,6 @@ export default function CreateCourse({ setCreateNewCourse }) {
   const classes = useStyles();
   const [step, setStep] = useState(0);
   const [newCourse, setNewCourse] = useState(initialCourse);
-  const [isStageSubmited, setIsStageSubmited] = useState(false);
   const [isStageOneIsSubmited, setIsStageOneIsSubmited] = useState(false);
   const [isStageTwoIsSubmited, setIsStageTwoIsSubmited] = useState(false);
   const [isStageThreeIsSubmited, setIsStageThreeIsSubmited] = useState(false);
@@ -119,9 +118,16 @@ export default function CreateCourse({ setCreateNewCourse }) {
               className={classes.nextButton}
               variant='contained'
               color='primary'
-              onClick={() => setStep(step + 1)}
+              onClick={() =>
+                step === 3 ? setCreateNewCourse(false) : setStep(step + 1)
+              }
+              style={
+                step === 3
+                  ? { backgroundColor: 'green', color: 'whitesmoke' }
+                  : {}
+              }
             >
-              Next
+              {step === 3 ? 'Complete' : 'Next'}
             </Button>
           </div>
         </Grid>
