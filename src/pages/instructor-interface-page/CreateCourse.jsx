@@ -25,6 +25,11 @@ export default function CreateCourse({ setCreateNewCourse }) {
   const classes = useStyles();
   const [step, setStep] = useState(0);
   const [newCourse, setNewCourse] = useState(initialCourse);
+  const [isStageSubmited, setIsStageSubmited] = useState(false);
+  const [isStageOneIsSubmited, setIsStageOneIsSubmited] = useState(false);
+  const [isStageTwoIsSubmited, setIsStageTwoIsSubmited] = useState(false);
+  const [isStageThreeIsSubmited, setIsStageThreeIsSubmited] = useState(false);
+  const [isStageFourIsSubmited, setIsStageFourIsSubmited] = useState(false);
 
   const stepsDetails = [
     {
@@ -34,6 +39,7 @@ export default function CreateCourse({ setCreateNewCourse }) {
           classes={classes}
           setNewCourse={setNewCourse}
           newCourse={newCourse}
+          setIsStageSubmited={setIsStageOneIsSubmited}
         />
       ),
     },
@@ -44,6 +50,7 @@ export default function CreateCourse({ setCreateNewCourse }) {
           classes={classes}
           setNewCourse={setNewCourse}
           newCourse={newCourse}
+          setIsStageSubmited={setIsStageTwoIsSubmited}
         />
       ),
     },
@@ -54,10 +61,19 @@ export default function CreateCourse({ setCreateNewCourse }) {
           classes={classes}
           newCourse={newCourse}
           setNewCourse={setNewCourse}
+          setIsStageSubmited={setIsStageThreeIsSubmited}
         />
       ),
     },
-    { title: 'Preview', component: <StageFourOfCourseCreation /> },
+    {
+      title: 'Preview',
+      component: (
+        <StageFourOfCourseCreation
+          course={newCourse}
+          setIsStageSubmited={setIsStageFourIsSubmited}
+        />
+      ),
+    },
   ];
 
   /**
@@ -93,7 +109,13 @@ export default function CreateCourse({ setCreateNewCourse }) {
               Back
             </Button>
             <Button
-              disabled={step === stepsDetails.length - 1}
+              disabled={
+                (!isStageOneIsSubmited && step === 0) ||
+                (!isStageTwoIsSubmited && step === 1) ||
+                (!isStageThreeIsSubmited && step === 2) ||
+                (!isStageFourIsSubmited && step === 3) ||
+                step === stepsDetails.length
+              }
               className={classes.nextButton}
               variant='contained'
               color='primary'

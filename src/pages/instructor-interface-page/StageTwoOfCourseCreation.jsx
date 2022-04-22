@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -29,6 +29,7 @@ export default function StageTwoOfCourseCreation({
   classes,
   newCourse,
   setNewCourse,
+  setIsStageSubmited,
 }) {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -70,6 +71,7 @@ export default function StageTwoOfCourseCreation({
     console.log(newCourse);
 
     reset();
+    setIsStageSubmited(true);
   };
 
   return (
@@ -119,7 +121,14 @@ export default function StageTwoOfCourseCreation({
           onEditorStateChange={(state) => setEditorState(state)}
         />
       </div>
-      <Button onClick={handleSubmit(onSubmit)}>save</Button>
+      <Button
+        style={{ margin: '16px' }}
+        variant='contained'
+        color='secondary'
+        onClick={handleSubmit(onSubmit)}
+      >
+        save
+      </Button>
     </>
   );
 }
