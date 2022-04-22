@@ -1,5 +1,4 @@
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import { Button, makeStyles } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles({

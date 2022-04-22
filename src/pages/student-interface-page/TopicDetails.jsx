@@ -4,13 +4,13 @@ import {
   AccordionSummary,
   Box,
   Button,
+  makeStyles,
   Step,
   StepContent,
   StepLabel,
   Stepper,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
 import React, { useState } from 'react';
@@ -41,12 +41,12 @@ export default function TopicDetails({ topic }) {
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography style={{ width: '100%' }} align='center' variant='h6'>
+            <Typography style={{ width: '100%' }} align='left' variant='h6'>
               {topic.title}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align='center' variant='body2'>
+            <Typography align='left' variant='body2'>
               {topic.description}
             </Typography>
           </Grid>

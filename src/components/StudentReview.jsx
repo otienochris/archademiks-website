@@ -3,9 +3,9 @@ import {
   Card,
   CardContent,
   CardHeader,
+  makeStyles,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
 import FiveStarRating from './FiveStarRating';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';

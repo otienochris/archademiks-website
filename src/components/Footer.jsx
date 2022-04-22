@@ -1,5 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';

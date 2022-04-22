@@ -1,5 +1,4 @@
-import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import { Grid, makeStyles } from '@material-ui/core';
 import { Typography } from '@mui/material';
 import React from 'react';
 import CourseStats from '../../components/CourseStats';

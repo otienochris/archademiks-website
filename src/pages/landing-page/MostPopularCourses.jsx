@@ -1,5 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CourseCard from '../../components/CourseCard';

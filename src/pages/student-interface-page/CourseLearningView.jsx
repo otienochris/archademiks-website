@@ -1,5 +1,5 @@
+import { makeStyles } from '@material-ui/core';
 import { Divider, Grid, Typography } from '@mui/material';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
 import TopicDetails from './TopicDetails';
 
