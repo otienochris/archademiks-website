@@ -43,6 +43,7 @@ export default function StageOneOfCourseCreation({
   classes,
   newCourse,
   setNewCourse,
+  setIsStageSubmited,
 }) {
   const [saved, setSaved] = useState(false);
   const {
@@ -69,6 +70,7 @@ export default function StageOneOfCourseCreation({
     setNewCourse(newCourse);
     setSaved(true);
     reset();
+    setIsStageSubmited(true);
   };
 
   useEffect(() => {
@@ -160,7 +162,13 @@ export default function StageOneOfCourseCreation({
         style={{ margin: '16px' }}
       />
 
-      <Button disabled={saved} onClick={handleSubmit(onSubmit)}>
+      <Button
+        style={{ margin: '16px' }}
+        variant='contained'
+        color='secondary'
+        disabled={saved}
+        onClick={handleSubmit(onSubmit)}
+      >
         Submit
       </Button>
     </>

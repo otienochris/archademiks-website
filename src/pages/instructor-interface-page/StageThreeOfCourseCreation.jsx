@@ -37,6 +37,7 @@ export default function StageThreeOfCourseCreation({
   classes,
   newCourse,
   setNewCourse,
+  setIsStageSubmited,
 }) {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -76,6 +77,7 @@ export default function StageThreeOfCourseCreation({
     setNewCourse(newCourse);
 
     reset();
+    setIsStageSubmited(true);
   };
 
   return (
@@ -144,7 +146,14 @@ export default function StageThreeOfCourseCreation({
           onEditorStateChange={(state) => setEditorState(state)}
         />
       </div>
-      <Button onClick={handleSubmit(onSubmit)}>save</Button>
+      <Button
+        style={{ margin: '16px' }}
+        variant='contained'
+        color='secondary'
+        onClick={handleSubmit(onSubmit)}
+      >
+        save
+      </Button>
     </>
   );
 }
