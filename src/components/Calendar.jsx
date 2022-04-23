@@ -11,10 +11,7 @@ export default function Calendar({ year, firstDay, month }) {
   let day = 0;
   let skippedDays = -1;
 
-  const [currentYear] = useState(year);
-  const [currentMonth] = useState(month);
-  const [firstDayState] = useState(firstDay);
-  const [numberOfDays] = useState(getDaysInMonth(currentYear, currentMonth));
+  const [numberOfDays] = useState(getDaysInMonth(year, month));
 
   const updateDay = () => {
     day += 1;
@@ -22,55 +19,69 @@ export default function Calendar({ year, firstDay, month }) {
   };
   const skipday = () => {
     skippedDays += 1;
-    return skippedDays < firstDayState ? true : false;
+    return skippedDays < firstDay ? true : false;
   };
 
-  useEffect(() => {
-    // console.log(month, year, firstDay);
-    console.log(currentYear, currentMonth, firstDay);
-  }, [currentMonth, currentYear, month, year]);
+  useEffect(() => {}, [month, year, firstDay]);
 
   return (
     <Grid container justifyContent='center'>
-      {[...Array(7)].map((verticalBox, index) => (
-        <Grid item xs={1}>
-          <Typography variant='body2' align='center'>
-            {daysOfTheWeek[index]}{' '}
-          </Typography>
-        </Grid>
-      ))}
+      <Grid
+        cointainer
+        justifyContent='center'
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexDirection: 'row',
+          backgroundColor: 'yellow',
+          border: '1px solid grey',
+        }}
+      >
+        {[...Array(7)].map((verticalBox, index) => (
+          <Grid item xs={1}>
+            <Typography variant='body2' align='center'>
+              {daysOfTheWeek[index]}
+            </Typography>
+          </Grid>
+        ))}
+      </Grid>
       <Grid container justifyContent='center'>
         {numberOfBoxes.map((vbox, index) => {
           return (
             <>
-              {(index + 1) % 7 === 0 ? (
-                <Grid item xs={12}></Grid>
-              ) : (
-                <Grid
-                  item
-                  xs={1}
-                  style={{ margin: '2px', boxShadow: '1px 1px 3px green' }}
+              {index % 7 === 0 && <Grid item xs={12}></Grid>}
+              <Grid
+                item
+                xs={1}
+                style={{ margin: '2px', boxShadow: '1px 1px 3px green' }}
+              >
+                <Box
+                  onClick={() => console.log('clicked' + index)}
+                  sx={{
+                    width: '100%',
+                    minHeight: '70px',
+                    border: '1px solid grey',
+                    backgroundColor: '#252422',
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    justifyItems: 'center',
+                    '&:hover': {
+                      backgroundImage:
+                        'linear-gradient(to right, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+                      color: '#252422',
+                    },
+                  }}
                 >
-                  <Box
-                    sx={{
-                      width: '100%',
-                      minHeight: '70px',
-                      border: '1px solid grey',
-                      backgroundColor: '#252422',
-                      position: 'relative',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      justifyItems: 'center',
-                      '&:hover': {
-                        backgroundImage:
-                          'linear-gradient(to right, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
-                        color: '#252422',
-                      },
-                    }}
-                  >
+                  {skipday() ? (
+                    ''
+                  ) : day === numberOfDays ? (
+                    ''
+                  ) : (
                     <Typography
                       style={{
                         color: '#403D39',
+                        fontWeight: 'bolder',
                         position: 'absolute',
                         top: '3px',
                         right: '3px',
@@ -84,23 +95,18 @@ export default function Calendar({ year, firstDay, month }) {
                       variant='body2'
                       align='center'
                     >
-                      {skipday()
-                        ? ''
-                        : day === numberOfDays
-                        ? ' '
-                        : updateDay()}
+                      {updateDay()}
                     </Typography>
-
-                    <div
-                      style={{
-                        width: '60%',
-                        border: '1px solid #EB5E28',
-                        margin: 'auto',
-                      }}
-                    ></div>
-                  </Box>
-                </Grid>
-              )}
+                  )}
+                  {/* <div
+                    style={{
+                      width: '60%',
+                      border: '1px solid #EB5E28',
+                      margin: 'auto',
+                    }}
+                  ></div> */}
+                </Box>
+              </Grid>
             </>
           );
         })}

@@ -1,4 +1,10 @@
-import { Divider, Grid, IconButton, Tooltip } from '@material-ui/core';
+import {
+  Divider,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -13,8 +19,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function Index() {
-  // const date = new Date();
-
   const [date] = useState(new Date());
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
@@ -25,6 +29,20 @@ export default function Index() {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
   const [firstDay, setFirstDay] = useState(new Date(year, month, 1).getDay());
+  const monthsOfTheYear = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -44,7 +62,7 @@ export default function Index() {
   const handleCalendarNext = () => {
     if (month === 11) {
       setYear((prev) => prev + 1);
-      setMonth(11);
+      setMonth(0);
     } else {
       setMonth((prev) => prev + 1);
     }
@@ -55,7 +73,6 @@ export default function Index() {
       list.filter((course) => user.courses.includes(course.id))
     );
 
-    // console.log(year, month, firstDay);
     setFirstDay(new Date(year, month, 1).getDay());
   }, [user.courses, month, year, firstDay]);
 
@@ -95,21 +112,32 @@ export default function Index() {
           {value === 2 ? (
             <Support />
           ) : value === 1 ? (
-            <>
-              <Grid cointainer justifyContent='center'>
-                <Grid item xs={12}>
-                  <IconButton onClick={handleCalendarPrev}>
-                    <ArrowBackIosIcon />
-                  </IconButton>
-                  <IconButton onClick={handleCalendarNext}>
-                    <ArrowForwardIosIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item xs={12}>
-                  <Calendar firstDay={firstDay} year={year} month={month} />
-                </Grid>
+            <Grid cointainer justifyContent='center'>
+              <Grid
+                item
+                xs={12}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}
+              >
+                <IconButton onClick={handleCalendarPrev}>
+                  <ArrowBackIosIcon />
+                </IconButton>
+
+                <Typography variant='body2'>
+                  <span>{year}, </span> {monthsOfTheYear[month]}
+                </Typography>
+                <IconButton onClick={handleCalendarNext}>
+                  <ArrowForwardIosIcon />
+                </IconButton>
               </Grid>
-            </>
+              <Grid item xs={12}>
+                <Calendar firstDay={firstDay} year={year} month={month} />
+              </Grid>
+            </Grid>
           ) : (
             <MyCourses
               courses={enrolledCourse}
