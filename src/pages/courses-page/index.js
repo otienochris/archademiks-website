@@ -9,8 +9,8 @@ import React, { useEffect, useState } from 'react';
 import CourseCard from '../../components/CourseCard';
 import { list } from '../../data/courses';
 import SearchIcon from '@mui/icons-material/Search';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import Footer from '../../components/Footer';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   mainContainer: {

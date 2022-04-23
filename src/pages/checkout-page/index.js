@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
-import { AccordionDetails, Grid, InputAdornment } from '@material-ui/core';
+import {
+  AccordionDetails,
+  Grid,
+  InputAdornment,
+  makeStyles,
+} from '@material-ui/core';
 import Footer from '../../components/Footer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CheckIcon from '@mui/icons-material/Check';

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ export default function YoutubeEmbed({ embedId }) {
   const iframe =
     '<iframe className={classes.iframe} src="https://www.youtube.com/embed/' +
     embedId +
-    '" height="480" width="100%" title="Youtube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />';
+    '" maxHeight="480" width="100%" title="Youtube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />';
 
   return (
     <div

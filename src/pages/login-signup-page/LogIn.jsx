@@ -1,11 +1,11 @@
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import { TextField } from '@mui/material';
 import React from 'react';
 import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
-import Redirect, { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   textField: {

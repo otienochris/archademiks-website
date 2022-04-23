@@ -2,10 +2,10 @@ import {
   AppBar,
   Grid,
   IconButton,
+  makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/node_modules/@material-ui/styles';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
