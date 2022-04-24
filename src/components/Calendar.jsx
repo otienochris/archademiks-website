@@ -5,13 +5,13 @@ const getDaysInMonth = (year, month) => {
   return new Date(year, month, 0).getDate();
 };
 
-export default function Calendar({ year, firstDay, month }) {
+export default function Calendar({ year, month, firstDay, daysInAMonth }) {
   const numberOfBoxes = [...Array(42)];
   const daysOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   let day = 0;
   let skippedDays = -1;
 
-  const [numberOfDays] = useState(getDaysInMonth(year, month));
+  const [numberOfDays, setNumberOfDays] = useState(daysInAMonth);
 
   const updateDay = () => {
     day += 1;
@@ -22,7 +22,10 @@ export default function Calendar({ year, firstDay, month }) {
     return skippedDays < firstDay ? true : false;
   };
 
-  useEffect(() => {}, [month, year, firstDay]);
+  useEffect(() => {
+    // console.log(numberOfDays);
+    setNumberOfDays(new Date(year, month + 1, 0).getDate());
+  }, [month, year, firstDay]);
 
   return (
     <Grid container justifyContent='center'>
@@ -56,7 +59,7 @@ export default function Calendar({ year, firstDay, month }) {
                 style={{ margin: '2px', boxShadow: '1px 1px 3px green' }}
               >
                 <Box
-                  onClick={() => console.log('clicked' + index)}
+                  onClick={() => console.log('date: ' + (index - firstDay + 1))}
                   sx={{
                     width: '100%',
                     minHeight: '70px',
