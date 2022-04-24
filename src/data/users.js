@@ -1,5 +1,6 @@
 export const users = [
   {
+    id: 1,
     firstName: 'Christopher',
     lastName: 'Otieno',
     email: 'otienochris98@gmail.com',
@@ -7,6 +8,7 @@ export const users = [
     type: 'student',
   },
   {
+    id: 2,
     firstName: 'Chris',
     lastName: 'Ochieng',
     email: 'admin@gmail.com',

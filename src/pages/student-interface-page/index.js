@@ -14,6 +14,7 @@ import Calendar from '../../components/Calendar';
 import MyCourses from './MyCourses';
 import { list } from '../../data/courses';
 import { users } from '../../data/users';
+import { userEvents } from '../../data/events';
 import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -24,11 +25,13 @@ export default function Index() {
   const [value, setValue] = useState(0);
   const [enrolledCourse, setEnrolledCourses] = useState([]);
   const [user] = useState(users[0]);
+  const [events, setEvents] = useState({});
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
   const [firstDay, setFirstDay] = useState(new Date(year, month, 1).getDay());
+  const [daysInAMonth, setDaysInAMonth] = useState(0);
   const monthsOfTheYear = [
     'JAN',
     'FEB',
@@ -72,9 +75,11 @@ export default function Index() {
     setEnrolledCourses(
       list.filter((course) => user.courses.includes(course.id))
     );
+    setEvents(userEvents.filter((userEvent) => user.id === userEvent.userId));
 
     setFirstDay(new Date(year, month, 1).getDay());
-  }, [user.courses, month, year, firstDay]);
+    setDaysInAMonth(new Date(year, month, 0).getDate());
+  }, [user, month, year, firstDay]);
 
   return (
     <>
@@ -135,7 +140,12 @@ export default function Index() {
                 </IconButton>
               </Grid>
               <Grid item xs={12}>
-                <Calendar firstDay={firstDay} year={year} month={month} />
+                <Calendar
+                  firstDay={firstDay}
+                  year={year}
+                  month={month}
+                  daysInAMonth={daysInAMonth}
+                />
               </Grid>
             </Grid>
           ) : (
