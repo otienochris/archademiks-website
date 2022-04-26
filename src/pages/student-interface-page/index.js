@@ -1,10 +1,4 @@
-import {
-  Divider,
-  Grid,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Divider, Grid, IconButton, Tooltip } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -14,24 +8,23 @@ import Calendar from '../../components/Calendar';
 import MyCourses from './MyCourses';
 import { list } from '../../data/courses';
 import { users } from '../../data/users';
-import { userEvents } from '../../data/events';
 import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function Index() {
+  // const date = new Date();
+
   const [date] = useState(new Date());
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
   const [enrolledCourse, setEnrolledCourses] = useState([]);
   const [user] = useState(users[0]);
-  const [events, setEvents] = useState({});
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
   const [firstDay, setFirstDay] = useState(new Date(year, month, 1).getDay());
-  const [daysInAMonth, setDaysInAMonth] = useState(0);
   const monthsOfTheYear = [
     'JAN',
     'FEB',
@@ -65,7 +58,7 @@ export default function Index() {
   const handleCalendarNext = () => {
     if (month === 11) {
       setYear((prev) => prev + 1);
-      setMonth(0);
+      setMonth(11);
     } else {
       setMonth((prev) => prev + 1);
     }
@@ -75,11 +68,10 @@ export default function Index() {
     setEnrolledCourses(
       list.filter((course) => user.courses.includes(course.id))
     );
-    setEvents(userEvents.filter((userEvent) => user.id === userEvent.userId));
 
+    // console.log(year, month, firstDay);
     setFirstDay(new Date(year, month, 1).getDay());
-    setDaysInAMonth(new Date(year, month, 0).getDate());
-  }, [user, month, year, firstDay]);
+  }, [user.courses, month, year, firstDay]);
 
   return (
     <>
@@ -140,12 +132,7 @@ export default function Index() {
                 </IconButton>
               </Grid>
               <Grid item xs={12}>
-                <Calendar
-                  firstDay={firstDay}
-                  year={year}
-                  month={month}
-                  daysInAMonth={daysInAMonth}
-                />
+                <Calendar firstDay={firstDay} year={year} month={month} />
               </Grid>
             </Grid>
           ) : (
