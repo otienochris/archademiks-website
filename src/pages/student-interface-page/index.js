@@ -69,6 +69,7 @@ export default function Index() {
       list.filter((course) => user.courses.includes(course.id))
     );
 
+    // console.log(year, month, firstDay);
     setFirstDay(new Date(year, month, 1).getDay());
   }, [user.courses, month, year, firstDay]);
 
