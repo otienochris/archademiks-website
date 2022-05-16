@@ -26,6 +26,7 @@ import {
   Button,
   ButtonGroup,
 } from '@mui/material';
+import { useFetch } from '../../custom-hooks/useFetch';
 
 const phoneRegExp = /^([0-9]{10})|(\+[0-9]{3}[0-9]{9})$/;
 
@@ -80,9 +81,24 @@ const useStyles = makeStyles({
   },
 });
 
+let headers = {
+  method: 'GET',
+  mode: 'no-cors',
+  headers: {
+    Authorization:
+      'Bearer ' +
+      'cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==',
+    // 'Access-Control-Allow-Origin': '**',
+  },
+};
+const url =
+  'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+
 export default function Index() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(initialCourse);
+  const [accessKey, setAccessKey] = useState();
+  const { data, fetchErrors, isLoading } = useFetch(url, headers);
   const classes = useStyles();
   const {
     register,
@@ -95,12 +111,26 @@ export default function Index() {
   });
 
   const onSubmit = (data) => {
+    // let headers = new Headers();
+    // headers.append(
+    //   'Authorization',
+    //   'Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ=='
+    // );
+
+    // fetch(
+    //   'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
+    //   { headers }
+    // )
+    //   .then((response) => response.text())
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.log(error));
     console.log(data);
   };
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
     setCourse(filteredCourses[0]);
+    // setAccessKey(use);
   }, [course, courseId]);
 
   return (

@@ -1,4 +1,10 @@
-import { Divider, Grid, IconButton, Tooltip } from '@material-ui/core';
+import {
+  Divider,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
