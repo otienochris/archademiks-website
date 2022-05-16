@@ -44,10 +44,12 @@ export default function LogIn() {
 
   const onSubmit = (data) => {
     console.log(data);
-    data.email === 'admin@gmail.com'
+    data.email === 'tutor@gmail.com'
       ? navigate('/instructor/chris')
-      : data.email === 'otienochris98@gmail.com'
+      : data.email === 'student@gmail.com'
       ? navigate('/students/chris')
+      : data.email === 'admin@gmail.com'
+      ? navigate('/admin/chris')
       : navigate('/login-signup', { replace: true });
   };
 

@@ -10,6 +10,7 @@ import CheckOutPage from './pages/checkout-page';
 import LoginSignupPage from './pages/login-signup-page';
 import StudentInterfacePage from './pages/student-interface-page';
 import InstructorInterfacePage from './pages/instructor-interface-page';
+import AdminInterfacePage from './pages/admin-interface-page';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             path='/instructor/:lastName'
             element={<InstructorInterfacePage />}
           />
+          <Route path='/admin/:lastName' element={<AdminInterfacePage />} />
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/login-signup' element={<LoginSignupPage />} />
