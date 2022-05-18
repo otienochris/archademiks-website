@@ -17,6 +17,9 @@ const useStyles = makeStyles({
     padding: '20px',
     margin: '5px auto',
   },
+  select: {
+    minWidth: '100%',
+  },
 });
 
 const today = new Date();
@@ -80,7 +83,20 @@ function QuickStart({ title, data }) {
       });
     } else if (currentPeriod == 4) {
       data.map((item) => {
-        lastXMonths(new Date(item.creationDate), 12);
+        // lastXMonths(new Date(item.creationDate), 12);
+        const itemCreationDate = new Date(item.creationDate);
+        const startingDate = new Date(
+          today.getFullYear() - 1,
+          today.getMonth(),
+          today.getDate(),
+          null,
+          null,
+          null,
+          0
+        );
+        if (itemCreationDate.getTime() >= startingDate.getTime()) {
+          setCount((current) => current + 1);
+        }
       });
     }
   };
@@ -92,21 +108,26 @@ function QuickStart({ title, data }) {
           <Typography variant='h6'>{title}</Typography>
         </Grid>
         <Grid item xs={6}>
-          <FormControl>
+          <FormControl fullWidth>
             <InputLabel>Period</InputLabel>
             <Select value={period} onChange={handlePeriodSelection}>
               <MenuItem value={0}>
                 <em>All</em>
               </MenuItem>
-              <MenuItem value={1}>Last Month</MenuItem>
+              <MenuItem value={1}>Last 1 Month</MenuItem>
               <MenuItem value={2}>Last 3 Months</MenuItem>
               <MenuItem value={3}>Last 6 Months</MenuItem>
               <MenuItem value={4}>Last 1 Year</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Typography variant='h3'>{count}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant='body1'>
+            {Math.round((count / data.length) * 100)} <span>%</span>
+          </Typography>
         </Grid>
       </Grid>
     </Paper>
