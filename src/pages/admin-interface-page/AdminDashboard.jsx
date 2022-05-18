@@ -50,20 +50,19 @@ function AdminDashboard() {
 
       <Grid item xs={12}>
         <ChartComponent
-          title={'users'}
-          data={userPerMonth.data}
+          title={'Sales per year: '}
+          data={salesPerMonth}
+          xaxisKey={'month'}
+          lineOneKey={'amount'}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <ChartComponent
+          title={'User enrollments per year: '}
+          data={userPerMonth}
           xaxisKey={'month'}
           lineOneKey={'students'}
           lineTwoKey={'instructors'}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <ChartComponent
-          title={'Sales'}
-          data={salesPerMonth.data}
-          xaxisKey={'month'}
-          lineOneKey={'amount'}
         />
       </Grid>
 
