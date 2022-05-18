@@ -6,6 +6,8 @@ export const users = [
     email: 'otienochris98@gmail.com',
     courses: [1, 2, 3, 4],
     type: 'student',
+    creationDate: '2022-03-01',
+    modificationDate: '2022-05-01',
   },
   {
     id: 2,
@@ -14,5 +16,17 @@ export const users = [
     email: 'admin@gmail.com',
     courses: [1, 2],
     type: 'instructor',
+    creationDate: '2021-06-01',
+    modificationDate: '2022-05-01',
+  },
+  {
+    id: 3,
+    firstName: 'Steve',
+    lastName: 'Mboya',
+    email: 'mboya@gmail.com',
+    courses: [1, 2],
+    type: 'instructor',
+    creationDate: '2021-07-01',
+    modificationDate: '2022-05-01',
   },
 ];
