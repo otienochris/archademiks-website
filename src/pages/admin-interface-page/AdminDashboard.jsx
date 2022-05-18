@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import QuickStart from './QuickStart';
 import { users } from '../../data/users';
@@ -6,6 +6,9 @@ import { list } from '../../data/courses';
 import { sales } from '../../data/finances';
 import { makeStyles } from '@material-ui/styles';
 import FinancialQuickStat from './FinancialQuickStat';
+import ChartComponent from './ChartComponent';
+import { userPerMonth } from '../../data/reportData';
+import { salesPerMonth } from '../../data/reportData';
 
 const useStyles = makeStyles({
   mainGrid: {
@@ -25,7 +28,7 @@ function AdminDashboard() {
   );
 
   return (
-    <Grid container>
+    <Grid container alignContent='center' alignItems='center'>
       <Grid container className={classes.mainGrid}>
         <Grid item xs={12} sm={6} lg={3}>
           <QuickStart title={'Students'} data={students} />
@@ -44,8 +47,27 @@ function AdminDashboard() {
           />
         </Grid>
       </Grid>
-      <Grid></Grid>
-      <Grid></Grid>
+
+      <Grid item xs={12}>
+        <ChartComponent
+          title={'users'}
+          data={userPerMonth.data}
+          xaxisKey={'month'}
+          lineOneKey={'students'}
+          lineTwoKey={'instructors'}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <ChartComponent
+          title={'Sales'}
+          data={salesPerMonth.data}
+          xaxisKey={'month'}
+          lineOneKey={'amount'}
+        />
+      </Grid>
+
+      <Grid item xs={12}></Grid>
     </Grid>
   );
 }
