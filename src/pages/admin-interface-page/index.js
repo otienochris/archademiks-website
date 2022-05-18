@@ -44,7 +44,7 @@ export default function index() {
       <Grid container>
         <Grid item xs={12}>
           <Tabs value={value} onChange={handleChange} centered>
-            <Tab label={'Dashboard'} />
+            <Tab label={'Overview'} />
             <Tab label={'Users'} />
             <Tab label={'Courses'} />
           </Tabs>
