@@ -23,12 +23,19 @@ const useStyles = makeStyles({
 
 const today = new Date();
 
-function QuickStart({ title, data }) {
+const reducer = (previous, current) => {
+  return previous + current;
+};
+
+function FinancialQuickStat({ title, data, conversionRate }) {
   const classes = useStyles();
+  const [totalAmount, setTotalAmount] = useState(
+    data.flatMap((item) => item.amount).reduce(reducer)
+  );
   const [count, setCount] = useState(data.length);
   const [period, setPeriod] = useState(0);
 
-  const lastXMonths = (itemCreationDate, monthsBack) => {
+  const lastXMonths = (amount, itemCreationDate, monthsBack) => {
     const yearsX = monthsBack / 12;
     const monthX = monthsBack % 12;
     if (
@@ -44,7 +51,8 @@ function QuickStart({ title, data }) {
           0
         )
     ) {
-      setCount((current) => current + 1);
+      setTotalAmount((current) => current + amount);
+      setCount((curr) => curr + 1);
     } else if (
       itemCreationDate.getTime() >=
       new Date(
@@ -57,6 +65,7 @@ function QuickStart({ title, data }) {
         0
       )
     ) {
+      setTotalAmount((current) => current + amount);
       setCount((current) => current + 1);
     }
   };
@@ -65,20 +74,22 @@ function QuickStart({ title, data }) {
     const currentPeriod = event.target.value;
     setPeriod(currentPeriod);
     setCount(0);
+    setTotalAmount(0);
 
     if (currentPeriod == 0) {
+      setTotalAmount(data.flatMap((item) => item.amount).reduce(reducer));
       setCount(data.length);
     } else if (currentPeriod == 1) {
       data.map((item) => {
-        lastXMonths(new Date(item.creationDate), 1);
+        lastXMonths(item.amount, new Date(item.creationDate), 1);
       });
     } else if (currentPeriod == 2) {
       data.map((item) => {
-        lastXMonths(new Date(item.creationDate), 3);
+        lastXMonths(item.amount, new Date(item.creationDate), 3);
       });
     } else if (currentPeriod == 3) {
       data.map((item) => {
-        lastXMonths(new Date(item.creationDate), 6);
+        lastXMonths(item.amount, new Date(item.creationDate), 6);
       });
     } else if (currentPeriod == 4) {
       data.map((item) => {
@@ -94,6 +105,7 @@ function QuickStart({ title, data }) {
           0
         );
         if (itemCreationDate.getTime() >= startingDate.getTime()) {
+          setTotalAmount((current) => current + item.amount);
           setCount((current) => current + 1);
         }
       });
@@ -101,7 +113,7 @@ function QuickStart({ title, data }) {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={3}>
       <Grid container>
         <Grid item xs={6}>
           <Typography variant='h6'>{title}</Typography>
@@ -121,7 +133,10 @@ function QuickStart({ title, data }) {
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h3'>{count}</Typography>
+          <span>in $</span>
+          <Typography variant='h4'>
+            {Math.round(totalAmount / conversionRate)}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant='body1'>
@@ -133,4 +148,4 @@ function QuickStart({ title, data }) {
   );
 }
 
-export default QuickStart;
+export default FinancialQuickStat;
