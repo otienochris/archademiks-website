@@ -13,6 +13,7 @@ function CustomMaterialTable({
   allowEdit,
   allowDelete,
   allowSelection,
+  allowActions,
   ...others
 }) {
   const [actionArray, setActionArray] = useState([
@@ -58,7 +59,7 @@ function CustomMaterialTable({
         selection: allowSelection,
         exportFileName: title,
       }}
-      actions={actionArray}
+      actions={allowActions == undefined ? actionArray : []}
     />
   );
 }
