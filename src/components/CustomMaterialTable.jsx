@@ -16,6 +16,8 @@ function CustomMaterialTable({
   allowSelection,
   allowActions,
   allowSearch,
+  allowGrouping,
+  detailPanel,
   ...others
 }) {
   return (
@@ -23,6 +25,7 @@ function CustomMaterialTable({
       title={title}
       columns={columns}
       data={data}
+      detailPanel={detailPanel}
       localization={{
         toolbar: {
           exportCSVName: 'Export as CSV',
@@ -35,7 +38,7 @@ function CustomMaterialTable({
         exportButton: true,
         actionsColumnIndex: -1,
         addRowPosition: 'first',
-        grouping: true,
+        grouping: allowGrouping == undefined ? true : allowGrouping,
         selection: allowSelection,
         exportFileName: title,
         headerStyle: {

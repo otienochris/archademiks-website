@@ -90,6 +90,7 @@ function AdminDashboard() {
               ]}
               allowActions={false}
               allowSearch={false}
+              allowGrouping={false}
             />
           </div>
         )}
@@ -126,6 +127,7 @@ function AdminDashboard() {
               ]}
               allowActions={false}
               allowSearch={false}
+              allowGrouping={false}
             />
           </div>
         )}

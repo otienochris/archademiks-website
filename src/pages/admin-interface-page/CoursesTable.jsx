@@ -5,6 +5,7 @@ import { list } from '../../data/courses';
 import FiveStarRating from '../../components/FiveStarRating';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
 import { Typography } from '@material-ui/core';
+import CourseCard from '../../components/CourseCard';
 
 const getCategoryBanner = (category) => (
   <Typography
@@ -99,6 +100,19 @@ function CoursesTable() {
     console.log('adding course');
   };
 
+  const detailPanel = [
+    {
+      tooltip: 'More Details',
+      render: (rowData) => {
+        return (
+          <CourseCard
+            course={courses.filter((item) => item.id === rowData.id)[0]}
+          />
+        );
+      },
+    },
+  ];
+
   return (
     <CustomMaterialTable
       title={''}
@@ -110,6 +124,7 @@ function CoursesTable() {
       handleDelete={handleDelete}
       handleAdd={handleAdd}
       allowActions={true}
+      detailPanel={detailPanel}
     />
   );
 }
