@@ -5,7 +5,7 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 
 const useStyles = makeStyles({
   star: {
-    color: 'gold',
+    color: '#F5B841',
   },
 });
 

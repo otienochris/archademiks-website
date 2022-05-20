@@ -7,6 +7,7 @@ function CustomMaterialTable({
   data,
   handleDelete,
   handleEdit,
+  handleAdd,
   setOpenEdit,
   setOpenPopup,
   allowAdd,
@@ -14,37 +15,9 @@ function CustomMaterialTable({
   allowDelete,
   allowSelection,
   allowActions,
+  type,
   ...others
 }) {
-  const [actionArray, setActionArray] = useState([
-    {
-      icon: 'add',
-      tooltip: 'Add record',
-      onClick: (event, newData) => {
-        setOpenPopup(true);
-      },
-      isFreeAction: true,
-    },
-    {
-      icon: 'edit',
-      tooltip: 'Edit record',
-      onClick: (event, rowData) => {
-        if (handleEdit != undefined) {
-          handleEdit(rowData);
-        }
-        if (setOpenEdit != undefined) {
-          setOpenEdit(true);
-        }
-      },
-    },
-    {
-      icon: 'delete',
-      tooltip: 'Delete record',
-      onClick: (event, rowData) => {
-        handleDelete(rowData.id);
-      },
-    },
-  ]);
   return (
     <MaterialTable
       title={title}
@@ -58,8 +31,56 @@ function CustomMaterialTable({
         grouping: true,
         selection: allowSelection,
         exportFileName: title,
+        headerStyle: {
+          backgroundColor: '#000000',
+          color: '#F4F4F9',
+          border: '2px solid #F4F4F9',
+          textAlign: 'center',
+        },
+        rowStyle: (rowData) => {
+          if (rowData.tableData.id % 2) {
+            return {
+              // backgroundColor: '#FCFFFD',
+              backgroundImage:
+                'linear-gradient(to right, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+              color: '#0F0F0F',
+            };
+          } else {
+            return {
+              // backgroundColor: '#629677',
+              backgroundImage:
+                'linear-gradient(to left, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+              // color: '#FCFFFD',
+            };
+          }
+        },
       }}
-      actions={allowActions == undefined ? actionArray : []}
+      editable={{
+        onRowAdd: (newData) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log(newData);
+
+              resolve();
+            }, 1000);
+          }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log(oldData);
+
+              resolve();
+            }, 1000);
+          }),
+        onRowDelete: (oldData) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log(oldData);
+              handleDelete(oldData.id);
+              resolve();
+            }, 1000);
+          }),
+      }}
     />
   );
 }
