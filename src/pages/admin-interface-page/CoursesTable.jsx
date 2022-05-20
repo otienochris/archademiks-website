@@ -2,10 +2,12 @@ import { Rating } from '@mui/material';
 import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
 import { list } from '../../data/courses';
+import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
 import FiveStarRating from '../../components/FiveStarRating';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
+import QuickStart from './QuickStart';
 
 const getCategoryBanner = (category) => (
   <Typography
@@ -105,9 +107,36 @@ function CoursesTable() {
       tooltip: 'More Details',
       render: (rowData) => {
         return (
-          <CourseCard
-            course={courses.filter((item) => item.id === rowData.id)[0]}
-          />
+          <Grid container>
+            <Grid item xs={12} md={6} lg={4}>
+              <CourseCard
+                course={courses.filter((item) => item.id === rowData.id)[0]}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <QuickStart
+                title={'Enrollments'}
+                data={courseEnrollmentDetails.filter(
+                  (item) => item.courseId === rowData.id
+                )}
+              />
+              <QuickStart
+                title={'Completions'}
+                data={courseEnrollmentDetails.filter(
+                  (item) =>
+                    item.courseId === rowData.id && item.status === 'completed'
+                )}
+              />
+              <QuickStart
+                title={'Drop-Outs'}
+                data={courseEnrollmentDetails.filter(
+                  (item) =>
+                    item.courseId === rowData.id && item.status === 'cancelled'
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}></Grid>
+          </Grid>
         );
       },
     },
