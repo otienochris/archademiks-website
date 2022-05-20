@@ -125,7 +125,8 @@ function QuickStart({ title, data }) {
         </Grid>
         <Grid item xs={6}>
           <Typography variant='body1'>
-            {Math.round((count / data.length) * 100)} <span>%</span>
+            {data.length === 0 ? 100 : Math.round((count / data.length) * 100)}{' '}
+            <span>%</span>
           </Typography>
         </Grid>
       </Grid>

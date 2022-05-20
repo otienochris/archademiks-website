@@ -12,6 +12,8 @@ export const reviews = [
     rating: 4,
     content:
       'Effective and relevant. I loved the way the content was arranged and executed',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ export const reviews = [
     rating: 5,
     content:
       'The best site to get certified and great relevant skills. Their prices are also cheap',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
 
   {
@@ -41,6 +45,8 @@ export const reviews = [
     rating: 3,
     content:
       'A step by step explanation. Very suitable for beginners that want to understand in depth what they are doing and why',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
   {
     id: 4,
@@ -55,6 +61,8 @@ export const reviews = [
     rating: 3,
     content:
       'The best site to get certified and great relevant skills. Their prices are also cheap. The best site to get certified and great relevant skills. Their prices are also cheap.',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
   {
     id: 3,
@@ -69,6 +77,8 @@ export const reviews = [
     rating: 3,
     content:
       'The best site to get certified and great relevant skills. Their prices are also cheap',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
   {
     id: 3,
@@ -83,6 +93,8 @@ export const reviews = [
     rating: 3,
     content:
       'The best site to get certified and great relevant skills. Their prices are also cheap',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
   {
     id: 3,
@@ -96,5 +108,7 @@ export const reviews = [
     },
     rating: 4,
     content: 'Git taught well. Very organized',
+    creationDate: '2022-01-21',
+    modificationDate: '2022-02-21',
   },
 ];
