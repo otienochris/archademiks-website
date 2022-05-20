@@ -38,7 +38,6 @@ const categoriesList = {
 const cellStyle = {
   borderRight: '1px solid #716969',
   borderLeft: '1px solid #716969',
-  //   border: '2px solid #716969',
 };
 
 const coursesColumns = [
@@ -110,6 +109,7 @@ function CoursesTable() {
       allowEdit={true}
       handleDelete={handleDelete}
       handleAdd={handleAdd}
+      allowActions={true}
     />
   );
 }
