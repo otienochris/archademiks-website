@@ -135,7 +135,7 @@ const initialReviews = [
   },
 ];
 
-export default function Index() {
+export default function Index({ courseId2 }) {
   const { courseId } = useParams();
   const [course, setCourse] = useState(initialCourse);
   const [value, setValue] = useState(0);
@@ -144,7 +144,9 @@ export default function Index() {
   const classes = useStyles();
 
   useEffect(() => {
-    const filteredCourses = list.filter((course) => course.id == courseId);
+    const filteredCourses = list.filter(
+      (course) => course.id == courseId || course.id == courseId2
+    );
     const filteredReviews = reviews.filter(
       (review) => review.typeId == courseId && review.type === 'Course'
     );

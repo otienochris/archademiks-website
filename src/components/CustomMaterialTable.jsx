@@ -15,7 +15,9 @@ function CustomMaterialTable({
   allowDelete,
   allowSelection,
   allowActions,
-  type,
+  allowSearch,
+  allowGrouping,
+  detailPanel,
   ...others
 }) {
   return (
@@ -23,12 +25,20 @@ function CustomMaterialTable({
       title={title}
       columns={columns}
       data={data}
+      detailPanel={detailPanel}
+      localization={{
+        toolbar: {
+          exportCSVName: 'Export as CSV',
+          exportPDFName: 'Export as PDF',
+        },
+      }}
       options={{
+        search: allowSearch == undefined ? true : allowSearch,
         filtering: true,
         exportButton: true,
         actionsColumnIndex: -1,
         addRowPosition: 'first',
-        grouping: true,
+        grouping: allowGrouping == undefined ? true : allowGrouping,
         selection: allowSelection,
         exportFileName: title,
         headerStyle: {
@@ -55,32 +65,36 @@ function CustomMaterialTable({
           }
         },
       }}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              console.log(newData);
+      editable={
+        allowActions
+          ? {
+              onRowAdd: (newData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    console.log(newData);
 
-              resolve();
-            }, 1000);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              console.log(oldData);
+                    resolve();
+                  }, 1000);
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    console.log(oldData);
 
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              console.log(oldData);
-              handleDelete(oldData.id);
-              resolve();
-            }, 1000);
-          }),
-      }}
+                    resolve();
+                  }, 1000);
+                }),
+              onRowDelete: (oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    console.log(oldData);
+                    handleDelete(oldData.id);
+                    resolve();
+                  }, 1000);
+                }),
+            }
+          : undefined
+      }
     />
   );
 }
