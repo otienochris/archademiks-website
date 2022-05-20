@@ -15,7 +15,7 @@ export const users = [
     lastName: 'Ochieng',
     email: 'admin@gmail.com',
     courses: [1, 2],
-    type: 'instructor',
+    type: 'student',
     creationDate: '2021-06-01',
     modificationDate: '2022-05-01',
   },
