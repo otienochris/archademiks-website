@@ -30,7 +30,7 @@ const reducer = (previous, current) => {
 function FinancialQuickStat({ title, data, conversionRate }) {
   const classes = useStyles();
   const [totalAmount, setTotalAmount] = useState(
-    data.flatMap((item) => item.amount).reduce(reducer)
+    data.length == 0 ? [] : data.flatMap((item) => item.amount).reduce(reducer)
   );
   const [count, setCount] = useState(data.length);
   const [period, setPeriod] = useState(0);
@@ -133,14 +133,17 @@ function FinancialQuickStat({ title, data, conversionRate }) {
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <span>in $</span>
+          <span>in {conversionRate == undefined ? 'Ksh' : '$'}</span>
           <Typography variant='h4'>
-            {Math.round(totalAmount / conversionRate)}
+            {conversionRate != undefined
+              ? Math.round(totalAmount / conversionRate)
+              : totalAmount}
           </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant='body1'>
-            {Math.round((count / data.length) * 100)} <span>%</span>
+            {data.length === 0 ? 100 : Math.round((count / data.length) * 100)}{' '}
+            <span>%</span>
           </Typography>
         </Grid>
       </Grid>

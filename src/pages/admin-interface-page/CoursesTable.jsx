@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
 import { list } from '../../data/courses';
 import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
-import FiveStarRating from '../../components/FiveStarRating';
+import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
 import QuickStart from './QuickStart';
+import FinancialQuickStat from './FinancialQuickStat';
+import { makeStyles } from '@material-ui/styles';
 
 const getCategoryBanner = (category) => (
   <Typography
@@ -54,7 +56,7 @@ const coursesColumns = [
   {
     title: 'Category',
     field: 'category',
-    lookup: categoriesList,
+    // lookup: categoriesList,
     cellStyle: cellStyle,
   },
   { title: 'Price', field: 'price', type: 'numeric', cellStyle: cellStyle },
@@ -63,20 +65,13 @@ const coursesColumns = [
     field: 'rating',
     editable: 'never',
     cellStyle: cellStyle,
-    lookup: {
-      1: <FiveStarRating rating={1} />,
-      2: <FiveStarRating rating={2} />,
-      3: <FiveStarRating rating={3} />,
-      4: <FiveStarRating rating={4} />,
-      5: <FiveStarRating rating={5} />,
-    },
   },
-  {
-    title: 'Students',
-    field: 'numberOfEnrolledStudents',
-    editable: 'never',
-    cellStyle: cellStyle,
-  },
+  //   {
+  //     title: 'Students',
+  //     field: 'numberOfEnrolledStudents',
+  //     editable: 'never',
+  //     cellStyle: cellStyle,
+  //   },
   {
     title: 'Creation Date',
     field: 'creationDate',
@@ -91,7 +86,24 @@ const coursesColumns = [
   },
 ];
 
+const useStyles = makeStyles({
+  detailPanel: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    justifyItems: 'center',
+    width: '100%',
+  },
+  centerAlign: {
+    display: 'flex',
+    justifyContent: 'center',
+    justifyItems: 'center',
+    flexDirection: 'column',
+  },
+});
+
 function CoursesTable() {
+  const classes = useStyles();
   const [courses, setCourses] = useState(list);
 
   const handleDelete = (id) => {
@@ -107,17 +119,21 @@ function CoursesTable() {
       tooltip: 'More Details',
       render: (rowData) => {
         return (
-          <Grid container>
-            <Grid item xs={12} md={6} lg={4}>
+          <section className={classes.detailPanel}>
+            <div className={classes.centerAlign}>
               <CourseCard
                 course={courses.filter((item) => item.id === rowData.id)[0]}
               />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            </div>
+            <div
+              className={classes.centerAlign}
+              style={{ flexDirection: 'column' }}
+            >
               <QuickStart
-                title={'Enrollments'}
+                title={'In-progress'}
                 data={courseEnrollmentDetails.filter(
-                  (item) => item.courseId === rowData.id
+                  (item) =>
+                    item.courseId === rowData.id && item.status === 'pending'
                 )}
               />
               <QuickStart
@@ -134,9 +150,30 @@ function CoursesTable() {
                     item.courseId === rowData.id && item.status === 'cancelled'
                 )}
               />
-            </Grid>
-            <Grid item xs={12} md={4}></Grid>
-          </Grid>
+            </div>
+            <div className={classes.centerAlign}>
+              <FinancialQuickStat
+                title={'Sales'}
+                data={courseEnrollmentDetails.filter(
+                  (item) =>
+                    item.courseId === rowData.id &&
+                    (item.status === 'completed' || item.status === 'pending')
+                )}
+              />
+              <QuickStart
+                title={'Enrollments'}
+                data={courseEnrollmentDetails.filter(
+                  (item) => item.courseId === rowData.id
+                )}
+              />
+              <QuickStart
+                title={'Reviews'}
+                data={reviews.filter(
+                  (item) => item.type === 'Course' && item.typeId === rowData.id
+                )}
+              />
+            </div>
+          </section>
         );
       },
     },
