@@ -90,7 +90,7 @@ const useStyles = makeStyles({
   detailPanel: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     justifyItems: 'center',
     width: '100%',
   },
@@ -131,12 +131,14 @@ function CoursesTable() {
             >
               <QuickStart
                 title={'In-progress'}
+                borderColor={'2px solid lightgrey'}
                 data={courseEnrollmentDetails.filter(
                   (item) =>
                     item.courseId === rowData.id && item.status === 'pending'
                 )}
               />
               <QuickStart
+                borderColor={'2px solid yellowgreen'}
                 title={'Completions'}
                 data={courseEnrollmentDetails.filter(
                   (item) =>
@@ -144,6 +146,7 @@ function CoursesTable() {
                 )}
               />
               <QuickStart
+                borderColor={'2px solid red'}
                 title={'Drop-Outs'}
                 data={courseEnrollmentDetails.filter(
                   (item) =>

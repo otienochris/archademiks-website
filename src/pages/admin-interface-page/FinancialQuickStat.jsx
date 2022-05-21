@@ -10,24 +10,25 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles({
-  paper: {
-    width: '300px',
-    padding: '20px',
-    margin: '5px auto',
-  },
-  select: {
-    minWidth: '100%',
-  },
-});
-
 const today = new Date();
 
 const reducer = (previous, current) => {
   return previous + current;
 };
 
-function FinancialQuickStat({ title, data, conversionRate }) {
+function FinancialQuickStat({ title, data, conversionRate, borderColor }) {
+  const useStyles = makeStyles({
+    paper: {
+      width: '300px',
+      padding: '20px',
+      margin: '5px auto',
+      border: borderColor == undefined ? '2px solid gold' : borderColor,
+    },
+    select: {
+      minWidth: '100%',
+    },
+  });
+
   const classes = useStyles();
   const [totalAmount, setTotalAmount] = useState(
     data.length == 0 ? [] : data.flatMap((item) => item.amount).reduce(reducer)
@@ -113,7 +114,7 @@ function FinancialQuickStat({ title, data, conversionRate }) {
   };
 
   return (
-    <Paper className={classes.paper} elevation={3}>
+    <Paper className={classes.paper} elevation={3} variant={'outlined'}>
       <Grid container>
         <Grid item xs={6}>
           <Typography variant='h6'>{title}</Typography>
