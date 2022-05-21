@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
 import { users } from '../../data/users';
+import { list as courses } from '../../data/courses';
+import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
+import { Container, Grid } from '@material-ui/core';
+import CourseCard from '../../components/CourseCard';
 
 const cellStyle = {
   borderRight: '1px solid #716969',
@@ -48,6 +52,61 @@ function UsersTable() {
     console.log('adding user');
   };
 
+  const courseDetailPanel = [
+    {
+      tooltip: 'Course Details',
+      render: (rowData) => {
+        return (
+          <Container
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              justifyItems: 'center',
+            }}
+          >
+            <CourseCard
+              course={courses.filter((item) => item.id === rowData.id)[0]}
+            />
+          </Container>
+        );
+      },
+    },
+  ];
+
+  const enrolledCoursesdetailPanel = [
+    {
+      tooltip: 'More Details',
+      render: (rowData) => {
+        const columns = [
+          { title: 'Serial No', field: 'id' },
+          { title: 'Course Id', field: 'courseId' },
+          { title: 'Status', field: 'status' },
+          { title: 'Selling Price', field: 'amount' },
+          { title: 'Enrolled on', field: 'creationDate' },
+          { title: 'Completed on', field: 'completionDate' },
+          { title: 'Modified on', field: 'modificationDate' },
+        ];
+        const enrolledList = courseEnrollmentDetails.filter(
+          (item) => item.studentId === rowData.id
+        );
+        return (
+          <Container style={{ width: '80%', margin: '20px auto' }}>
+            <Grid container alignContent='center'>
+              <CustomMaterialTable
+                title={'Enrolled Courses'}
+                data={enrolledList}
+                columns={columns}
+                allowActions={false}
+                detailPanel={courseDetailPanel}
+              />
+            </Grid>
+          </Container>
+        );
+      },
+    },
+  ];
+
   return (
     <CustomMaterialTable
       title={''}
@@ -59,6 +118,7 @@ function UsersTable() {
       handleDelete={handleDelete}
       handleAdd={handleAdd}
       allowActions={true}
+      detailPanel={enrolledCoursesdetailPanel}
     />
   );
 }

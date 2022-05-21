@@ -120,14 +120,24 @@ function CoursesTable() {
       render: (rowData) => {
         return (
           <section className={classes.detailPanel}>
-            <div className={classes.centerAlign}>
+            <div
+              className={classes.centerAlign}
+              style={{
+                flexDirection: 'column',
+                width: '100%',
+              }}
+            >
               <CourseCard
                 course={courses.filter((item) => item.id === rowData.id)[0]}
               />
             </div>
             <div
               className={classes.centerAlign}
-              style={{ flexDirection: 'column' }}
+              style={{
+                flexDirection: 'column',
+                width: '100%',
+              }}
+              // style={{ backgroundColor: 'red', width: '100%' }}
             >
               <QuickStart
                 title={'In-progress'}
@@ -154,7 +164,7 @@ function CoursesTable() {
                 )}
               />
             </div>
-            <div className={classes.centerAlign}>
+            <div className={classes.centerAlign} style={{ width: '100%' }}>
               <FinancialQuickStat
                 title={'Sales'}
                 data={courseEnrollmentDetails.filter(
