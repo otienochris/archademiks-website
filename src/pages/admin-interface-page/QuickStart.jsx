@@ -10,20 +10,21 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles({
-  paper: {
-    width: '300px',
-    padding: '20px',
-    margin: '5px auto',
-  },
-  select: {
-    minWidth: '100%',
-  },
-});
-
 const today = new Date();
 
-function QuickStart({ title, data }) {
+function QuickStart({ title, data, borderColor }) {
+  const useStyles = makeStyles({
+    paper: {
+      width: '300px',
+      padding: '20px',
+      margin: '5px auto',
+      border: borderColor == undefined ? '2px solid lightgrey' : borderColor,
+    },
+    select: {
+      minWidth: '100%',
+    },
+  });
+
   const classes = useStyles();
   const [count, setCount] = useState(data.length);
   const [period, setPeriod] = useState(0);
@@ -101,7 +102,7 @@ function QuickStart({ title, data }) {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} variant='outlined'>
       <Grid container>
         <Grid item xs={6}>
           <Typography variant='h6'>{title}</Typography>
