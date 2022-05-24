@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CourseCard from '../../components/CourseCard';
-import { list } from '../../data/courses';
 import SearchIcon from '@mui/icons-material/Search';
 import Footer from '../../components/Footer';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -31,7 +31,8 @@ const useStyles = makeStyles({
 
 export default function Index() {
   const classes = useStyles();
-  const [listOfCourses, setListOfCourses] = useState(list);
+  const coursesFromState = useSelector((state) => state.courses.value);
+  const [listOfCourses, setListOfCourses] = useState(coursesFromState);
   const [searchKey, setSearchKey] = useState('');
 
   const handleSeachKeyInput = (e) => {
@@ -40,7 +41,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    const newFilteredList = list.filter(
+    const newFilteredList = coursesFromState.filter(
       (courseItem) =>
         courseItem.category.toLowerCase().includes(searchKey.toLowerCase()) ||
         courseItem.title.toLowerCase().includes(searchKey.toLowerCase()) ||
