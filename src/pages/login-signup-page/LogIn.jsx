@@ -1,11 +1,16 @@
 import { TextField } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../../state/reducers/userReducer';
+import { loginAction } from '../../state/reducers/loginReducer';
+import { users } from '../../data/users';
 
 const useStyles = makeStyles({
   textField: {
@@ -33,6 +38,10 @@ const schema = yup.object({
 export default function LogIn() {
   const navigate = useNavigate();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [usersList, setUsersList] = useState(users);
+  const [wrongCredentials, setWrongCredentials] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -43,14 +52,51 @@ export default function LogIn() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    data.email === 'tutor@gmail.com'
-      ? navigate('/instructor/chris')
-      : data.email === 'student@gmail.com'
-      ? navigate('/students/chris')
-      : data.email === 'admin@gmail.com'
-      ? navigate('/admin/chris')
-      : navigate('/login-signup', { replace: true });
+    let userLoggedIn = usersList.filter(
+      (user) => user.email === data.email && user.password === data.password
+    );
+
+    if (userLoggedIn.length == 0) {
+      setWrongCredentials(true);
+      alert('Wrong password');
+    } else {
+      const userDetails = userLoggedIn[0];
+      switch (userDetails.type) {
+        case 'instructor':
+          dispatch(
+            setLoggedInUser({
+              name: userDetails.lastName,
+              email: userDetails.email,
+            })
+          );
+          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
+          navigate('/instructor');
+          break;
+        case 'student':
+          dispatch(
+            setLoggedInUser({
+              name: userDetails.lastName,
+              email: userDetails.email,
+            })
+          );
+          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
+          navigate('/student');
+          break;
+        case 'admin':
+          dispatch(
+            setLoggedInUser({
+              name: userDetails.lastName,
+              email: userDetails.email,
+            })
+          );
+          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
+          navigate('/admin');
+          break;
+        default:
+          // navigate('/login-signup', { replace: true });
+          break;
+      }
+    }
   };
 
   return (

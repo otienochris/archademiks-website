@@ -22,15 +22,9 @@ export default function App() {
             path='/courses/checkout/:courseId'
             element={<CheckOutPage />}
           />
-          <Route
-            path='/students/:lastName'
-            element={<StudentInterfacePage />}
-          />
-          <Route
-            path='/instructor/:lastName'
-            element={<InstructorInterfacePage />}
-          />
-          <Route path='/admin/:lastName' element={<AdminInterfacePage />} />
+          <Route path='/students' element={<StudentInterfacePage />} />
+          <Route path='/instructor' element={<InstructorInterfacePage />} />
+          <Route path='/admin' element={<AdminInterfacePage />} />
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/login-signup' element={<LoginSignupPage />} />

@@ -6,7 +6,7 @@ import AdminDashboard from './AdminDashboard';
 import CoursesTable from './CoursesTable';
 import UsersTable from './UsersTable';
 
-export default function index() {
+export default function Index() {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {

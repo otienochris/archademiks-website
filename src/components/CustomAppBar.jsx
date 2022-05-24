@@ -5,10 +5,17 @@ import {
   makeStyles,
   Toolbar,
   Typography,
+  Button,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../state/reducers/loginReducer';
+import { resetLoggedInUser } from '../state/reducers/userReducer';
 
 const pages = [
   { title: 'Home', path: '/' },
@@ -58,6 +65,31 @@ const useStyle = makeStyles({
 
 export default function CustomAppBar() {
   const classes = useStyle();
+  const username = useSelector((state) => state.user.value.name);
+  const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    if (isLoggedIn) {
+      setAnchorEl(event.currentTarget);
+    } else {
+      navigate('/login-signup');
+    }
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(loginAction({ isLoggedIn: false, token: '' }));
+    dispatch(resetLoggedInUser());
+    navigate('/');
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar className={classes.appBar} elevation={1}>
@@ -66,13 +98,30 @@ export default function CustomAppBar() {
           <Typography variant='h6' className={classes.typography}>
             Archademiks
           </Typography>
-          <NavLink to={'/login-signup'}>
-            <IconButton>
-              <AccountCircleIcon fontSize='medium' />
-            </IconButton>
-          </NavLink>
+          <Button
+            variant='text'
+            onClick={handleClick}
+            // onClick={() => navigate('/login-signup')}
+            id='menu-button'
+            aria-controls={openMenu ? 'account-menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={openMenu ? 'true' : undefined}
+            endIcon={<AccountCircleIcon fontSize='medium' />}
+          >
+            {isLoggedIn ? username : 'Log in'}
+          </Button>
+          <Menu
+            id='account-menu'
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleMenuClose}
+          >
+            {}
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </Grid>
-        {/* <CustomButton text='Enroll Now' variant='outlined' /> */}
         <Grid container className={classes.linkSection}>
           {pages.map((page, index) => {
             return (
