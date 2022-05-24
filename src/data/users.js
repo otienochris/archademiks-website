@@ -8,6 +8,7 @@ export const users = [
     type: 'student',
     creationDate: '2022-03-01',
     modificationDate: '2022-05-01',
+    password: 'abc@123',
   },
   {
     id: 2,
@@ -15,9 +16,10 @@ export const users = [
     lastName: 'Ochieng',
     email: 'admin@gmail.com',
     courses: [1, 2],
-    type: 'student',
+    type: 'admin',
     creationDate: '2021-06-01',
     modificationDate: '2022-05-01',
+    password: 'abc@123',
   },
   {
     id: 3,
@@ -28,5 +30,17 @@ export const users = [
     type: 'instructor',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
+    password: 'abc@123',
+  },
+  {
+    id: 4,
+    firstName: 'Stevo',
+    lastName: 'Msimple',
+    email: 'student2@gmail.com',
+    courses: [1, 2],
+    type: 'student',
+    creationDate: '2021-07-01',
+    modificationDate: '2022-05-01',
+    password: 'abc@123',
   },
 ];
