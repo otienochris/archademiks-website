@@ -158,6 +158,10 @@ export default function Index({ courseId2 }) {
     setValue(newValue);
   };
 
+  const handleGetForFree = () => {
+    alert('Get for free');
+  };
+
   return (
     <Container>
       <Grid
@@ -232,6 +236,7 @@ export default function Index({ courseId2 }) {
             </NavLink>
           ) : (
             <CustomButton
+              onClick={handleGetForFree}
               endIcon={<StartIcon />}
               style={{ width: '100%' }}
               text='Get for Free'

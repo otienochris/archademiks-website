@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
-import { users } from '../../data/users';
-import { list as courses } from '../../data/courses';
-import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
+// import { users } from '../../data/users';
+// import { list as courses } from '../../data/courses';
+// import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
 import { Container, Grid } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
+import { useDispatch } from 'react-redux';
+import { deleteUser } from '../../state/reducers/allUsersReducer';
 
 const cellStyle = {
   borderRight: '1px solid #716969',
@@ -41,11 +43,17 @@ const usersColumns = [
   },
 ];
 
-function UsersTable() {
-  const [usersList, setUsersList] = useState(users);
+function UsersTable({ users, courses, courseEnrollmentDetails }) {
+  const dispatch = useDispatch();
+  const [allUsers, setAllUsers] = useState(users);
+  const [allCourses, setAllCourses] = useState(courses);
+  const [enrollementDetails, setEnrollementDetails] = useState(
+    courseEnrollmentDetails
+  );
 
   const handleDelete = (id) => {
-    setUsersList((currentList) => currentList.filter((item) => item.id != id));
+    setAllUsers((currentList) => currentList.filter((item) => item.id != id));
+    dispatch(deleteUser(id));
   };
 
   const handleAdd = () => {
@@ -66,7 +74,7 @@ function UsersTable() {
             }}
           >
             <CourseCard
-              course={courses.filter((item) => item.id === rowData.id)[0]}
+              course={allCourses.filter((item) => item.id === rowData.id)[0]}
             />
           </Container>
         );
@@ -87,7 +95,7 @@ function UsersTable() {
           { title: 'Completed on', field: 'completionDate' },
           { title: 'Modified on', field: 'modificationDate' },
         ];
-        const enrolledList = courseEnrollmentDetails.filter(
+        const coursesEnrolledList = enrollementDetails.filter(
           (item) => item.studentId === rowData.id
         );
         return (
@@ -95,7 +103,7 @@ function UsersTable() {
             <Grid container alignContent='center'>
               <CustomMaterialTable
                 title={'Enrolled Courses'}
-                data={enrolledList}
+                data={coursesEnrolledList}
                 columns={columns}
                 allowActions={false}
                 detailPanel={courseDetailPanel}
@@ -110,7 +118,7 @@ function UsersTable() {
   return (
     <CustomMaterialTable
       title={''}
-      data={usersList}
+      data={allUsers}
       columns={usersColumns}
       allowAdd={true}
       allowDelete={true}

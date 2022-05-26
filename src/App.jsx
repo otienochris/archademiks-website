@@ -11,6 +11,7 @@ import LoginSignupPage from './pages/login-signup-page';
 import StudentInterfacePage from './pages/student-interface-page';
 import InstructorInterfacePage from './pages/instructor-interface-page';
 import AdminInterfacePage from './pages/admin-interface-page';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
@@ -22,9 +23,30 @@ export default function App() {
             path='/courses/checkout/:courseId'
             element={<CheckOutPage />}
           />
-          <Route path='/students' element={<StudentInterfacePage />} />
-          <Route path='/instructor' element={<InstructorInterfacePage />} />
-          <Route path='/admin' element={<AdminInterfacePage />} />
+          <Route
+            path='/students'
+            element={
+              <ProtectedRoute>
+                <StudentInterfacePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/instructor'
+            element={
+              <ProtectedRoute>
+                <InstructorInterfacePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin'
+            element={
+              <ProtectedRoute>
+                <AdminInterfacePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/login-signup' element={<LoginSignupPage />} />
