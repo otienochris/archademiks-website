@@ -10,7 +10,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccordionDetails, AppBar, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 // import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
@@ -26,6 +26,8 @@ import StartIcon from '@mui/icons-material/Start';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import InstructorPreview from '../../components/InstructorPreview';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { enrollCourse } from '../../state/reducers/userReducer';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -142,6 +144,9 @@ export default function Index({ courseId2 }) {
   const [listOfReviews, setListOfReviews] = useState(initialReviews);
   const reviews = useSelector((state) => state.reviews.value);
   const allCourses = useSelector((state) => state.courses.value);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+  const navigate = useNavigate();
 
   const classes = useStyles();
 
@@ -161,7 +166,8 @@ export default function Index({ courseId2 }) {
   };
 
   const handleGetForFree = () => {
-    alert('Get for free');
+    dispatch(enrollCourse({ courseId: parseInt(courseId) }));
+    navigate('/students', { replace: true });
   };
 
   return (

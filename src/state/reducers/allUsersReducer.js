@@ -6,7 +6,7 @@ export const users = [
     firstName: 'Christopher',
     lastName: 'Otieno',
     email: 'otienochris98@gmail.com',
-    courses: [1, 2, 3, 4],
+    courses: [],
     type: 'student',
     creationDate: '2022-03-01',
     modificationDate: '2022-05-01',
@@ -41,12 +41,12 @@ export const users = [
     id: 4,
     firstName: 'Stevo',
     lastName: 'Msimple',
-    email: 'student2@gmail.com',
-    courses: [1, 2],
+    email: 'student@gmail.com',
+    courses: [],
     type: 'student',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
-    password: 'abc@123',
+    password: 'a',
     country: 'Kenya',
   },
 ];
@@ -58,9 +58,22 @@ export const allUsersSlice = createSlice({
     deleteUser: (state, action) => {
       state.value = state.value.filter((item) => item.id != action.payload);
     },
+    enrollCourse: (state, action) => {
+      const enrollingUser = state.value.filter(
+        (user) => user.email == action.payload.email
+      )[0];
+      enrollingUser.courses.push(action.payload.courseId);
+
+      const newArray = state.value.filter(
+        (user) => user.email != action.payload.email
+      );
+      newArray.push(enrollingUser);
+
+      state.value = newArray;
+    },
   },
 });
 
-export const { deleteUser } = allUsersSlice.actions;
+export const { deleteUser, enrollCourse } = allUsersSlice.actions;
 
 export default allUsersSlice.reducer;

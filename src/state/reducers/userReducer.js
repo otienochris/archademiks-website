@@ -1,21 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const user = {
+  id: 4,
+  firstName: '',
+  lastName: '',
+  email: '',
+  courses: [],
+  type: '',
+  creationDate: '',
+  modificationDate: '',
+  password: '',
+  country: '',
+};
+
 export const userSlice = createSlice({
   name: 'user',
-  initialState: { value: { name: '', email: '', role: '' } },
+  initialState: { value: user },
   reducers: {
     setLoggedInUser: (state, action) => {
-      state.value.name = action.payload.name;
-      state.value.email = action.payload.email;
-      state.value.role = action.payload.role;
+      state.value = action.payload.user;
     },
     resetLoggedInUser: (state) => {
-      state.value.name = '';
-      state.value.email = '';
+      state.value = user;
+    },
+    enrollCourse: (state, action) => {
+      state.value.courses.push(parseInt(action.payload.courseId));
     },
   },
 });
 
-export const { setLoggedInUser, resetLoggedInUser } = userSlice.actions;
+export const { setLoggedInUser, resetLoggedInUser, enrollCourse } =
+  userSlice.actions;
 
 export default userSlice.reducer;
