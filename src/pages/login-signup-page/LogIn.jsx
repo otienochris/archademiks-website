@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
-import { users } from '../../data/users';
+// import { users } from '../../data/users';
 
 const useStyles = makeStyles({
   textField: {
@@ -36,6 +36,7 @@ const schema = yup.object({
 });
 
 export default function LogIn() {
+  const users = useSelector((state) => state.allUsers.value);
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -63,35 +64,17 @@ export default function LogIn() {
       const userDetails = userLoggedIn[0];
       switch (userDetails.type) {
         case 'instructor':
-          dispatch(
-            setLoggedInUser({
-              name: userDetails.lastName,
-              email: userDetails.email,
-              role: userDetails.type,
-            })
-          );
+          dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/instructor');
           break;
         case 'student':
-          dispatch(
-            setLoggedInUser({
-              name: userDetails.lastName,
-              email: userDetails.email,
-              role: userDetails.type,
-            })
-          );
+          dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/students');
           break;
         case 'admin':
-          dispatch(
-            setLoggedInUser({
-              name: userDetails.lastName,
-              email: userDetails.email,
-              role: userDetails.type,
-            })
-          );
+          dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/admin');
           break;

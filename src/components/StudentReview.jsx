@@ -10,6 +10,7 @@ import React from 'react';
 import FiveStarRating from './FiveStarRating';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   card: {
@@ -37,10 +38,12 @@ const useStyles = makeStyles({
 
 export default function StudentReview({ review }) {
   const classes = useStyles();
-  const { student, rating, content } = review;
+  const student = useSelector(
+    (state) =>
+      state.allUsers.value.filter((user) => user.id == review.userId)[0]
+  );
+  const { rating, content } = review;
   const [showMore, setShowMore] = React.useState(false);
-
-  // useEffect(() => {}, [showMore]);
 
   return (
     <Card className={classes.card}>
@@ -64,9 +67,9 @@ export default function StudentReview({ review }) {
         <div className={classes.rating}>
           <FiveStarRating rating={rating} />
         </div>
-        <Typography>
-          <FormatQuoteIcon />
-          <div className={classes.content}>
+        <div className={classes.content}>
+          <Typography>
+            <FormatQuoteIcon />
             {content.length < 100
               ? content
               : showMore
@@ -79,8 +82,8 @@ export default function StudentReview({ review }) {
                 {showMore ? '...less'.toLowerCase() : '...more'.toLowerCase()}
               </Button>
             )}
-          </div>
-        </Typography>
+          </Typography>
+        </div>
       </CardContent>
     </Card>
   );

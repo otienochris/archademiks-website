@@ -1,7 +1,8 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import StudentReview from '../../components/StudentReview';
-import { reviews } from '../../data/reviews';
+// import { reviews } from '../../data/reviews';
 
 const useStyles = makeStyles({
   review: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles({
 export default function StudentsRatings() {
   const classes = useStyles();
   const [listOfReviews, setListOfReviews] = useState([]);
+  const reviews = useSelector((state) => state.reviews.value);
 
   useEffect(() => {
     const systemRatings = reviews.filter((review) =>

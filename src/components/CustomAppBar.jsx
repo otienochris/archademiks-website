@@ -92,8 +92,7 @@ export default function CustomAppBar() {
   };
 
   const handleMyAccount = () => {
-    console.log(user);
-    switch (user.role) {
+    switch (user.type) {
       case 'instructor':
         navigate('/instructor');
         break;
@@ -126,7 +125,7 @@ export default function CustomAppBar() {
             aria-expanded={openMenu ? 'true' : undefined}
             endIcon={<AccountCircleIcon fontSize='medium' />}
           >
-            {isLoggedIn ? user.name : 'Log in'}
+            {isLoggedIn ? user.lastName : 'Log in'}
           </Button>
           <Menu
             id='account-menu'

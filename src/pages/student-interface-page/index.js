@@ -12,11 +12,12 @@ import { Container, Drawer, Tab, Tabs } from '@mui/material';
 import Support from './Support';
 import Calendar from '../../components/Calendar';
 import MyCourses from './MyCourses';
-import { list } from '../../data/courses';
-import { users } from '../../data/users';
+// import { list } from '../../data/courses';
+// import { users } from '../../data/users';
 import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useSelector } from 'react-redux';
 
 export default function Index() {
   // const date = new Date();
@@ -24,8 +25,12 @@ export default function Index() {
   const [date] = useState(new Date());
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
-  const [enrolledCourse, setEnrolledCourses] = useState([]);
-  const [user] = useState(users[0]);
+  const user = useSelector((state) => state.user.value);
+  const courses = useSelector((state) => state.courses.value);
+  const [enrolledCourse, setEnrolledCourses] = useState(
+    courses.filter((course) => user.courses.includes(course.id))
+  );
+  // const courses
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});
   const [year, setYear] = useState(date.getFullYear());
@@ -71,11 +76,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setEnrolledCourses(
-      list.filter((course) => user.courses.includes(course.id))
-    );
-
-    // console.log(year, month, firstDay);
+    console.log(user);
     setFirstDay(new Date(year, month, 1).getDay());
   }, [user.courses, month, year, firstDay]);
 
