@@ -1,7 +1,7 @@
 import { Rating } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
-import { list } from '../../data/courses';
+// import { list } from '../../data/courses';
 import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
 import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
@@ -10,6 +10,8 @@ import CourseCard from '../../components/CourseCard';
 import QuickStart from './QuickStart';
 import FinancialQuickStat from './FinancialQuickStat';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch } from 'react-redux';
+import { deleteCourse } from '../../state/reducers/coursesReducers';
 
 const getCategoryBanner = (category) => (
   <Typography
@@ -56,7 +58,6 @@ const coursesColumns = [
   {
     title: 'Category',
     field: 'category',
-    // lookup: categoriesList,
     cellStyle: cellStyle,
   },
   { title: 'Price', field: 'price', type: 'numeric', cellStyle: cellStyle },
@@ -66,12 +67,6 @@ const coursesColumns = [
     editable: 'never',
     cellStyle: cellStyle,
   },
-  //   {
-  //     title: 'Students',
-  //     field: 'numberOfEnrolledStudents',
-  //     editable: 'never',
-  //     cellStyle: cellStyle,
-  //   },
   {
     title: 'Creation Date',
     field: 'creationDate',
@@ -102,12 +97,16 @@ const useStyles = makeStyles({
   },
 });
 
-function CoursesTable() {
+function CoursesTable({ courses }) {
   const classes = useStyles();
-  const [courses, setCourses] = useState(list);
+  // const coursesList = useSelector((state) => state.courses.value);
+  // const [reload, setReload] = useState(false);
+  const [data, setData] = useState(courses);
+  const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    setCourses((currentList) => currentList.filter((item) => item.id != id));
+    setData((current) => current.filter((item) => item.id != id));
+    dispatch(deleteCourse(id));
   };
 
   const handleAdd = () => {
@@ -195,7 +194,7 @@ function CoursesTable() {
   return (
     <CustomMaterialTable
       title={''}
-      data={courses}
+      data={data}
       columns={coursesColumns}
       allowAdd={true}
       allowDelete={true}

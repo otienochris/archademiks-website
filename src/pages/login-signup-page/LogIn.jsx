@@ -67,6 +67,7 @@ export default function LogIn() {
             setLoggedInUser({
               name: userDetails.lastName,
               email: userDetails.email,
+              role: userDetails.type,
             })
           );
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
@@ -77,16 +78,18 @@ export default function LogIn() {
             setLoggedInUser({
               name: userDetails.lastName,
               email: userDetails.email,
+              role: userDetails.type,
             })
           );
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/student');
+          navigate('/students');
           break;
         case 'admin':
           dispatch(
             setLoggedInUser({
               name: userDetails.lastName,
               email: userDetails.email,
+              role: userDetails.type,
             })
           );
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));

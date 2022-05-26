@@ -65,7 +65,7 @@ const useStyle = makeStyles({
 
 export default function CustomAppBar() {
   const classes = useStyle();
-  const username = useSelector((state) => state.user.value.name);
+  const user = useSelector((state) => state.user.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,6 +91,24 @@ export default function CustomAppBar() {
     setAnchorEl(null);
   };
 
+  const handleMyAccount = () => {
+    console.log(user);
+    switch (user.role) {
+      case 'instructor':
+        navigate('/instructor');
+        break;
+      case 'student':
+        navigate('/students');
+        break;
+      case 'admin':
+        navigate('/admin');
+        break;
+      default:
+        break;
+    }
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar className={classes.appBar} elevation={1}>
       <Toolbar className={classes.toolBar}>
@@ -108,7 +126,7 @@ export default function CustomAppBar() {
             aria-expanded={openMenu ? 'true' : undefined}
             endIcon={<AccountCircleIcon fontSize='medium' />}
           >
-            {isLoggedIn ? username : 'Log in'}
+            {isLoggedIn ? user.name : 'Log in'}
           </Button>
           <Menu
             id='account-menu'
@@ -118,7 +136,7 @@ export default function CustomAppBar() {
           >
             {}
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+            <MenuItem onClick={handleMyAccount}>My Account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Grid>

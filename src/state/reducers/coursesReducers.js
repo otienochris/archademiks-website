@@ -612,7 +612,12 @@ export const coursesSlice = createSlice({
   name: 'courses',
   initialState: { value: list },
   reducers: {
-    deleteCourse: (state, action) => {},
+    deleteCourse: (state, action) => {
+      const newList = state.value.filter(
+        (course) => course.id != action.payload
+      );
+      state.value = newList;
+    },
   },
 });
 

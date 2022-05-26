@@ -1,13 +1,22 @@
 import { Container, Grid, Tab, Tabs } from '@material-ui/core';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { list } from '../../data/courses';
 import { users } from '../../data/users';
+import { deleteCourse } from '../../state/reducers/coursesReducers';
 import AdminDashboard from './AdminDashboard';
 import CoursesTable from './CoursesTable';
 import UsersTable from './UsersTable';
 
 export default function Index() {
   const [value, setValue] = useState(0);
+  const state = useSelector((state) => state);
+  const [users] = useState(state.allUsers.value.map((item) => ({ ...item })));
+  const [courses] = useState(state.courses.value.map((item) => ({ ...item })));
+  const [courseEnrollmentDetails] = useState(
+    state.courseEnrollments.value.map((item) => ({ ...item }))
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,9 +36,13 @@ export default function Index() {
           {value == '0' ? (
             <AdminDashboard course={list} users={users} />
           ) : value == '1' ? (
-            <UsersTable />
+            <UsersTable
+              courses={courses}
+              users={users}
+              courseEnrollmentDetails={courseEnrollmentDetails}
+            />
           ) : (
-            <CoursesTable />
+            <CoursesTable courses={courses} />
           )}
         </Grid>
       </Grid>
