@@ -3,6 +3,7 @@ import allUsersReducer from './reducers/allUsersReducer';
 import courseEnrollementReducer from './reducers/courseEnrollementReducer';
 import coursesReducers from './reducers/coursesReducers';
 import loginReducer from './reducers/loginReducer';
+import reviewsReducer from './reducers/reviewsReducer';
 import userReducer from './reducers/userReducer';
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     courses: coursesReducers,
     login: loginReducer,
     courseEnrollments: courseEnrollementReducer,
+    reviews: reviewsReducer,
   },
 });
 

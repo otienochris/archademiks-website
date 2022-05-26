@@ -11,6 +11,7 @@ export const users = [
     creationDate: '2022-03-01',
     modificationDate: '2022-05-01',
     password: 'abc@123',
+    country: 'Kenya',
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ export const users = [
     creationDate: '2021-06-01',
     modificationDate: '2022-05-01',
     password: 'abc@123',
+    country: 'Kenya',
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ export const users = [
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
     password: 'abc@123',
+    country: 'Kenya',
   },
   {
     id: 4,
@@ -44,6 +47,7 @@ export const users = [
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
     password: 'abc@123',
+    country: 'Kenya',
   },
 ];
 

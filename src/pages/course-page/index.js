@@ -12,8 +12,7 @@ import { AccordionDetails, AppBar, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import { list } from '../../data/courses';
-import { reviews } from '../../data/reviews';
+// import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FiveStarRating from '../../components/FiveStarRating';
@@ -26,6 +25,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import StartIcon from '@mui/icons-material/Start';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import InstructorPreview from '../../components/InstructorPreview';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -140,11 +140,13 @@ export default function Index({ courseId2 }) {
   const [course, setCourse] = useState(initialCourse);
   const [value, setValue] = useState(0);
   const [listOfReviews, setListOfReviews] = useState(initialReviews);
+  const reviews = useSelector((state) => state.reviews.value);
+  const allCourses = useSelector((state) => state.courses.value);
 
   const classes = useStyles();
 
   useEffect(() => {
-    const filteredCourses = list.filter(
+    const filteredCourses = allCourses.filter(
       (course) => course.id == courseId || course.id == courseId2
     );
     const filteredReviews = reviews.filter(
