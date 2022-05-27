@@ -75,9 +75,21 @@ export default function StageThreeOfCourseCreation({
     newCourse.topics[data.topicId].subTopics.push(subTopic);
 
     setNewCourse(newCourse);
-
-    reset();
     setIsStageSubmited(true);
+
+    // clear inputs
+    reset();
+    setEditorState(EditorState.createEmpty());
+    var topicId = document.getElementById('select-for-topic');
+    var title = document.getElementById('sutopicTitle');
+    var desc = document.getElementById('subtopicDescription');
+    var link = document.getElementById('subtopicLink');
+
+    topicId.value = '';
+    title.value = '';
+    desc.value = '';
+    link.value = '';
+    console.log(topicId.value);
   };
 
   return (
@@ -102,6 +114,7 @@ export default function StageThreeOfCourseCreation({
         </Select>
       </FormControl>
       <TextField
+        id='sutopicTitle'
         variant='filled'
         label='Sub-topic Title'
         placeholder='Provide a brief yet descriptive title'
@@ -113,6 +126,7 @@ export default function StageThreeOfCourseCreation({
       />
 
       <TextField
+        id='subtopicDescription'
         variant='filled'
         label='Sub-topic Description'
         placeholder='Provide a brief description of the goals and contents of the sub-topic'
@@ -123,6 +137,7 @@ export default function StageThreeOfCourseCreation({
         style={{ margin: '16px' }}
       />
       <TextField
+        id='subtopicLink'
         variant='filled'
         label='Introduction Video'
         placeholder="Add link to a video of your sub-topic's introduction video"

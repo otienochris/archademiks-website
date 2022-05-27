@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { Button, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 
@@ -68,15 +68,24 @@ export default function StageTwoOfCourseCreation({
     newCourse.topics.push(topic);
     setNewCourse(newCourse);
 
-    console.log(newCourse);
+    setIsStageSubmited(true);
 
     reset();
-    setIsStageSubmited(true);
+
+    setEditorState(EditorState.createEmpty());
+
+    var title = document.getElementById('title');
+    var description = document.getElementById('description');
+    var link = document.getElementById('link');
+    title.value = '';
+    description.value = '';
+    link.value = '';
   };
 
   return (
     <>
       <TextField
+        id='title'
         variant='filled'
         label='Topic Title'
         placeholder='Provide a brief yet descriptive title'
@@ -88,6 +97,7 @@ export default function StageTwoOfCourseCreation({
       />
 
       <TextField
+        id='description'
         variant='filled'
         label='Topic Description'
         placeholder='Provide a brief description of the goals and contents of the topic'
@@ -98,6 +108,7 @@ export default function StageTwoOfCourseCreation({
         style={{ margin: '16px' }}
       />
       <TextField
+        id='link'
         {...register('link')}
         variant='filled'
         label='Introduction Video'

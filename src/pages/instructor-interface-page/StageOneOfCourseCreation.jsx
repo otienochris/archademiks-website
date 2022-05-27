@@ -96,6 +96,7 @@ export default function StageOneOfCourseCreation({
       <FormControl sx={{ m: 1, minWidth: 120 }} className={classes.select}>
         <InputLabel id='demo-simple-select-helper-label'>Category</InputLabel>
         <Select
+          disabled={saved}
           labelId='demo-simple-select-helper-label'
           id='demo-simple-select-helper'
           label='Category'
@@ -118,6 +119,7 @@ export default function StageOneOfCourseCreation({
       </FormControl>
 
       <TextField
+        disabled={saved}
         variant='filled'
         label='Course Title'
         placeholder='Provide a brief yet descriptive title'
@@ -129,6 +131,7 @@ export default function StageOneOfCourseCreation({
       />
 
       <TextField
+        disabled={saved}
         variant='filled'
         label='Course Description'
         placeholder='Provide a brief description of the goals and contents of the course'
@@ -141,6 +144,7 @@ export default function StageOneOfCourseCreation({
       />
 
       <TextField
+        disabled={saved}
         {...register('thumbnail')}
         variant='filled'
         label='Link to thumbnail'
@@ -152,6 +156,7 @@ export default function StageOneOfCourseCreation({
       />
 
       <TextField
+        disabled={saved}
         {...register('link')}
         variant='filled'
         label='Introduction Video'
@@ -169,7 +174,7 @@ export default function StageOneOfCourseCreation({
         disabled={saved}
         onClick={handleSubmit(onSubmit)}
       >
-        Submit
+        Save
       </Button>
     </>
   );
