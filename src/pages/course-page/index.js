@@ -170,6 +170,10 @@ export default function Index({ courseId2 }) {
     navigate('/students', { replace: true });
   };
 
+  const handleBuyButton = () => {
+    navigate('/courses/checkout/' + courseId, { replace: true });
+  };
+
   return (
     <Container>
       <Grid
@@ -226,30 +230,35 @@ export default function Index({ courseId2 }) {
               <FiveStarRating rating={course.rating} />
             </div>
           </section>
-          {course.price > 0 ? (
-            <NavLink
-              style={{ textDecoration: 'none' }}
-              to={'/courses/checkout/' + courseId}
-            >
-              <CustomButton
-                endIcon={<ShoppingCartCheckoutIcon />}
-                style={{
-                  position: 'sticky',
-                  width: '100%',
-                  backgroundColor: 'gold',
-                  color: 'black',
-                }}
-                text='Buy'
-              />
-            </NavLink>
-          ) : (
+          {user.type === 'student' ? (
             <CustomButton
-              onClick={handleGetForFree}
-              endIcon={<StartIcon />}
-              style={{ width: '100%' }}
-              text='Get for Free'
-              color='primary'
+              onClick={course.price > 0 ? handleBuyButton : handleGetForFree}
+              endIcon={
+                course.price > 0 ? <ShoppingCartCheckoutIcon /> : <StartIcon />
+              }
+              style={{
+                position: 'sticky',
+                width: '100%',
+                backgroundColor: 'gold',
+                color: 'black',
+              }}
+              text={course.price > 0 ? 'Buy' : 'Get for Free'}
             />
+          ) : (
+            <Typography
+              style={{
+                position: 'sticky',
+                width: '100%',
+                backgroundColor: 'white',
+                color: 'black',
+                textAlign: 'center',
+              }}
+              variant='h6'
+            >
+              {course.price > 0
+                ? 'Being Sold at Ksh. ' + course.price
+                : "It's a Free Course!"}
+            </Typography>
           )}
         </Grid>
       </Grid>
