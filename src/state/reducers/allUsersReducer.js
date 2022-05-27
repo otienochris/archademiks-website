@@ -10,7 +10,7 @@ export const users = [
     type: 'student',
     creationDate: '2022-03-01',
     modificationDate: '2022-05-01',
-    password: 'abc@123',
+    password: 'pass',
     country: 'Kenya',
   },
   {
@@ -22,7 +22,7 @@ export const users = [
     type: 'admin',
     creationDate: '2021-06-01',
     modificationDate: '2022-05-01',
-    password: 'abc@123',
+    password: 'pass',
     country: 'Kenya',
   },
   {
@@ -34,7 +34,7 @@ export const users = [
     type: 'instructor',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
-    password: 'abc@123',
+    password: 'pass',
     country: 'Kenya',
   },
   {
@@ -46,7 +46,7 @@ export const users = [
     type: 'student',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
-    password: 'a',
+    password: 'pass',
     country: 'Kenya',
   },
 ];
