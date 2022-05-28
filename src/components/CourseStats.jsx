@@ -3,10 +3,10 @@ import React from 'react';
 
 const useStyles = makeStyles({
   number: {
-    color: '#497592',
+    color: '#ff8c00',
   },
   courseStat: {
-    borderLeft: '2xp solid grey',
+    borderLeft: '2xp solid #ff8c00',
     fontSize: '3em',
   },
   title: {

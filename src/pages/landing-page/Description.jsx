@@ -1,11 +1,11 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/custom-controls/CustomButton';
 
 const useStyles = makeStyles({
   mainGrid: {
-    minHeight: '60vh',
+    minHeight: '73vh',
     marginTop: '30px',
   },
   gridItem: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
   },
   spans: {
-    color: 'green',
+    color: '#ff8c00',
   },
   mainTitle: {
     marginBottom: '20px',
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
 export default function Description() {
   const classes = useStyles();
+  const navigate = useNavigate();
   return (
     <Grid
       container
@@ -48,13 +49,22 @@ export default function Description() {
           vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum earum
           accusantium ut aspernatur!
         </Typography>
-        <NavLink className={classes.navlink} to={'/login-signup'}>
-          <CustomButton text='Get Started' />
-        </NavLink>
+        {/* <NavLink className={classes.navlink} to={'/login-signup'}> */}
+        <CustomButton
+          text='Get Started'
+          onClick={() => navigate('/login-signup', { replace: true })}
+          style={{
+            backgroundColor: 'black',
+            color: '#ff8c00',
+            fontWeight: 'bolder',
+          }}
+        />
+        {/* </NavLink> */}
       </Grid>
 
       <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
         <img
+          style={{ border: '2px solid #ff8c00' }}
           src='https://static.vecteezy.com/system/resources/previews/005/051/189/original/boy-study-in-online-school-illustration-concept-flat-illustration-isolated-on-white-background-vector.jpg'
           alt='A person learning online'
         />

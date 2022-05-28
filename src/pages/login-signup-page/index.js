@@ -1,4 +1,4 @@
-import { Container, makeStyles } from '@material-ui/core';
+import { Button, ButtonGroup, Container, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import SignUp from './SignUp';
@@ -11,7 +11,8 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     justifyItem: 'center',
-    margin: '20px auto',
+    margin: '69px auto',
+    // backgroundColor: 'black',
   },
   grid: {
     display: 'flex',
@@ -25,7 +26,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     minHeight: '70vh',
-    backgroundColor: 'rgba(210,215,211,.3)',
+    // backgroundColor: 'rgba(210,215,211,.3)',
+    // backgroundColor: 'black',
   },
   toggleButtons: {
     margin: '30px auto',
@@ -36,22 +38,34 @@ export default function Index() {
   const classes = useStyles();
   const [action, setAction] = useState('login');
 
-  const handleOnchage = (event, newValue) => {
-    setAction(newValue);
-  };
+  // const handleOnchage = (event, newValue) => {
+  //   setAction(newValue);
+  // };
+
   return (
     <Container className={classes.mainContainer}>
       <Grid item className={classes.grid}>
-        <ToggleButtonGroup
-          value={action}
-          exclusive
-          onChange={handleOnchage}
-          color='primary'
-          className={classes.toggleButtons}
-        >
-          <ToggleButton value={'login'}>Log In</ToggleButton>
-          <ToggleButton value={'signup'}>Sign Up</ToggleButton>
-        </ToggleButtonGroup>
+        <ButtonGroup className={classes.toggleButtons}>
+          <Button
+            onClick={() => setAction('login')}
+            variant={action === 'login' ? 'contained' : 'outlined'}
+            // color='secondary'
+            style={
+              action === 'login'
+                ? { backgroundColor: 'black', color: 'white' }
+                : {}
+            }
+          >
+            Log in
+          </Button>
+          <Button
+            style={action === 'signup' ? { backgroundColor: '#ff8c00' } : {}}
+            onClick={() => setAction('signup')}
+            variant={action === 'signup' ? 'contained' : 'outlined'}
+          >
+            Sign up
+          </Button>
+        </ButtonGroup>
       </Grid>
       <Grid item className={classes.grid}>
         {action === 'login' ? <LogIn /> : <SignUp />}
