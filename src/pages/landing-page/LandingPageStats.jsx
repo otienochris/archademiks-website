@@ -26,7 +26,7 @@ const stats = [
 
 const useStyles = makeStyles({
   leadingLine: {
-    borderLeft: '2px solid grey',
+    borderLeft: '2px solid #ff8c00',
     height: '100%',
   },
   mainContainer: {

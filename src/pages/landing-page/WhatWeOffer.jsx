@@ -12,7 +12,7 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 const useStyles = makeStyles({
   spans: {
-    color: 'green',
+    color: '#ff8c00',
   },
   gridItem: {
     margin: 'auto auto',
@@ -21,7 +21,6 @@ const useStyles = makeStyles({
   whatWeOfferTitle: {
     margin: '30px auto',
     textAlign: 'center',
-    // backgroundColor: 'green',
     width: '100%',
   },
   gridContainer: {
@@ -33,15 +32,19 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    border: '2px solid #ff8c00',
+    backgroundColor: 'black',
+    color: 'white',
   },
   icon: {
     margin: '20px auto',
+    fontSize: 70,
   },
 });
 export default function WhatWeOffer(props) {
   const classes = useStyles();
   return (
-    <Container style={{ maxWidth: '100vw' }}>
+    <Container style={{ maxWidth: '100%' }}>
       <Typography variant='h3' className={classes.whatWeOfferTitle}>
         What we <span className={classes.spans}>Offer</span>
       </Typography>
@@ -52,12 +55,12 @@ export default function WhatWeOffer(props) {
       >
         <Grid item xs={10} sm={6} md={3}>
           <Paper className={classes.paper} variant='outlined'>
-            <SchoolIcon
-              className={classes.icon}
-              color='primary'
-              style={{ fontSize: 100 }}
-            />
-            <Typography align='center' variant='h4'>
+            <SchoolIcon className={classes.icon} style={{ fontSize: 50 }} />
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
               Certification
             </Typography>
             <Typography align='center' variant='body2'>
@@ -70,12 +73,12 @@ export default function WhatWeOffer(props) {
         </Grid>
         <Grid item xs={10} sm={6} md={3}>
           <Paper className={classes.paper} variant='outlined'>
-            <VerifiedIcon
-              className={classes.icon}
-              color='secondary'
-              style={{ fontSize: 100 }}
-            />
-            <Typography align='center' variant='h4'>
+            <VerifiedIcon className={classes.icon} style={{ fontSize: 50 }} />
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
               Quality Content
             </Typography>
             <Typography align='center' variant='body2'>
@@ -90,10 +93,13 @@ export default function WhatWeOffer(props) {
           <Paper className={classes.paper} variant='outlined'>
             <SupportAgentIcon
               className={classes.icon}
-              color='success'
-              style={{ fontSize: 100 }}
+              style={{ fontSize: 50 }}
             />
-            <Typography align='center' variant='h4'>
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
               Support
             </Typography>
             <Typography align='center' variant='body2'>

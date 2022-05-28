@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     justifyItems: 'center',
   },
   spans: {
-    color: 'green',
+    color: '#ff8c00',
   },
   title: {
     margin: '40px auto',
@@ -29,7 +29,9 @@ const useStyles = makeStyles({
     width: '90%',
   },
   mainContainer: {
-    backgroundColor: '#E0E8EC',
+    // backgroundColor: '#E0E8EC',
+    color: 'white',
+    backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
   },
 });
 

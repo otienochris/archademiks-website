@@ -1,21 +1,23 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import CustomAppBar from './CustomAppBar';
+// import CustomAppBar from './CustomAppBar';
+import CustomAppBar2 from './CustomAppBar2';
 
 const useStyles = makeStyles({
+  main: {
+    backgroundColor: 'whitesmoke',
+  },
   children: {
-    marginTop: '65px',
-    backgroundImage:
-      'linear-gradient(to right, white, whitesmoke, #FFFFFF, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+    marginTop: '58px',
   },
 });
 
 export default function Layout({ children }) {
   const classes = useStyles();
   return (
-    <>
-      <CustomAppBar />
+    <div className={classes.main}>
+      <CustomAppBar2 />
       <div className={classes.children}>{children}</div>
-    </>
+    </div>
   );
 }
