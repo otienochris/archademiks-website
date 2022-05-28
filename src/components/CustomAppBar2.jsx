@@ -109,7 +109,7 @@ function CustomAppBar2() {
               textDecoration: 'none',
             }}
           >
-            Archademiks
+            Akademi
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -168,7 +168,7 @@ function CustomAppBar2() {
               textDecoration: 'none',
             }}
           >
-            Archademiks
+            Akademi
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -190,7 +190,7 @@ function CustomAppBar2() {
                 style={{ color: 'white' }}
                 endIcon={<AccountCircleIcon fontSize='medium' />}
               >
-                {isLoggedIn ? user.lastName : 'Log in'}
+                {isLoggedIn ? user.lastName : 'login'}
               </Button>
             </Tooltip>
             <Menu
