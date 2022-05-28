@@ -7,6 +7,10 @@ import StageTwoOfCourseCreation from './StageTwoOfCourseCreation';
 import StageThreeOfCourseCreation from './StageThreeOfCourseCreation';
 import StageFourOfCourseCreation from './StageFourOfCourseCreation';
 import { useStyles } from './newCourseUseStyles';
+import { useDispatch } from 'react-redux';
+import { saveCourse } from '../../state/reducers/coursesReducers';
+import { useSelector } from 'react-redux';
+import { enrollCourse } from '../../state/reducers/userReducer';
 
 const initialCourse = {
   id: 0,
@@ -16,9 +20,9 @@ const initialCourse = {
   rating: 0,
   price: 0,
   category: '',
-  numberOfEnrolledStudents: 0,
   link: '',
   topics: [],
+  instructors: [],
 };
 
 export default function CreateCourse({ setCreateNewCourse }) {
@@ -29,6 +33,7 @@ export default function CreateCourse({ setCreateNewCourse }) {
   const [isStageTwoIsSubmited, setIsStageTwoIsSubmited] = useState(false);
   const [isStageThreeIsSubmited, setIsStageThreeIsSubmited] = useState(false);
   const [isStageFourIsSubmited, setIsStageFourIsSubmited] = useState(false);
+  const dispatch = useDispatch();
 
   const stepsDetails = [
     {
@@ -75,6 +80,22 @@ export default function CreateCourse({ setCreateNewCourse }) {
     },
   ];
 
+  const handleComplete = () => {
+    setCreateNewCourse(false);
+    setStep((current) => current + 1);
+
+    // const courseId = Math.floor(Math.random() * 10);
+    newCourse.id = 8;
+
+    dispatch(saveCourse(newCourse));
+    dispatch(enrollCourse({ courseId: 8 }));
+    console.log(newCourse);
+  };
+
+  const handleNext = () => {
+    setStep(step + 1);
+  };
+
   /**
    * This method handles the data submited in stage one of course creation
    * @param data - the sumbited data
@@ -107,28 +128,31 @@ export default function CreateCourse({ setCreateNewCourse }) {
             >
               Back
             </Button>
-            <Button
-              disabled={
-                (!isStageOneIsSubmited && step === 0) ||
-                (!isStageTwoIsSubmited && step === 1) ||
-                (!isStageThreeIsSubmited && step === 2) ||
-                (!isStageFourIsSubmited && step === 3) ||
-                step === stepsDetails.length
-              }
-              className={classes.nextButton}
-              variant='contained'
-              color='primary'
-              onClick={() =>
-                step === 3 ? setCreateNewCourse(false) : setStep(step + 1)
-              }
-              style={
-                step === 3
-                  ? { backgroundColor: 'green', color: 'whitesmoke' }
-                  : {}
-              }
-            >
-              {step === 3 ? 'Complete' : 'Next'}
-            </Button>
+            {step < 3 ? (
+              <Button
+                disabled={
+                  (!isStageOneIsSubmited && step === 0) ||
+                  (!isStageTwoIsSubmited && step === 1) ||
+                  (!isStageThreeIsSubmited && step === 2) ||
+                  (!isStageFourIsSubmited && step === 3)
+                  // || step >= 3
+                }
+                className={classes.nextButton}
+                variant='contained'
+                color={'primary'}
+                onClick={handleNext}
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                color='secondary'
+                onClick={handleComplete}
+                variant='contained'
+              >
+                Complete
+              </Button>
+            )}
           </div>
         </Grid>
       </Grid>

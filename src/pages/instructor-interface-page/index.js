@@ -9,37 +9,33 @@ import {
   Toolbar,
   Tooltip,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
-import { users } from '../../data/users';
-import { list } from '../../data/courses';
 import { Grid } from '@mui/material';
-// import MyCourses from '../student-interface-page/MyCourses';
 import InstructorCourses from './InstructorCourses';
 import CreateCourse from './CreateCourse';
+import { useSelector } from 'react-redux';
 
 export default function Index() {
   const [open, setOpen] = React.useState(false);
-  const [instructor] = useState(users[1]);
   const [value, setValue] = useState(0);
-  const [ownedCourses, setOwnedCourses] = useState([]);
   const [courseToViewOrEdit, setCourseToViewOrEdit] = useState({});
   const [viewCourse, setViewCourse] = useState(false);
   const [createNewCourse, setCreateNewCourse] = useState(false);
+  const instructor = useSelector((state) => state.user.value);
+  const ownedCourses = useSelector((state) =>
+    state.courses.value.filter((course) =>
+      instructor.courses.includes(course.id)
+    )
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setOpen(false);
   };
-
-  useEffect(() => {
-    setOwnedCourses(
-      list.filter((course) => instructor.courses.includes(course.id))
-    );
-  }, [instructor]);
 
   return (
     <Container>
