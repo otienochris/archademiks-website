@@ -1,6 +1,5 @@
 import { makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
-import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -12,18 +11,28 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     margin: '10px 30px',
   },
+  notchedOutline: {
+    borderColor: '#ff8c00',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     justifyItems: 'center',
     minHeight: '575px',
+    border: '4px solid #ff8c00',
   },
   radiogroup: {
     display: 'flex',
     justifyContent: 'center',
     justifyItems: 'center',
     // flexDirection: 'column',
+  },
+  button: {
+    width: '300px',
+    alignSelf: 'center',
+    margin: '10px 30px',
+    backgroundColor: '#ff8c00',
   },
 });
 
@@ -79,6 +88,11 @@ export default function SignUp() {
         {...register('firstName')}
         error={errors.firstName ? true : false}
         helperText={errors.firstName ? errors.firstName.message : ''}
+        InputProps={{
+          classes: {
+            notchedOutline: classes.notchedOutline,
+          },
+        }}
       />
       <TextField
         className={classes.textField}
@@ -90,6 +104,11 @@ export default function SignUp() {
         {...register('secondName')}
         error={errors.secondName ? true : false}
         helperText={errors.secondName ? errors.secondName.message : ''}
+        InputProps={{
+          classes: {
+            notchedOutline: classes.notchedOutline,
+          },
+        }}
       />
       <TextField
         className={classes.textField}
@@ -101,6 +120,11 @@ export default function SignUp() {
         {...register('email')}
         error={errors.email ? true : false}
         helperText={errors.email ? errors.email.message : ''}
+        InputProps={{
+          classes: {
+            notchedOutline: classes.notchedOutline,
+          },
+        }}
       />
       <TextField
         className={classes.textField}
@@ -112,6 +136,11 @@ export default function SignUp() {
         {...register('password')}
         error={errors.password ? true : false}
         helperText={errors.password ? errors.password.message : ''}
+        InputProps={{
+          classes: {
+            notchedOutline: classes.notchedOutline,
+          },
+        }}
       />
       <TextField
         className={classes.textField}
@@ -123,6 +152,11 @@ export default function SignUp() {
         {...register('password2')}
         error={errors.password2 ? true : false}
         helperText={errors.password2 ? errors.password2.message : ''}
+        InputProps={{
+          classes: {
+            notchedOutline: classes.notchedOutline,
+          },
+        }}
       />
       <RadioGroup row className={classes.radiogroup}>
         <FormControlLabel
@@ -141,7 +175,12 @@ export default function SignUp() {
       <span style={{ color: 'red', textAlign: 'center', marginBottom: '5px' }}>
         {errors.userType ? errors.userType.message : ''}
       </span>
-      <Button variant='contained' type='submit' className={classes.textField}>
+      <Button
+        variant='contained'
+        type='submit'
+        className={classes.button}
+        style={{ backgroundColor: '#ff8c00', color: 'black' }}
+      >
         signup
       </Button>
     </form>

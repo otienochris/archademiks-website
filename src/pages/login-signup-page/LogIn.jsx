@@ -17,6 +17,14 @@ const useStyles = makeStyles({
     width: '300px',
     alignSelf: 'center',
     margin: '30px',
+    border: '2px solid #ff8c00',
+  },
+  button: {
+    width: '300px',
+    alignSelf: 'center',
+    margin: '30px',
+    backgroundColor: 'black',
+    color: 'whitesmoke',
   },
   form: {
     display: 'flex',
@@ -90,6 +98,7 @@ export default function LogIn() {
       method='post'
       className={classes.form}
       onSubmit={handleSubmit(onSubmit)}
+      style={{ border: '4px solid black', color: 'white' }}
     >
       <TextField
         className={classes.textField}
@@ -114,7 +123,7 @@ export default function LogIn() {
         error={errors.password ? true : false}
         helperText={errors.password ? errors.password.message : ''}
       />
-      <CustomButton type='submit' text='Log In' className={classes.textField} />
+      <CustomButton type='submit' text='Log In' className={classes.button} />
     </form>
   );
 }
