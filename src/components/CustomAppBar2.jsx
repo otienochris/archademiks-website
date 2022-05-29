@@ -18,8 +18,6 @@ import { useDispatch } from 'react-redux';
 import { loginAction } from '../state/reducers/loginReducer';
 import { resetLoggedInUser } from '../state/reducers/userReducer';
 
-const pages = ['About', 'Courses', 'Partners'];
-
 function CustomAppBar2() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -74,22 +72,49 @@ function CustomAppBar2() {
   };
 
   const settings = [
-    { title: 'Profile', action: handleProfile },
-    { title: 'Dashboard', action: handleDashboard },
-    { title: 'Reports', action: handleReports },
-    { title: 'Logout', action: handleLogout },
+    { title: 'Profile', action: handleProfile, disabled: true },
+    { title: 'Dashboard', action: handleDashboard, disabled: false },
+    { title: 'Reports', action: handleReports, disabled: true },
+    { title: 'Logout', action: handleLogout, disabled: false },
+  ];
+
+  const handleAboutPage = () => {
+    navigate('/about', { replace: true });
+    setAnchorElNav(null);
+  };
+
+  const handleCoursesPage = () => {
+    navigate('/courses', { replace: true });
+    setAnchorElNav(null);
+  };
+
+  const handlePartnersPage = () => {
+    navigate('/partners', { replace: true });
+    setAnchorElNav(null);
+  };
+
+  const pages = [
+    {
+      title: 'About',
+      action: handleAboutPage,
+      disable: false,
+    },
+    {
+      title: 'Courses',
+      action: handleCoursesPage,
+      disable: false,
+    },
+    {
+      title: 'Partners',
+      action: handlePartnersPage,
+      disable: false,
+    },
   ];
 
   return (
     <AppBar position='fixed' style={{ backgroundColor: 'black' }}>
       <Container maxWidth='xl'>
-        <Toolbar
-          disableGutters
-          //   style={{
-          //     backgroundImage:
-          //       'linear-gradient(to right, #434343 0%, black 100%);',
-          //   }}
-        >
+        <Toolbar disableGutters>
           <MenuBookIcon
             sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
             onClick={() => navigate('/', { replace: true })}
@@ -141,9 +166,9 @@ function CustomAppBar2() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={page.action}>
+                  <Typography textAlign='center'>{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -171,13 +196,13 @@ function CustomAppBar2() {
             Akademi
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={index}
+                onClick={page.action}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
@@ -210,7 +235,11 @@ function CustomAppBar2() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting, index) => (
-                <MenuItem key={index} onClick={setting.action}>
+                <MenuItem
+                  key={index}
+                  onClick={setting.action}
+                  disabled={setting.disabled}
+                >
                   <Typography textAlign='center'>{setting.title}</Typography>
                 </MenuItem>
               ))}

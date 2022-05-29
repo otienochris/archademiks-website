@@ -110,7 +110,7 @@ export default function CreateCourse({ setCreateNewCourse }) {
           </Typography>
           <Stepper activeStep={step} className={classes.stepperSection}>
             {stepsDetails.map((stepItem, index) => (
-              <Step key={index}>
+              <Step key={index} style={{ color: '#ff8c00' }}>
                 <StepLabel>{stepItem.title}</StepLabel>
               </Step>
             ))}

@@ -137,6 +137,7 @@ export default function StageOneOfCourseCreation({
         placeholder='Provide a brief description of the goals and contents of the course'
         autoComplete='on'
         multiline
+        minRows={5}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}
