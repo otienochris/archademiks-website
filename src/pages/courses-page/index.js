@@ -27,6 +27,12 @@ const useStyles = makeStyles({
   searchBarSection: {
     margin: '20px auto',
   },
+  courseListSection: {
+    backgroundColor: 'lightgrey',
+  },
+  notchedOutline: {
+    borderColor: '#ff8c00',
+  },
 });
 
 export default function Index() {
@@ -57,6 +63,9 @@ export default function Index() {
   return (
     <Container>
       <Grid container justifyContent='center' className={classes.mainContainer}>
+        <Grid item xs={12} md={false}>
+          <div style={{ height: '40px' }}></div>
+        </Grid>
         <Grid
           container
           justifyContent={'center'}
@@ -68,8 +77,16 @@ export default function Index() {
             md={3}
             style={{ width: '100%', margin: '20px auto' }}
           >
-            <Typography variant='h4' style={{ flexGrow: 1 }}>
-              Courses
+            <Typography
+              variant='h4'
+              style={{ flexGrow: 1 }}
+              sx={{
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                fontSize: 'regular',
+              }}
+            >
+              All Courses:
             </Typography>
           </Grid>
           <Grid item xs={12} md={9} className={classes.seachbar}>
@@ -86,14 +103,19 @@ export default function Index() {
                     <SearchIcon />
                   </InputAdornment>
                 ),
+                classes: {
+                  notchedOutline: classes.notchedOutline,
+                },
               }}
             />
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <hr style={{ width: '100%' }} />
-        </Grid>
-        <Grid container justifyContent={'center'} style={{ width: '100%' }}>
+        <Grid
+          container
+          justifyContent={'center'}
+          style={{ width: '100%' }}
+          className={classes.courseListSection}
+        >
           {listOfCourses.map((course, index) => (
             <Grid
               key={index}
