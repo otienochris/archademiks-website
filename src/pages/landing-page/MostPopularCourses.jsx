@@ -6,8 +6,8 @@ import { list } from '../../data/courses';
 
 const useStyles = makeStyles({
   mainContainer: {
-    // backgroundColor: '#E0E8EC',
-    backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
+    backgroundColor: 'lightgrey',
+    // backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
     marginTop: '30px auto',
     width: '100%',
     minHeight: '50vh',
@@ -91,7 +91,7 @@ export default function MostPopularCourses() {
         {categories.map((category, index) => (
           <Grid key={index} item className={classes.category}>
             <Button
-              style={{ color: 'white', borderColor: '#ff8c00' }}
+              style={{ color: 'black', borderColor: '#ff8c00' }}
               onClick={() => filterByCategory(category)}
               variant='outlined'
             >

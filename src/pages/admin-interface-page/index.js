@@ -1,4 +1,5 @@
 import { Container, Grid, Tab, Tabs } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -9,7 +10,14 @@ import AdminDashboard from './AdminDashboard';
 import CoursesTable from './CoursesTable';
 import UsersTable from './UsersTable';
 
+const useStyles = makeStyles({
+  tabs: {
+    margin: '20px auto',
+  },
+});
+
 export default function Index() {
+  const classes = useStyles();
   const [value, setValue] = useState(0);
   const state = useSelector((state) => state);
   const [users] = useState(state.allUsers.value.map((item) => ({ ...item })));
@@ -26,7 +34,13 @@ export default function Index() {
     <Container>
       <Grid container>
         <Grid item xs={12}>
-          <Tabs value={value} onChange={handleChange} centered>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            centered
+            className={classes.tabs}
+            variant='fullWidth'
+          >
             <Tab label={'Overview'} />
             <Tab label={'Users'} />
             <Tab label={'Courses'} />

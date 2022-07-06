@@ -18,7 +18,8 @@ function QuickStart({ title, data, borderColor }) {
       width: '300px',
       padding: '20px',
       margin: '5px auto',
-      border: borderColor == undefined ? '2px solid lightgrey' : borderColor,
+      // border: borderColor == undefined ? '2px solid lightgrey' : borderColor,
+      backgroundColor: 'black',
     },
     select: {
       minWidth: '100%',
@@ -105,12 +106,20 @@ function QuickStart({ title, data, borderColor }) {
     <Paper className={classes.paper} variant='outlined'>
       <Grid container>
         <Grid item xs={6}>
-          <Typography variant='h6'>{title}</Typography>
+          <Typography variant='h6' style={{ color: '#FFF8F0' }}>
+            {title}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
-          <FormControl fullWidth>
-            <InputLabel>Period</InputLabel>
-            <Select value={period} onChange={handlePeriodSelection}>
+          <FormControl fullWidth style={{ color: '#FFF8F0' }}>
+            <InputLabel style={{ color: '#FFF8F0' }}>Period</InputLabel>
+            <Select
+              value={period}
+              onChange={handlePeriodSelection}
+              style={{
+                backgroundColor: 'white',
+              }}
+            >
               <MenuItem value={0}>
                 <em>All</em>
               </MenuItem>
@@ -122,10 +131,12 @@ function QuickStart({ title, data, borderColor }) {
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h3'>{count}</Typography>
+          <Typography variant='h3' style={{ color: '#F18805' }}>
+            {count}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='body1'>
+          <Typography variant='body1' style={{ color: '#FFF8F0' }}>
             {data.length === 0 ? 100 : Math.round((count / data.length) * 100)}{' '}
             <span>%</span>
           </Typography>

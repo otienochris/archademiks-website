@@ -2,40 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
-import {
-  AccordionDetails,
-  Grid,
-  InputAdornment,
-  makeStyles,
-} from '@material-ui/core';
+import { AccordionDetails, Button, Grid, makeStyles } from '@material-ui/core';
 import Footer from '../../components/Footer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import PhoneIcon from '@mui/icons-material/Phone';
-import CheckIcon from '@mui/icons-material/Check';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import {
   Accordion,
   AccordionSummary,
   Container,
-  TextField,
   Typography,
-  Button,
-  ButtonGroup,
 } from '@mui/material';
-import { useFetch } from '../../custom-hooks/useFetch';
-
-const phoneRegExp = /^([0-9]{10})|(\+[0-9]{3}[0-9]{9})$/;
-
-const schema = yup.object({
-  phone: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid. Eg. 07 **** ****')
-    .required(),
-});
+import PaypalForm from './PaypalForm';
+import MpesaForm from './MpesaForm';
+import { useSelector } from 'react-redux';
 
 const initialCourse = {
   id: 0,
@@ -52,6 +31,37 @@ const initialCourse = {
   subTopics: [{}],
   content: [{}],
   links: [{}],
+};
+
+const addressObject = {
+  city: '',
+  country: '',
+  countryCode: '',
+  postalCode: '',
+  street: '',
+};
+
+const productObject = {
+  discount: 0,
+  name: '',
+  price: 0,
+  quantity: 0,
+  shippingFee: 0,
+};
+
+// sb-l1aub17855745@personal.example.com
+
+const initialOrderDetails = {
+  buyer: {
+    addresses: {
+      SHIPPING_ADDRESS: addressObject,
+    },
+    email: '',
+    firstName: '',
+    lastName: '',
+  },
+  orderDescription: '',
+  products: [productObject],
 };
 
 const useStyles = makeStyles({
@@ -81,56 +91,32 @@ const useStyles = makeStyles({
   },
 });
 
-let headers = {
-  method: 'GET',
-  mode: 'no-cors',
-  headers: {
-    Authorization:
-      'Bearer ' +
-      'cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==',
-    // 'Access-Control-Allow-Origin': '**',
-  },
-};
-const url =
-  'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-
 export default function Index() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(initialCourse);
-  const [accessKey, setAccessKey] = useState();
-  const { data, fetchErrors, isLoading } = useFetch(url, headers);
   const classes = useStyles();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(schema),
-    criteriaMode: 'all',
-  });
-
-  const onSubmit = (data) => {
-    // let headers = new Headers();
-    // headers.append(
-    //   'Authorization',
-    //   'Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ=='
-    // );
-
-    // fetch(
-    //   'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-    //   { headers }
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.log(error));
-    console.log(data);
-  };
+  const user = useSelector((state) => state.user.value);
+  const [paymentApproaved, setPaymentApproved] = useState(false);
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
     setCourse(filteredCourses[0]);
-    // setAccessKey(use);
+
+    // set buyer
+    initialOrderDetails.buyer.firstName = user.firstName;
+    initialOrderDetails.buyer.lastName = user.lastName;
+    initialOrderDetails.buyer.email = user.email;
+    // set address
+    initialOrderDetails.buyer.addresses.SHIPPING_ADDRESS = user.addresses[0];
+
+    //set description
+    initialOrderDetails.orderDescription = 'Course Purchase: ' + course.title;
+    // set products
+    productObject.name = course.title;
+    productObject.price = course.price;
+    productObject.discount = 0;
+    productObject.quantity = 1;
+    initialOrderDetails.products = [productObject];
   }, [course, courseId]);
 
   return (
@@ -151,88 +137,60 @@ export default function Index() {
         <Grid item xs={12} md={6} lg={4}>
           <CourseCard course={course} />
         </Grid>
-        <Grid item xs={12} md={6} lg={8} className={classes.options}>
-          <Typography variant='h5' className={classes.paymentOptionTitle}>
-            Payment Options
-          </Typography>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              style={{
-                fontWeight: 'bolder',
-                color: '#393424',
-                backgroundImage:
-                  'linear-gradient(to right, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
-              }}
-            >
-              1. Lipa Na Mpesa
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container justifyContent='center'>
-                <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                  <form onSubmit={handleSubmit(onSubmit)} method='post'>
-                    <TextField
-                      variant='outlined'
-                      label='Phone Number'
-                      placeholder='Enter your phone number'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <PhoneIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      type='tel'
-                      {...register('phone')}
-                      error={errors.phone ? true : false}
-                      helperText={errors.phone ? errors.phone.message : ''}
+
+        {paymentApproaved ? (
+          <Button>Confirm Payment</Button>
+        ) : (
+          <Grid item xs={12} md={6} lg={8} className={classes.options}>
+            <Typography variant='h5' className={classes.paymentOptionTitle}>
+              Payment Options
+            </Typography>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#393424',
+                  backgroundImage:
+                    'linear-gradient(to right, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
+                }}
+              >
+                1. Lipa Na Mpesa
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container justifyContent='center'>
+                  <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                    <MpesaForm
+                      course={course}
+                      orderDetails={initialOrderDetails}
                     />
-                    <ButtonGroup fullWidth style={{ margin: '5px auto' }}>
-                      <Button
-                        style={{
-                          backgroundColor: '#62AB37',
-                        }}
-                        variant='contained'
-                        startIcon={<DoubleArrowIcon />}
-                        type='submit'
-                      >
-                        Pay Ksh. {course.price}
-                      </Button>
-                      <Button
-                        variant='outlined'
-                        color='info'
-                        startIcon={<CheckIcon />}
-                      >
-                        confirm payment
-                      </Button>
-                    </ButtonGroup>
-                  </form>
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <img
+                      src='/images/tillForPayment.png'
+                      alt='till number'
+                      className={classes.img}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} lg={6}>
-                  <img
-                    src='/images/tillForPayment.png'
-                    alt='till number'
-                    className={classes.img}
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                2. Paypal
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                  <PaypalForm
+                    setPaymentApproved={setPaymentApproved}
+                    course={course}
+                    orderDetails={initialOrderDetails}
                   />
                 </Grid>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion disabled>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              2. Card payment
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant='h4'>Manual Process</Typography>
-              <Typography>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Eligendi, quaerat maiores exercitationem quae odio nemo, rem
-                repellat incidunt iusto beatae saepe eos provident nobis ullam
-                blanditiis voluptatum minus dolore cumque.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </Grid>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+        )}
       </Grid>
       <Footer />
     </Container>
