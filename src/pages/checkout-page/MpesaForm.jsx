@@ -19,7 +19,7 @@ const schema = yup.object({
     .required(),
 });
 
-function MpesaForm({ course }) {
+function MpesaForm({ orderDetails, course }) {
   const user = useSelector((state) => state.user.value);
 
   const {

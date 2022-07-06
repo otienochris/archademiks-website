@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
-import { AccordionDetails, Grid, makeStyles } from '@material-ui/core';
+import { AccordionDetails, Button, Grid, makeStyles } from '@material-ui/core';
 import Footer from '../../components/Footer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import PaypalForm from './PaypalForm';
 import MpesaForm from './MpesaForm';
+import { useSelector } from 'react-redux';
 
 const initialCourse = {
   id: 0,
@@ -30,6 +31,37 @@ const initialCourse = {
   subTopics: [{}],
   content: [{}],
   links: [{}],
+};
+
+const addressObject = {
+  city: '',
+  country: '',
+  countryCode: '',
+  postalCode: '',
+  street: '',
+};
+
+const productObject = {
+  discount: 0,
+  name: '',
+  price: 0,
+  quantity: 0,
+  shippingFee: 0,
+};
+
+// sb-l1aub17855745@personal.example.com
+
+const initialOrderDetails = {
+  buyer: {
+    addresses: {
+      SHIPPING_ADDRESS: addressObject,
+    },
+    email: '',
+    firstName: '',
+    lastName: '',
+  },
+  orderDescription: '',
+  products: [productObject],
 };
 
 const useStyles = makeStyles({
@@ -63,11 +95,28 @@ export default function Index() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(initialCourse);
   const classes = useStyles();
+  const user = useSelector((state) => state.user.value);
+  const [paymentApproaved, setPaymentApproved] = useState(false);
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
     setCourse(filteredCourses[0]);
-    // setAccessKey(use);
+
+    // set buyer
+    initialOrderDetails.buyer.firstName = user.firstName;
+    initialOrderDetails.buyer.lastName = user.lastName;
+    initialOrderDetails.buyer.email = user.email;
+    // set address
+    initialOrderDetails.buyer.addresses.SHIPPING_ADDRESS = user.addresses[0];
+
+    //set description
+    initialOrderDetails.orderDescription = 'Course Purchase: ' + course.title;
+    // set products
+    productObject.name = course.title;
+    productObject.price = course.price;
+    productObject.discount = 0;
+    productObject.quantity = 1;
+    initialOrderDetails.products = [productObject];
   }, [course, courseId]);
 
   return (
@@ -88,48 +137,60 @@ export default function Index() {
         <Grid item xs={12} md={6} lg={4}>
           <CourseCard course={course} />
         </Grid>
-        <Grid item xs={12} md={6} lg={8} className={classes.options}>
-          <Typography variant='h5' className={classes.paymentOptionTitle}>
-            Payment Options
-          </Typography>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              style={{
-                fontWeight: 'bolder',
-                color: '#393424',
-                backgroundImage:
-                  'linear-gradient(to right, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
-              }}
-            >
-              1. Lipa Na Mpesa
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container justifyContent='center'>
-                <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                  <MpesaForm course={course} />
+
+        {paymentApproaved ? (
+          <Button>Confirm Payment</Button>
+        ) : (
+          <Grid item xs={12} md={6} lg={8} className={classes.options}>
+            <Typography variant='h5' className={classes.paymentOptionTitle}>
+              Payment Options
+            </Typography>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#393424',
+                  backgroundImage:
+                    'linear-gradient(to right, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
+                }}
+              >
+                1. Lipa Na Mpesa
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container justifyContent='center'>
+                  <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                    <MpesaForm
+                      course={course}
+                      orderDetails={initialOrderDetails}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <img
+                      src='/images/tillForPayment.png'
+                      alt='till number'
+                      className={classes.img}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} lg={6}>
-                  <img
-                    src='/images/tillForPayment.png'
-                    alt='till number'
-                    className={classes.img}
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                2. Paypal
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                  <PaypalForm
+                    setPaymentApproved={setPaymentApproved}
+                    course={course}
+                    orderDetails={initialOrderDetails}
                   />
                 </Grid>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              2. Paypal
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                <PaypalForm course={course} />
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        </Grid>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+        )}
       </Grid>
       <Footer />
     </Container>

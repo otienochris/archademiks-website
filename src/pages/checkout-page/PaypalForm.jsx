@@ -13,7 +13,7 @@ const schema = yup.object({
   email: yup.string().email().required(),
 });
 
-function PaypalForm({ course }) {
+function PaypalForm({ setPaymentApproved, orderDetails, course }) {
   const user = useSelector((state) => state.user.value);
 
   const {
@@ -26,8 +26,30 @@ function PaypalForm({ course }) {
     criteriaMode: 'all',
   });
 
-  const handlePaypal = (data) => {
-    console.log(data);
+  const handlePaypal = async (data) => {
+    orderDetails.buyer.email = data.email;
+    console.log(orderDetails);
+
+    const response = await fetch(
+      'http://localhost:8080/paypal/payment/authorize',
+      {
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetails),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data != undefined) {
+          setPaymentApproved(true);
+        }
+        window.open(data.link, '_blank', 'noopener,noreferrer');
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -56,7 +78,7 @@ function PaypalForm({ course }) {
         startIcon={<DoubleArrowIcon />}
         type='submit'
       >
-        Pay Ksh. {course.price}
+        Click here to pay Ksh. {course.price}
       </Button>
     </form>
   );
