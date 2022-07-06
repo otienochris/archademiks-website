@@ -231,7 +231,9 @@ export default function Index({ courseId2 }) {
               <FiveStarRating rating={course.rating} />
             </div>
           </section>
-          {user.type === 'student' ? (
+          {user.type === 'student' ||
+          user.type === undefined ||
+          user.type === '' ? (
             <CustomButton
               onClick={course.price > 0 ? handleBuyButton : handleGetForFree}
               endIcon={

@@ -2,40 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
-import {
-  AccordionDetails,
-  Grid,
-  InputAdornment,
-  makeStyles,
-} from '@material-ui/core';
+import { AccordionDetails, Grid, makeStyles } from '@material-ui/core';
 import Footer from '../../components/Footer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import PhoneIcon from '@mui/icons-material/Phone';
-import CheckIcon from '@mui/icons-material/Check';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import {
   Accordion,
   AccordionSummary,
   Container,
-  TextField,
   Typography,
-  Button,
-  ButtonGroup,
 } from '@mui/material';
-import { useFetch } from '../../custom-hooks/useFetch';
-
-const phoneRegExp = /^([0-9]{10})|(\+[0-9]{3}[0-9]{9})$/;
-
-const schema = yup.object({
-  phone: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid. Eg. 07 **** ****')
-    .required(),
-});
+import PaypalForm from './PaypalForm';
+import MpesaForm from './MpesaForm';
 
 const initialCourse = {
   id: 0,
@@ -81,51 +59,10 @@ const useStyles = makeStyles({
   },
 });
 
-let headers = {
-  method: 'GET',
-  mode: 'no-cors',
-  headers: {
-    Authorization:
-      'Bearer ' +
-      'cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==',
-    // 'Access-Control-Allow-Origin': '**',
-  },
-};
-const url =
-  'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-
 export default function Index() {
   const { courseId } = useParams();
   const [course, setCourse] = useState(initialCourse);
-  const [accessKey, setAccessKey] = useState();
-  const { data, fetchErrors, isLoading } = useFetch(url, headers);
   const classes = useStyles();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(schema),
-    criteriaMode: 'all',
-  });
-
-  const onSubmit = (data) => {
-    // let headers = new Headers();
-    // headers.append(
-    //   'Authorization',
-    //   'Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ=='
-    // );
-
-    // fetch(
-    //   'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-    //   { headers }
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.log(error));
-    console.log(data);
-  };
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
@@ -170,43 +107,7 @@ export default function Index() {
             <AccordionDetails>
               <Grid container justifyContent='center'>
                 <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                  <form onSubmit={handleSubmit(onSubmit)} method='post'>
-                    <TextField
-                      variant='outlined'
-                      label='Phone Number'
-                      placeholder='Enter your phone number'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <PhoneIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      type='tel'
-                      {...register('phone')}
-                      error={errors.phone ? true : false}
-                      helperText={errors.phone ? errors.phone.message : ''}
-                    />
-                    <ButtonGroup fullWidth style={{ margin: '5px auto' }}>
-                      <Button
-                        style={{
-                          backgroundColor: '#62AB37',
-                        }}
-                        variant='contained'
-                        startIcon={<DoubleArrowIcon />}
-                        type='submit'
-                      >
-                        Pay Ksh. {course.price}
-                      </Button>
-                      <Button
-                        variant='outlined'
-                        color='info'
-                        startIcon={<CheckIcon />}
-                      >
-                        confirm payment
-                      </Button>
-                    </ButtonGroup>
-                  </form>
+                  <MpesaForm course={course} />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <img
@@ -218,18 +119,14 @@ export default function Index() {
               </Grid>
             </AccordionDetails>
           </Accordion>
-          <Accordion disabled>
+          <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              2. Card payment
+              2. Paypal
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='h4'>Manual Process</Typography>
-              <Typography>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Eligendi, quaerat maiores exercitationem quae odio nemo, rem
-                repellat incidunt iusto beatae saepe eos provident nobis ullam
-                blanditiis voluptatum minus dolore cumque.
-              </Typography>
+              <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                <PaypalForm course={course} />
+              </Grid>
             </AccordionDetails>
           </Accordion>
         </Grid>
