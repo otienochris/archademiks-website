@@ -12,6 +12,17 @@ export const users = [
     modificationDate: '2022-05-01',
     password: 'pass',
     country: 'Kenya',
+    addresses: [
+      {
+        id: 1,
+        country: 'Kenya',
+        countryCode: 254,
+        postalCode: 536,
+        city: 'Nairobi',
+        phone: '254742887480',
+        type: 'shipping_address',
+      },
+    ],
   },
   {
     id: 2,
@@ -24,6 +35,17 @@ export const users = [
     modificationDate: '2022-05-01',
     password: 'pass',
     country: 'Kenya',
+    addresses: [
+      {
+        id: 1,
+        country: 'Kenya',
+        countryCode: 254,
+        postalCode: 536,
+        city: 'Nairobi',
+        phone: '254742887480',
+        type: 'shipping_address',
+      },
+    ],
   },
   {
     id: 3,
@@ -36,6 +58,17 @@ export const users = [
     modificationDate: '2022-05-01',
     password: 'pass',
     country: 'Kenya',
+    addresses: [
+      {
+        id: 1,
+        country: 'Kenya',
+        countryCode: 254,
+        postalCode: 536,
+        city: 'Nairobi',
+        phone: '254742887480',
+        type: 'shipping_address',
+      },
+    ],
   },
   {
     id: 4,
@@ -48,6 +81,17 @@ export const users = [
     modificationDate: '2022-05-01',
     password: 'pass',
     country: 'Kenya',
+    addresses: [
+      {
+        id: 1,
+        country: 'Kenya',
+        countryCode: 254,
+        postalCode: 536,
+        city: 'Nairobi',
+        phone: '254742887480',
+        type: 'shipping_address',
+      },
+    ],
   },
 ];
 

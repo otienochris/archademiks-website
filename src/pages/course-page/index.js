@@ -145,9 +145,10 @@ export default function Index({ courseId2 }) {
   const [listOfReviews, setListOfReviews] = useState(initialReviews);
   const reviews = useSelector((state) => state.reviews.value);
   const allCourses = useSelector((state) => state.courses.value);
-  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const user = useSelector((state) => state.user.value);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -167,12 +168,20 @@ export default function Index({ courseId2 }) {
   };
 
   const handleGetForFree = () => {
-    dispatch(enrollCourse({ courseId: parseInt(courseId) }));
-    navigate('/students', { replace: true });
+    if (!isLoggedIn) {
+      navigate('/login-signup', { replace: true });
+    } else {
+      dispatch(enrollCourse({ courseId: parseInt(courseId) }));
+      navigate('/students', { replace: true });
+    }
   };
 
   const handleBuyButton = () => {
-    navigate('/courses/checkout/' + courseId, { replace: true });
+    if (!isLoggedIn) {
+      navigate('/login-signup', { replace: true });
+    } else {
+      navigate('/courses/checkout/' + courseId, { replace: true });
+    }
   };
 
   return (

@@ -7,12 +7,15 @@ import * as yup from 'yup';
 
 import { TextField, Button } from '@mui/material';
 import { Email } from '@material-ui/icons';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   email: yup.string().email().required(),
 });
 
 function PaypalForm({ course }) {
+  const user = useSelector((state) => state.user.value);
+
   const {
     register,
     handleSubmit,

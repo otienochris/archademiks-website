@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { TextField, Button, ButtonGroup } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const phoneRegExp = /^([0-9]{10})|(\+[0-9]{3}[0-9]{9})$/;
 
@@ -19,6 +20,8 @@ const schema = yup.object({
 });
 
 function MpesaForm({ course }) {
+  const user = useSelector((state) => state.user.value);
+
   const {
     register,
     handleSubmit,
