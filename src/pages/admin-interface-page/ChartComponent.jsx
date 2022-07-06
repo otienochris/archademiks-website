@@ -48,8 +48,7 @@ function ChartComponent({
       style={{
         padding: '20px',
         margin: '20px auto',
-        backgroundImage:
-          'linear-gradient(to right, #E86252, #E87EA1, #EBB3A9, #EEEBD0, #EEEBD0, #EBB3A9, #E87EA1, #E86252)',
+        backgroundColor: 'lightgrey',
       }}
     >
       <Grid container>
@@ -78,7 +77,7 @@ function ChartComponent({
           width={500}
           height={400}
           data={dataToDisplay}
-          style={{ margin: '20px auto' }}
+          style={{ margin: '20px auto', color: '#FFF8F0' }}
         >
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey={xaxisKey} />
@@ -88,13 +87,13 @@ function ChartComponent({
           <Line
             type='monotone'
             dataKey={lineOneKey}
-            stroke={strokeAColor == undefined ? '#8884d8' : strokeAColor}
+            stroke={strokeAColor == undefined ? '#1E1E24' : strokeAColor}
             activeDot={{ r: 8 }}
           />
           <Line
             type='monotone'
             dataKey={lineTwoKey}
-            stroke={strokeBColor == undefined ? '#82ca9d' : strokeBColor}
+            stroke={strokeBColor == undefined ? '#EA1744' : strokeBColor}
           />
         </LineChart>
       </Grid>

@@ -37,6 +37,7 @@ const useStyles = makeStyles({
     padding: '10px',
     position: 'relative',
     width: '100%',
+    padding: '20px auto',
   },
   courseSnapshotDetailsGrid: {
     width: '100%',
@@ -175,7 +176,7 @@ export default function Index({ courseId2 }) {
   };
 
   return (
-    <Container>
+    <Container style={{ padding: '20px auto' }}>
       <Grid
         container
         justifyContent={'center'}
