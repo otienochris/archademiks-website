@@ -12,6 +12,8 @@ import StudentInterfacePage from './pages/student-interface-page';
 import InstructorInterfacePage from './pages/instructor-interface-page';
 import AdminInterfacePage from './pages/admin-interface-page';
 import ProtectedRoute from './components/ProtectedRoute';
+import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
+import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 
 export default function App() {
   return (
@@ -22,6 +24,11 @@ export default function App() {
           <Route
             path='/courses/checkout/:courseId'
             element={<CheckOutPage />}
+          />
+          <Route path='/courses/checkout/review' element={<ConfirmOrder />} />
+          <Route
+            path='/courses/checkout/success'
+            element={<SuccessfulPayment />}
           />
           <Route
             path='/students'

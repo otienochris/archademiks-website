@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputAdornment } from '@material-ui/core';
+import { CircularProgress, InputAdornment } from '@material-ui/core';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,13 +8,15 @@ import * as yup from 'yup';
 import { TextField, Button } from '@mui/material';
 import { Email } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const schema = yup.object({
   email: yup.string().email().required(),
 });
 
-function PaypalForm({ setPaymentApproved, orderDetails, course }) {
+function PaypalForm({ orderDetails, course }) {
   const user = useSelector((state) => state.user.value);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -27,8 +29,8 @@ function PaypalForm({ setPaymentApproved, orderDetails, course }) {
   });
 
   const handlePaypal = async (data) => {
+    setIsLoading(true);
     orderDetails.buyer.email = data.email;
-    console.log(orderDetails);
 
     const response = await fetch(
       'http://localhost:8080/paypal/payment/authorize',
@@ -44,9 +46,7 @@ function PaypalForm({ setPaymentApproved, orderDetails, course }) {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data != undefined) {
-          setPaymentApproved(true);
-        }
+        setIsLoading(false);
         window.open(data.link, '_blank', 'noopener,noreferrer');
       })
       .catch((error) => console.log(error));
@@ -55,6 +55,9 @@ function PaypalForm({ setPaymentApproved, orderDetails, course }) {
   return (
     <form onSubmit={handleSubmit(handlePaypal)}>
       <TextField
+        style={{
+          width: '100%',
+        }}
         variant='outlined'
         label='Email'
         placeholder='Enter your paypal email'
@@ -73,12 +76,18 @@ function PaypalForm({ setPaymentApproved, orderDetails, course }) {
       <Button
         style={{
           backgroundColor: '#62AB37',
+          margin: '20px auto',
+          width: '100%',
         }}
         variant='contained'
         startIcon={<DoubleArrowIcon />}
         type='submit'
       >
-        Click here to pay Ksh. {course.price}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          `Click here to pay Ksh. ${course.price}`
+        )}
       </Button>
     </form>
   );
