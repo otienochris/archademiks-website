@@ -45,13 +45,44 @@ function ConfirmOrder() {
   const payerId = new URLSearchParams(search).get('PayerID');
   const paymentId = new URLSearchParams(search).get('paymentId');
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaying, setIsPaying] = useState(false);
   const [itemList, setItemList] = useState([itemObject]);
   const [totalAmount, setTotalAmount] = useState(0.0);
 
-  const url = 'http://localhost:8080/paypal/payment/review/' + paymentId;
+  const reviewPaymentUrl =
+    'http://localhost:8080/paypal/payment/review/' + paymentId;
+  const executePaymenturl =
+    'http://localhost:8080/paypal/payment/execute-payment/' +
+    paymentId +
+    '/' +
+    payerId;
+
+  const handlePayment = async () => {
+    setIsLoading(true);
+    setIsPaying(true);
+    const response = await fetch(executePaymenturl, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        setIsPaying(false);
+        console.log(data);
+        if (data.status === 'APPROVED') {
+          window.close();
+        }
+        return data;
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsPaying(false);
+        console.log(error);
+      });
+  };
 
   const fetchOrderDetails = async () => {
-    const response = await fetch(url, {
+    const response = await fetch(reviewPaymentUrl, {
       method: 'GET',
       mode: 'cors',
     })
@@ -85,7 +116,7 @@ function ConfirmOrder() {
         justifyItems: 'center',
       }}
     >
-      {isLoading ? (
+      {isLoading && !isPaying ? (
         <CircularProgress style={{ margin: 'auto' }} />
       ) : (
         <Grid container style={{ height: '50%', margin: 'auto' }}>
@@ -126,8 +157,17 @@ function ConfirmOrder() {
             <Typography variant='h3'>{totalAmount}</Typography>
           </Grid>
           <Grid item xs={6} md={2} style={{ margin: '20px auto' }}>
-            <Button variant='contained' color='secondary'>
-              | Complete Payment | Ksh ({totalAmount})
+            <Button
+              onClick={handlePayment}
+              variant='contained'
+              color='secondary'
+              disabled={isLoading}
+            >
+              {isLoading && isPaying ? (
+                <CircularProgress />
+              ) : (
+                `| Complete Payment | Ksh (${totalAmount})`
+              )}
             </Button>
           </Grid>
           <Grid

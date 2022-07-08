@@ -49,7 +49,10 @@ function PaypalForm({ orderDetails, course }) {
         setIsLoading(false);
         window.open(data.link, '_blank', 'noopener,noreferrer');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
   };
 
   return (
@@ -82,6 +85,7 @@ function PaypalForm({ orderDetails, course }) {
         variant='contained'
         startIcon={<DoubleArrowIcon />}
         type='submit'
+        disabled={isLoading}
       >
         {isLoading ? (
           <CircularProgress />
