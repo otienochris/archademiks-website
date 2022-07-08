@@ -15,7 +15,6 @@ const schema = yup.object({
 });
 
 function PaypalForm({ orderDetails, course }) {
-  const user = useSelector((state) => state.user.value);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -29,6 +28,7 @@ function PaypalForm({ orderDetails, course }) {
   });
 
   const handlePaypal = async (data) => {
+    localStorage.setItem('courseId', JSON.stringify(course.id));
     setIsLoading(true);
     orderDetails.buyer.email = data.email;
 

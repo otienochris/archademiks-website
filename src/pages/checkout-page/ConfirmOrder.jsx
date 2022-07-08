@@ -1,18 +1,23 @@
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Container,
   Grid,
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import { DownloadDoneRounded, Start } from '@mui/icons-material';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loginAction } from '../../state/reducers/loginReducer';
-import { setLoggedInUser } from '../../state/reducers/userReducer';
+import {
+  enrollCourse,
+  setLoggedInUser,
+} from '../../state/reducers/userReducer';
 
 const styles = makeStyles({
   header: {
@@ -46,12 +51,15 @@ function ConfirmOrder() {
   const classes = styles();
   const search = useLocation().search;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const payerId = new URLSearchParams(search).get('PayerID');
   const paymentId = new URLSearchParams(search).get('paymentId');
   const [isLoading, setIsLoading] = useState(true);
   const [isPaying, setIsPaying] = useState(false);
+  const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
   const [itemList, setItemList] = useState([itemObject]);
   const [totalAmount, setTotalAmount] = useState(0.0);
+  const courseId = localStorage.getItem('courseId');
 
   const reviewPaymentUrl =
     'http://localhost:8080/paypal/payment/review/' + paymentId;
@@ -72,9 +80,10 @@ function ConfirmOrder() {
       .then((data) => {
         setIsLoading(false);
         setIsPaying(false);
-        console.log(data);
         if (data.status === 'APPROVED') {
-          window.close();
+          setIsPaymentCompleted(true);
+          dispatch(enrollCourse({ courseId: parseInt(courseId) }));
+          console.log(itemList);
         }
         return data;
       })
@@ -97,11 +106,11 @@ function ConfirmOrder() {
           .flatMap((transaction) => transaction.itemList)
           .flatMap((items) => items.items);
         setItemList(items);
-        console.log(itemList);
         const amount = data.transactions.flatMap(
           (transaction) => transaction.amount.total
         );
         setTotalAmount(amount);
+        console.log(data);
         return data;
       })
       .catch((error) => console.log(error));
@@ -111,6 +120,7 @@ function ConfirmOrder() {
     fetchOrderDetails();
     const user = localStorage.getItem('user');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+
     dispatch(setLoggedInUser({ user: JSON.parse(user) }));
     dispatch(loginAction({ isLoggedIn: isLoggedIn, token: 'hfoshfsofh' }));
   }, [paymentId, payerId]);
@@ -129,7 +139,9 @@ function ConfirmOrder() {
       ) : (
         <Grid container style={{ height: '50%', margin: 'auto' }}>
           <Grid item xs={12}>
-            <Typography variant='h2'>INVOICE</Typography>
+            <Typography variant='h2'>
+              {isPaymentCompleted ? 'RECEIPT' : 'INVOICE'}
+            </Typography>
           </Grid>
 
           <Grid
@@ -165,18 +177,49 @@ function ConfirmOrder() {
             <Typography variant='h3'>{totalAmount}</Typography>
           </Grid>
           <Grid item xs={6} md={2} style={{ margin: '20px auto' }}>
-            <Button
-              onClick={handlePayment}
-              variant='contained'
-              color='secondary'
-              disabled={isLoading}
-            >
-              {isLoading && isPaying ? (
-                <CircularProgress />
-              ) : (
-                `| Complete Payment | Ksh (${totalAmount})`
-              )}
-            </Button>
+            {isPaymentCompleted ? (
+              <ButtonGroup
+                orientation='vertical'
+                fullWidth
+                style={{ height: '100%' }}
+              >
+                <Button
+                  style={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                  }}
+                  variant='contained'
+                  disabled={true}
+                >
+                  Payment Received
+                </Button>
+                <Button
+                  style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    height: '100%',
+                  }}
+                  variant='contained'
+                  onClick={() => navigate('/students')}
+                  startIcon={<Start />}
+                >
+                  Start Learning
+                </Button>
+              </ButtonGroup>
+            ) : (
+              <Button
+                onClick={handlePayment}
+                variant='contained'
+                color='secondary'
+                disabled={isLoading}
+              >
+                {isLoading && isPaying ? (
+                  <CircularProgress />
+                ) : (
+                  `| Complete Payment | Ksh (${totalAmount})`
+                )}
+              </Button>
+            )}
           </Grid>
           <Grid
             item
