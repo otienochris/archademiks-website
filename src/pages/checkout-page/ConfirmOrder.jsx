@@ -9,7 +9,10 @@ import {
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { loginAction } from '../../state/reducers/loginReducer';
+import { setLoggedInUser } from '../../state/reducers/userReducer';
 
 const styles = makeStyles({
   header: {
@@ -42,6 +45,7 @@ const itemObject = {
 function ConfirmOrder() {
   const classes = styles();
   const search = useLocation().search;
+  const dispatch = useDispatch();
   const payerId = new URLSearchParams(search).get('PayerID');
   const paymentId = new URLSearchParams(search).get('paymentId');
   const [isLoading, setIsLoading] = useState(true);
@@ -105,6 +109,10 @@ function ConfirmOrder() {
 
   useEffect(() => {
     fetchOrderDetails();
+    const user = localStorage.getItem('user');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    dispatch(setLoggedInUser({ user: JSON.parse(user) }));
+    dispatch(loginAction({ isLoggedIn: isLoggedIn, token: 'hfoshfsofh' }));
   }, [paymentId, payerId]);
 
   return (

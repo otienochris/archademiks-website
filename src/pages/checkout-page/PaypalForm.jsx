@@ -47,7 +47,7 @@ function PaypalForm({ orderDetails, course }) {
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
-        window.open(data.link, '_blank', 'noopener,noreferrer');
+        window.open(data.link, '_self', 'noopener,noreferrer');
       })
       .catch((error) => {
         setIsLoading(false);

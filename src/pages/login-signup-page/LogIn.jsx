@@ -70,6 +70,8 @@ export default function LogIn() {
       alert('Wrong password');
     } else {
       const userDetails = userLoggedIn[0];
+      localStorage.setItem('user', JSON.stringify(userDetails));
+      localStorage.setItem('isLoggedIn', JSON.stringify(true));
       switch (userDetails.type) {
         case 'instructor':
           dispatch(setLoggedInUser({ user: userDetails }));

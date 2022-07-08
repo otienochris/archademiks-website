@@ -96,6 +96,7 @@ export default function Index() {
   const [course, setCourse] = useState(initialCourse);
   const classes = useStyles();
   const user = useSelector((state) => state.user.value);
+  const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
@@ -116,6 +117,10 @@ export default function Index() {
     productObject.discount = 0;
     productObject.quantity = 1;
     initialOrderDetails.products = [productObject];
+
+    // set local storage
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
   }, [course, courseId]);
 
   return (

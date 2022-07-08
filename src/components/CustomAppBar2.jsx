@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -27,6 +27,14 @@ function CustomAppBar2() {
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('user');
+    const isLoggedInFromLocalStorage = localStorage.getItem('isLoggedIn');
+
+    console.log(userFromLocalStorage);
+    console.log(isLoggedInFromLocalStorage);
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
