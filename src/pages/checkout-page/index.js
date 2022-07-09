@@ -68,8 +68,9 @@ const useStyles = makeStyles({
   options: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    justifyItems: 'center',
+    marginTop: '20px',
+    // justifyContent: 'center',
+    // justifyItems: 'center',
   },
   paymentSection: {
     margin: '8px auto',
@@ -125,78 +126,81 @@ export default function Index() {
 
   return (
     <Container>
-      <Grid item xs={12}>
-        <Typography
-          variant='h4'
-          style={{
-            textAlign: 'center',
-            width: '100%',
-            backgroundColor: 'rgba(210,215,211,1)',
-          }}
-        >
-          Check Out
-        </Typography>
-      </Grid>
-      <Grid container justifyContent='center'>
-        <Grid item xs={12} md={6} lg={4}>
-          <CourseCard course={course} />
-        </Grid>
-
-        <Grid item xs={12} md={6} lg={8} className={classes.options}>
-          <Typography variant='h5' className={classes.paymentOptionTitle}>
-            Payment Options
+      <Grid container style={{ minHeight: '80vh' }}>
+        <Grid item xs={12}>
+          <Typography
+            variant='h4'
+            style={{
+              textAlign: 'center',
+              width: '100%',
+              backgroundColor: 'rgba(210,215,211,1)',
+              marginTop: '20px',
+            }}
+          >
+            Check Out
           </Typography>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              style={{
-                fontWeight: 'bolder',
-                color: '#393424',
-                backgroundImage:
-                  'linear-gradient(to right, #FEFCFB, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
-              }}
-            >
-              1. Lipa Na Mpesa
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container justifyContent='center'>
+        </Grid>
+        <Grid container justifyContent='center'>
+          <Grid item xs={12} md={6} lg={4}>
+            <CourseCard course={course} />
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={8} className={classes.options}>
+            <Typography variant='h5' className={classes.paymentOptionTitle}>
+              Payment Options
+            </Typography>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#393424',
+                  backgroundImage:
+                    'linear-gradient(to right, #FEFCFB, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
+                }}
+              >
+                1. Lipa Na Mpesa
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container justifyContent='center'>
+                  <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                    <MpesaForm
+                      course={course}
+                      orderDetails={initialOrderDetails}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <img
+                      src='/images/tillForPayment.png'
+                      alt='till number'
+                      className={classes.img}
+                    />
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#FEFCFB',
+                  backgroundImage:
+                    'linear-gradient(to right, #0A1128, #001F54, #034078, #2997D8, #FEFCFB)',
+                }}
+              >
+                2. Paypal
+              </AccordionSummary>
+              <AccordionDetails>
                 <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                  <MpesaForm
+                  <PaypalForm
                     course={course}
                     orderDetails={initialOrderDetails}
                   />
                 </Grid>
-                <Grid item xs={12} lg={6}>
-                  <img
-                    src='/images/tillForPayment.png'
-                    alt='till number'
-                    className={classes.img}
-                  />
-                </Grid>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              style={{
-                fontWeight: 'bolder',
-                color: '#FEFCFB',
-                backgroundImage:
-                  'linear-gradient(to right, #0A1128, #001F54, #034078, #2997D8, #FEFCFB)',
-              }}
-            >
-              2. Paypal
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                <PaypalForm
-                  course={course}
-                  orderDetails={initialOrderDetails}
-                />
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
         </Grid>
       </Grid>
       <Footer />

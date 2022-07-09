@@ -17,6 +17,23 @@ const styles = makeStyles({
     justifyItems: 'center',
     margin: '20px auto',
   },
+  image: {
+    width: '150px',
+    height: '150px',
+  },
+  paper: {
+    // backgroundColor: '#F7B32B',
+    backgroundColor: 'whitesmoke',
+    width: '90%',
+    padding: '30px',
+  },
+  wordings: {
+    fontFamily: 'monospace',
+    color: 'black',
+  },
+  titles: {
+    marginBottom: '20px',
+  },
 });
 
 export default function Index() {
@@ -28,18 +45,13 @@ export default function Index() {
     <div
       style={{
         minHeight: '94vh',
-        backgroundImage: `url(/backgroun2.jpg)`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
+        color: 'black',
       }}
     >
       <Container style={{ minHeight: '94vh' }}>
         <Grid
           container
           style={{
-            color: '#F7B32B',
             display: 'flex',
             justifyContent: 'center',
             justifyItems: 'center',
@@ -48,7 +60,7 @@ export default function Index() {
           <Grid
             item
             xs={12}
-            md={6}
+            // md={6}
             style={{
               display: 'flex',
               justifyContent: 'center',
@@ -56,26 +68,39 @@ export default function Index() {
             }}
           >
             <div style={{ margin: 'auto' }}>
-              <MenuBookIcon style={{ fontSize: '10rem' }} />
+              <MenuBookIcon
+                style={{
+                  fontSize: '10rem',
+                  color:
+                    'linear-gradient(90deg, #F72C25 0%, #F7B32B 35%, #00BD9D 100%)',
+                }}
+              />
             </div>
           </Grid>
-          <Grid item xs={12} md={6} className={classes.paperGrid}>
+          <Grid
+            item
+            xs={12}
+            // md={6}
+            className={classes.paperGrid}
+          >
             <Paper
-              variant='outlined'
+              variant='elevation'
               square
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, .5)',
-                color: '#FFFFFF',
-                width: '90%',
-              }}
+              className={classes.paper}
+              elevation={0}
+              style={{ backgroundColor: 'whitesmoke' }}
             >
-              <Typography variant='h3'>About</Typography>
+              <Typography
+                variant='h3'
+                align='center'
+                className={classes.titles}
+              >
+                About
+              </Typography>
               <Typography
                 variant='body1'
-                style={{
-                  fontFamily: 'monospace',
-                  fontWeight: 'bold',
-                }}
+                align='center'
+                className={classes.wordings}
               >
                 The primary purpose of an about us page is to inform the reader
                 about the company and its operations. This is a straightforward
@@ -92,22 +117,15 @@ export default function Index() {
           </Grid>
           <Grid item xs={12} md={6} className={classes.paperGrid}>
             <Paper
-              variant='outlined'
+              variant='elevation'
               square
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                color: '#FFFFFF',
-                width: '90%',
-              }}
+              className={classes.paper}
+              elevation={10}
             >
-              <Typography variant='h3'>History</Typography>
-              <Typography
-                variant='body1'
-                style={{
-                  fontFamily: 'monospace',
-                  fontWeight: 'bold',
-                }}
-              >
+              <Typography variant='h3' className={classes.titles}>
+                History
+              </Typography>
+              <Typography variant='body1' className={classes.wordings}>
                 The primary purpose of an about us page is to inform the reader
                 about the company and its operations. This is a straightforward
                 goal that nearly all businesses have to fulfill in some fashion
@@ -123,22 +141,15 @@ export default function Index() {
           </Grid>
           <Grid item xs={12} md={6} className={classes.paperGrid}>
             <Paper
-              variant='outlined'
+              variant='elevation'
               square
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                color: '#FFFFFF',
-                width: '90%',
-              }}
+              className={classes.paper}
+              elevation={10}
             >
-              <Typography variant='h3'>Mission and Vission</Typography>
-              <Typography
-                variant='body1'
-                style={{
-                  fontFamily: 'monospace',
-                  fontWeight: 'bold',
-                }}
-              >
+              <Typography variant='h3' className={classes.titles}>
+                Mission and Vission
+              </Typography>
+              <Typography variant='body1' className={classes.wordings}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
                 ullam, voluptate fugiat dignissimos debitis neque eveniet
                 quidem? Quasi non culpa, sequi temporibus iure necessitatibus
@@ -151,22 +162,15 @@ export default function Index() {
           </Grid>
           <Grid item xs={12} md={6} className={classes.paperGrid}>
             <Paper
-              variant='outlined'
+              variant='elevation'
               square
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, .5)',
-                color: '#FFFFFF',
-                width: '90%',
-              }}
+              className={classes.paper}
+              elevation={10}
             >
-              <Typography variant='h3'>Team</Typography>
-              <Typography
-                variant='body1'
-                style={{
-                  fontFamily: 'monospace',
-                  fontWeight: 'bold',
-                }}
-              >
+              <Typography variant='h3' className={classes.titles}>
+                Team
+              </Typography>
+              <Typography variant='body1' className={classes.wordings}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Praesentium aliquid quasi, commodi dolores magni reiciendis.
                 Laboriosam rerum officia maxime! Minima quo sapiente ipsa totam
@@ -185,17 +189,36 @@ export default function Index() {
           </Grid>
           <Grid item xs={12} md={6} className={classes.paperGrid}>
             <Paper
-              variant='outlined'
+              variant='elevation'
               square
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, .5)',
-                color: '#FFFFFF',
-                width: '90%',
-              }}
+              className={classes.paper}
+              elevation={10}
             >
               <Typography variant='h3'>Videos</Typography>
               <YoutubeEmbed embedId={'kth_8j7iMh0'} />
               <YoutubeEmbed embedId={'kth_8j7iMh0'} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} className={classes.paperGrid}>
+            <Paper
+              variant='elevation'
+              square
+              className={classes.paper}
+              elevation={0}
+              style={{ backgroundColor: 'whitesmoke' }}
+            >
+              <Typography
+                variant='h3'
+                align='center'
+                className={classes.titles}
+              >
+                Our Partners
+              </Typography>
+              <img
+                src='/eucossalogo.png'
+                alt='EUCOSSA'
+                className={classes.image}
+              />
             </Paper>
           </Grid>
         </Grid>

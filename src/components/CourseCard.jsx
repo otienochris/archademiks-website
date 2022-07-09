@@ -101,7 +101,7 @@ export default function CourseCard({ course }) {
                       color: 'whitesmoke',
                     }}
                   >
-                    ksh.{' '}
+                    $
                   </span>
                   {price}
                 </Typography>
