@@ -18,6 +18,7 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     margin: '30px',
     border: '2px solid #ff8c00',
+    backgroundColor: 'white',
   },
   button: {
     width: '300px',
@@ -32,6 +33,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     minHeight: '575px',
+    backgroundColor: 'white',
   },
 });
 
@@ -89,7 +91,6 @@ export default function LogIn() {
           navigate('/admin');
           break;
         default:
-          // navigate('/login-signup', { replace: true });
           break;
       }
     }
@@ -100,7 +101,6 @@ export default function LogIn() {
       method='post'
       className={classes.form}
       onSubmit={handleSubmit(onSubmit)}
-      style={{ border: '4px solid black', color: 'white' }}
     >
       <TextField
         className={classes.textField}
