@@ -8,13 +8,13 @@ import {
   Tabs,
   Toolbar,
   Tooltip,
+  AppBar,
+  Grid,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
-import { Grid } from '@mui/material';
 import InstructorCourses from './InstructorCourses';
 import CreateCourse from './CreateCourse';
 import { useSelector } from 'react-redux';
