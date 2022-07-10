@@ -305,7 +305,7 @@ export const list = [
         ],
       },
       {
-        id: 6,
+        id: 9,
         title: 'Communication and Collaboration',
         description: 'Some description',
         content: 'Tools and Skills required',
@@ -335,7 +335,7 @@ export const list = [
         ],
       },
       {
-        id: 8,
+        id: 10,
         title: 'Tips and Tricks',
         description: 'Some description',
         content: 'Tools and Skills required',

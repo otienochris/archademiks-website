@@ -50,7 +50,39 @@ const courseEnrollmentDetails = [
 const courseEnrollmentSlice = createSlice({
   name: 'courseEnrollments',
   initialState: { value: courseEnrollmentDetails },
-  reducers: {},
+  reducers: {
+    addCompletedTopic: (state, action) => {
+      var enrollmentToBeUpdated = {};
+      var restOfEnrollments = [];
+      const topicId = parseInt(action.payload.topicId);
+
+      // filter the state, get the object to be update and the rest of the objects
+      state.value.map((enrollment) => {
+        if (
+          parseInt(enrollment.studentId) ===
+            parseInt(action.payload.studentId) &&
+          parseInt(enrollment.courseId) == parseInt(action.payload.courseId)
+        ) {
+          enrollmentToBeUpdated = enrollment;
+        } else {
+          restOfEnrollments.push(enrollment);
+        }
+      });
+
+      // add the topic id only if it doesn't exist
+      if (!enrollmentToBeUpdated.completedTopics.includes(topicId)) {
+        enrollmentToBeUpdated.completedTopics.push(topicId);
+        restOfEnrollments.push(enrollmentToBeUpdated);
+      } else {
+        restOfEnrollments.push(enrollmentToBeUpdated);
+      }
+
+      // update the state
+      state.value = restOfEnrollments;
+    },
+  },
 });
+
+export const { addCompletedTopic } = courseEnrollmentSlice.actions;
 
 export default courseEnrollmentSlice.reducer;

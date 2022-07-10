@@ -36,8 +36,6 @@ export default function Index() {
     )
   );
 
-  console.log(enrollmentDetails);
-
   // const courses
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});

@@ -16,7 +16,10 @@ import { Check } from '@material-ui/icons';
 import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
+import { addCompletedTopic } from '../../state/reducers/courseEnrollementReducer';
 
 const useStyles = makeStyles({
   step: {
@@ -26,8 +29,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TopicDetails({ topic, isCompleted }) {
+export default function TopicDetails({
+  topic,
+  isCompleted,
+  courseId,
+  setRefreshCourseProgress,
+}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.value.id);
   const [isTopicCompleted, setIsTopicCompleted] = useState(isCompleted);
   const [activeStep, setActiveStep] = useState(
     isTopicCompleted ? topic.subTopics.length - 1 : 0
@@ -37,6 +47,13 @@ export default function TopicDetails({ topic, isCompleted }) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (isEndOfTopics) {
       setIsTopicCompleted(true);
+      dispatch(
+        addCompletedTopic({
+          courseId: courseId,
+          studentId: userId,
+          topicId: topic.id,
+        })
+      );
       // TODO: update enrollment details
       // TODO: persist change
     }

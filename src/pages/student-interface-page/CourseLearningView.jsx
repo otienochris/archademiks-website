@@ -1,6 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import { Divider, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import CourseProgress from './CourseProgress';
 import TopicDetails from './TopicDetails';
 
 const useStyles = makeStyles({
@@ -12,19 +14,22 @@ const useStyles = makeStyles({
 });
 
 export default function CourseLearningView({ course, enrollmentDetails }) {
+  const [completedTopics] = useState(enrollmentDetails.completedTopics);
+
   // const classes = useStyles();
   return (
     <Grid container justifyContent={'center'}>
       <Grid item xs={12}>
-        <Typography variant='h6'>{course.title}</Typography>
+        <Typography variant='h4'>{course.title}</Typography>
         <Divider />
       </Grid>
       <Grid container justifyContent='center'>
         {course.topics.map((topic, index) => (
           <TopicDetails
-            isCompleted={enrollmentDetails.completedTopics.includes(topic.id)}
+            isCompleted={completedTopics.includes(topic.id)}
             key={index}
             topic={topic}
+            courseId={course.id}
           />
         ))}
       </Grid>
