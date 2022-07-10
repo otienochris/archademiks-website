@@ -4,16 +4,17 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  Container,
+  Drawer,
+  Tab,
+  Tabs,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { Container, Drawer, Tab, Tabs } from '@mui/material';
 import Support from './Support';
 import Calendar from '../../components/Calendar';
 import MyCourses from './MyCourses';
-// import { list } from '../../data/courses';
-// import { users } from '../../data/users';
 import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
