@@ -1,10 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
 import { Check } from '@material-ui/icons';
 import { useState } from 'react';
-import { Box } from '@material-ui/core';
+import { Box, CircularProgress, Typography } from '@material-ui/core';
 
 function CircularProgressWithLabel(props) {
   const [isValue100] = useState(parseInt(props.value) >= 100);

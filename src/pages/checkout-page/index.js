@@ -14,13 +14,6 @@ import {
 } from '@material-ui/core';
 import Footer from '../../components/Footer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-// import {
-//   Accordion,
-//   AccordionSummary,
-//   Container,
-//   Typography,
-// } from '@mui/material';
 import PaypalForm from './PaypalForm';
 import MpesaForm from './MpesaForm';
 import { useSelector } from 'react-redux';
