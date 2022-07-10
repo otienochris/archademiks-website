@@ -27,7 +27,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import InstructorPreview from '../../components/InstructorPreview';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { enrollCourse } from '../../state/reducers/userReducer';
+import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -171,7 +171,19 @@ export default function Index({ courseId2 }) {
     if (!isLoggedIn) {
       navigate('/login-signup', { replace: true });
     } else {
-      dispatch(enrollCourse({ courseId: parseInt(courseId) }));
+      dispatch(
+        enrollUserToCourse({
+          id: Math.floor(Math.random() * 100 + 1),
+          studentId: user.id,
+          courseId: course.id,
+          status: 'Pending',
+          amount: course.price,
+          completionDate: null,
+          creationDate: '2022-02-02',
+          modificationDate: null,
+          completedTopics: [],
+        })
+      );
       navigate('/students', { replace: true });
     }
   };

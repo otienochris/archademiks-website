@@ -67,7 +67,17 @@ export default function Index() {
           </Button>
         </ButtonGroup>
       </Grid>
-      <Grid item className={classes.grid}>
+      <Grid
+        item
+        className={classes.grid}
+        style={{
+          backgroundImage: 'url(/background2.webp)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
         {action === 'login' ? <LogIn /> : <SignUp />}
       </Grid>
       <Footer />

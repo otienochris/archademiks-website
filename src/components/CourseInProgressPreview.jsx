@@ -13,6 +13,7 @@ import { CardActions } from '@mui/material';
 import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomButton from './custom-controls/CustomButton';
+import CourseProgress from '../pages/student-interface-page/CourseProgress';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -29,6 +30,7 @@ export default function CourseInProgressPreview({
   course,
   setContinueLearning,
   setCourseToContinue,
+  enrollmentDetails,
 }) {
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
@@ -45,12 +47,25 @@ export default function CourseInProgressPreview({
         height='194'
         image={course.thumbnail}
         alt='course thumbnail'
+        style={{ height: '80px' }}
       />
       <CardContent>
-        <Typography variant='body1'>{course.title}</Typography>
+        <Typography
+          style={{ fontFamily: 'monospace', margin: '20px 0px 0px 0px' }}
+          variant='subtitle2'
+        >
+          {course.title}
+        </Typography>
       </CardContent>
 
       <CardActions style={{ margin: 'auto 0px' }}>
+        <CourseProgress
+          currentProgress={Math.floor(
+            (enrollmentDetails[0].completedTopics.length /
+              course.topics.length) *
+              100
+          )}
+        />
         <CustomButton
           text='Continue Learning'
           variant='outlined'
@@ -72,10 +87,19 @@ export default function CourseInProgressPreview({
             <Typography variant='body2'>10 Assignments</Typography>
           </Button>
           <Button variant='contained' color='primary'>
-            <Typography variant='body2'>5 Modules</Typography>
+            <Typography variant='body2'>
+              {course.topics.length} modules
+            </Typography>
           </Button>
           <Button variant='outlined' color='primary'>
-            <Typography variant='body2'>73% Complete</Typography>
+            <Typography variant='body1'>
+              {Math.floor(
+                (enrollmentDetails[0].completedTopics.length /
+                  course.topics.length) *
+                  100
+              )}
+              % Done
+            </Typography>
           </Button>
         </ButtonGroup>
       </Collapse>

@@ -10,9 +10,10 @@ const useStyles = makeStyles({
     width: '300px',
     alignSelf: 'center',
     margin: '10px 30px',
+    backgroundColor: 'white',
   },
   notchedOutline: {
-    borderColor: '#ff8c00',
+    // borderColor: '#ff8c00',
   },
   form: {
     display: 'flex',
@@ -20,12 +21,17 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     minHeight: '575px',
-    border: '4px solid #ff8c00',
+    backgroundColor: 'white',
+    // border: '4px solid #ff8c00',
   },
   radiogroup: {
     display: 'flex',
     justifyContent: 'center',
     justifyItems: 'center',
+    // color: 'white',
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    width: '300px',
     // flexDirection: 'column',
   },
   button: {

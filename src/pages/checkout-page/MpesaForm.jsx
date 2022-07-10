@@ -39,6 +39,7 @@ function MpesaForm({ orderDetails, course }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} method='post'>
       <TextField
+        style={{ width: '100%' }}
         variant='outlined'
         label='Phone Number'
         placeholder='Enter your phone number'

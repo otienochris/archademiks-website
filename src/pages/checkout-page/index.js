@@ -68,8 +68,9 @@ const useStyles = makeStyles({
   options: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    justifyItems: 'center',
+    marginTop: '20px',
+    // justifyContent: 'center',
+    // justifyItems: 'center',
   },
   paymentSection: {
     margin: '8px auto',
@@ -96,7 +97,7 @@ export default function Index() {
   const [course, setCourse] = useState(initialCourse);
   const classes = useStyles();
   const user = useSelector((state) => state.user.value);
-  const [paymentApproaved, setPaymentApproved] = useState(false);
+  const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
 
   useEffect(() => {
     const filteredCourses = list.filter((course) => course.id == courseId);
@@ -117,30 +118,33 @@ export default function Index() {
     productObject.discount = 0;
     productObject.quantity = 1;
     initialOrderDetails.products = [productObject];
+
+    // set local storage
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
   }, [course, courseId]);
 
   return (
     <Container>
-      <Grid item xs={12}>
-        <Typography
-          variant='h4'
-          style={{
-            textAlign: 'center',
-            width: '100%',
-            backgroundColor: 'rgba(210,215,211,1)',
-          }}
-        >
-          Check Out
-        </Typography>
-      </Grid>
-      <Grid container justifyContent='center'>
-        <Grid item xs={12} md={6} lg={4}>
-          <CourseCard course={course} />
+      <Grid container style={{ minHeight: '80vh' }}>
+        <Grid item xs={12}>
+          <Typography
+            variant='h4'
+            style={{
+              textAlign: 'center',
+              width: '100%',
+              backgroundColor: 'rgba(210,215,211,1)',
+              marginTop: '20px',
+            }}
+          >
+            Check Out
+          </Typography>
         </Grid>
+        <Grid container justifyContent='center'>
+          <Grid item xs={12} md={6} lg={4}>
+            <CourseCard course={course} />
+          </Grid>
 
-        {paymentApproaved ? (
-          <Button>Confirm Payment</Button>
-        ) : (
           <Grid item xs={12} md={6} lg={8} className={classes.options}>
             <Typography variant='h5' className={classes.paymentOptionTitle}>
               Payment Options
@@ -152,7 +156,7 @@ export default function Index() {
                   fontWeight: 'bolder',
                   color: '#393424',
                   backgroundImage:
-                    'linear-gradient(to right, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
+                    'linear-gradient(to right, #FEFCFB, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
                 }}
               >
                 1. Lipa Na Mpesa
@@ -176,13 +180,20 @@ export default function Index() {
               </AccordionDetails>
             </Accordion>
             <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#FEFCFB',
+                  backgroundImage:
+                    'linear-gradient(to right, #0A1128, #001F54, #034078, #2997D8, #FEFCFB)',
+                }}
+              >
                 2. Paypal
               </AccordionSummary>
               <AccordionDetails>
                 <Grid item xs={12} lg={6} className={classes.paymentSection}>
                   <PaypalForm
-                    setPaymentApproved={setPaymentApproved}
                     course={course}
                     orderDetails={initialOrderDetails}
                   />
@@ -190,7 +201,7 @@ export default function Index() {
               </AccordionDetails>
             </Accordion>
           </Grid>
-        )}
+        </Grid>
       </Grid>
       <Footer />
     </Container>

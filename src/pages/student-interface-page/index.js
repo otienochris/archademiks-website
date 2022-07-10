@@ -27,9 +27,15 @@ export default function Index() {
   const [value, setValue] = useState(0);
   const user = useSelector((state) => state.user.value);
   const courses = useSelector((state) => state.courses.value);
-  const [enrolledCourse, setEnrolledCourses] = useState(
-    courses.filter((course) => user.courses.includes(course.id))
+  const enrollmentDetails = useSelector((state) =>
+    state.courseEnrollments.value.filter((item) => item.studentId === user.id)
   );
+  const [listOfCoursesEnrolledOn] = useState(
+    courses.filter((course) =>
+      enrollmentDetails.flatMap((item) => item.courseId).includes(course.id)
+    )
+  );
+
   // const courses
   const [continueLearning, setContinueLearning] = useState(false);
   const [courseToContinue, setCourseToContinue] = useState({});
@@ -76,7 +82,6 @@ export default function Index() {
   };
 
   useEffect(() => {
-    console.log(user);
     setFirstDay(new Date(year, month, 1).getDay());
   }, [user.courses, month, year, firstDay]);
 
@@ -144,7 +149,7 @@ export default function Index() {
             </Grid>
           ) : (
             <MyCourses
-              courses={enrolledCourse}
+              courses={listOfCoursesEnrolledOn}
               setContinueLearning={setContinueLearning}
               setCourseToContinue={setCourseToContinue}
             />
@@ -152,7 +157,14 @@ export default function Index() {
         </Container>
       ) : (
         <Container style={{ minHeight: '87vh' }}>
-          <CourseLearningView course={courseToContinue} />
+          <CourseLearningView
+            enrollmentDetails={
+              enrollmentDetails.filter(
+                (item) => item.courseId === courseToContinue.id
+              )[0]
+            }
+            course={courseToContinue}
+          />
         </Container>
       )}
     </>

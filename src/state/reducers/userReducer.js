@@ -23,13 +23,9 @@ export const userSlice = createSlice({
     resetLoggedInUser: (state) => {
       state.value = user;
     },
-    enrollCourse: (state, action) => {
-      state.value.courses.push(parseInt(action.payload.courseId));
-    },
   },
 });
 
-export const { setLoggedInUser, resetLoggedInUser, enrollCourse } =
-  userSlice.actions;
+export const { setLoggedInUser, resetLoggedInUser } = userSlice.actions;
 
 export default userSlice.reducer;
