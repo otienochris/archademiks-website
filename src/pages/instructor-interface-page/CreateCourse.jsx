@@ -88,7 +88,7 @@ export default function CreateCourse({ setCreateNewCourse }) {
     newCourse.id = 8;
 
     dispatch(saveCourse(newCourse));
-    dispatch(enrollCourse({ courseId: 8 }));
+    // dispatch(enrollCourse({ courseId: 8 }));
     console.log(newCourse);
   };
 

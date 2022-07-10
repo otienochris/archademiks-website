@@ -80,9 +80,13 @@ const courseEnrollmentSlice = createSlice({
       // update the state
       state.value = restOfEnrollments;
     },
+    enrollUserToCourse: (state, action) => {
+      state.value.push(action.payload);
+    },
   },
 });
 
-export const { addCompletedTopic } = courseEnrollmentSlice.actions;
+export const { addCompletedTopic, enrollUserToCourse } =
+  courseEnrollmentSlice.actions;
 
 export default courseEnrollmentSlice.reducer;

@@ -47,9 +47,15 @@ export default function CourseInProgressPreview({
         height='194'
         image={course.thumbnail}
         alt='course thumbnail'
+        style={{ height: '80px' }}
       />
       <CardContent>
-        <Typography variant='body1'>{course.title}</Typography>
+        <Typography
+          style={{ fontFamily: 'monospace', margin: '20px 0px 0px 0px' }}
+          variant='subtitle2'
+        >
+          {course.title}
+        </Typography>
       </CardContent>
 
       <CardActions style={{ margin: 'auto 0px' }}>

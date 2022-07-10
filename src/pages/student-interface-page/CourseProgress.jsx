@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Check } from '@material-ui/icons';
+import { useState } from 'react';
 
 function CircularProgressWithLabel(props) {
+  const [isValue100] = useState(parseInt(props.value) >= 100);
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress variant='determinate' {...props} />
+      <CircularProgress
+        style={isValue100 ? { color: 'green' } : { color: 'blue' }}
+        variant='determinate'
+        {...props}
+      />
       <Box
         sx={{
           top: 0,
@@ -20,8 +27,12 @@ function CircularProgressWithLabel(props) {
           justifyContent: 'center',
         }}
       >
-        <Typography variant='caption' component='div' color='text.secondary'>
-          {`${Math.round(props.value)}%`}
+        <Typography
+          variant='caption'
+          component='div'
+          style={isValue100 ? { color: 'green' } : { color: 'blue' }}
+        >
+          {isValue100 ? <Check /> : `${Math.round(props.value)}%`}
         </Typography>
       </Box>
     </Box>

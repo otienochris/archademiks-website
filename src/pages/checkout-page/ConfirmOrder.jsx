@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import {
   enrollCourse,
@@ -60,6 +61,7 @@ function ConfirmOrder() {
   const [itemList, setItemList] = useState([itemObject]);
   const [totalAmount, setTotalAmount] = useState(0.0);
   const courseId = localStorage.getItem('courseId');
+  const user = localStorage.getItem('user');
 
   const reviewPaymentUrl =
     'http://localhost:8080/paypal/payment/review/' + paymentId;
@@ -82,7 +84,19 @@ function ConfirmOrder() {
         setIsPaying(false);
         if (data.status === 'APPROVED') {
           setIsPaymentCompleted(true);
-          dispatch(enrollCourse({ courseId: parseInt(courseId) }));
+          dispatch(
+            enrollUserToCourse({
+              id: Math.floor(Math.random() * 100 + 1),
+              studentId: JSON.parse(user).id,
+              courseId: parseInt(courseId),
+              status: 'Pending',
+              amount: parseFloat(totalAmount[0]),
+              completionDate: null,
+              creationDate: '2022-02-02',
+              modificationDate: null,
+              completedTopics: [],
+            })
+          );
           console.log(itemList);
         }
         return data;
