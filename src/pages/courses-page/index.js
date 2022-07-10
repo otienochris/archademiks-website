@@ -1,15 +1,15 @@
+import React, { useEffect, useState } from 'react';
+import CourseCard from '../../components/CourseCard';
+import SearchIcon from '@mui/icons-material/Search';
+import Footer from '../../components/Footer';
 import {
+  makeStyles,
   Container,
   Grid,
   InputAdornment,
   TextField,
   Typography,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import CourseCard from '../../components/CourseCard';
-import SearchIcon from '@mui/icons-material/Search';
-import Footer from '../../components/Footer';
-import { makeStyles } from '@material-ui/core';
+} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
