@@ -1,5 +1,4 @@
-import { Rating } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
 // import { list } from '../../data/courses';
 import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';

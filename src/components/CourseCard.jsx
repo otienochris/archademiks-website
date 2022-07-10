@@ -1,6 +1,12 @@
-import { CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Button, CardActions, CardMedia } from '@mui/material';
-import Card from '@mui/material/Card';
+import {
+  Card,
+  Button,
+  CardMedia,
+  CardContent,
+  Grid,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import React from 'react';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import FiveStarRating from './FiveStarRating';

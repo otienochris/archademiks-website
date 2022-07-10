@@ -1,13 +1,17 @@
 import {
   Avatar,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
+  Collapse,
+  Grid,
+  IconButton,
   Typography,
 } from '@material-ui/core';
 // import { ExpandMore } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { CardActions, Collapse, Grid, IconButton } from '@mui/material';
+// import { CardActions, Collapse, Grid, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -36,8 +40,9 @@ export default function InstructorPreview({ instructor }) {
     <Card>
       <CardHeader
         avatar={
-          <Avatar>{`${instructor.firstName[0] +
-            instructor.lastName[0]}`}</Avatar>
+          <Avatar>{`${
+            instructor.firstName[0] + instructor.lastName[0]
+          }`}</Avatar>
         }
         title={`${instructor.firstName + ' ' + instructor.lastName}`}
         subheader={instructor.title}

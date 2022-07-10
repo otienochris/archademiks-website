@@ -1,16 +1,14 @@
-import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
-// import { users } from '../../data/users';
 
 const useStyles = makeStyles({
   textField: {

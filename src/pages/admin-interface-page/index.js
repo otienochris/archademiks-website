@@ -1,11 +1,8 @@
 import { Container, Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { list } from '../../data/courses';
-import { users } from '../../data/users';
-import { deleteCourse } from '../../state/reducers/coursesReducers';
 import AdminDashboard from './AdminDashboard';
 import CoursesTable from './CoursesTable';
 import UsersTable from './UsersTable';

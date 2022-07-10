@@ -8,8 +8,8 @@ import {
   IconButton,
   styled,
   Typography,
+  CardActions,
 } from '@material-ui/core';
-import { CardActions } from '@mui/material';
 import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CustomButton from './custom-controls/CustomButton';

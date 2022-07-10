@@ -11,10 +11,11 @@ import {
   StepLabel,
   Stepper,
   Typography,
+  Divider,
+  Grid,
 } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
 import { ExpandMore } from '@mui/icons-material';
-import { Divider, Grid } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';

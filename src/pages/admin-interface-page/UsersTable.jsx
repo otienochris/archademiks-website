@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
-// import { users } from '../../data/users';
-// import { list as courses } from '../../data/courses';
-// import { courseEnrollmentDetails } from '../../data/courseEnrollmentDetails';
 import { Container, Grid } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
 import { useDispatch } from 'react-redux';
