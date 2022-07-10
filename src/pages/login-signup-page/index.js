@@ -1,6 +1,11 @@
-import { Button, ButtonGroup, Container, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  Button,
+  ButtonGroup,
+  Container,
+  makeStyles,
+} from '@material-ui/core';
 import React, { useState } from 'react';
-import { Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import Footer from '../../components/Footer';
