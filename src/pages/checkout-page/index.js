@@ -2,16 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
-import { AccordionDetails, Button, Grid, makeStyles } from '@material-ui/core';
-import Footer from '../../components/Footer';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import {
+  AccordionDetails,
   Accordion,
   AccordionSummary,
   Container,
   Typography,
-} from '@mui/material';
+  Button,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
+import Footer from '../../components/Footer';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+// import {
+//   Accordion,
+//   AccordionSummary,
+//   Container,
+//   Typography,
+// } from '@mui/material';
 import PaypalForm from './PaypalForm';
 import MpesaForm from './MpesaForm';
 import { useSelector } from 'react-redux';
