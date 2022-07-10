@@ -7,7 +7,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { DownloadDoneRounded, Start } from '@mui/icons-material';
+import { Start } from '@mui/icons-material';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -15,10 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
-import {
-  enrollCourse,
-  setLoggedInUser,
-} from '../../state/reducers/userReducer';
+import { setLoggedInUser } from '../../state/reducers/userReducer';
 
 const styles = makeStyles({
   header: {

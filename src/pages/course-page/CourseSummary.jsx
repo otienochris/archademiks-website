@@ -1,5 +1,5 @@
 import { Accordion, AccordionSummary, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function CourseSummary(props) {

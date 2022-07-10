@@ -13,8 +13,6 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
-// import { reviews } from '../../data/reviews';
 import { getColorForCategoryBanner } from '../../utils/colorCategoryBanner';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FiveStarRating from '../../components/FiveStarRating';

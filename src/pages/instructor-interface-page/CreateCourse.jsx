@@ -1,6 +1,13 @@
-import { Button, Container, Step, StepLabel, Stepper } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Grid,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from '@material-ui/core';
 import React, { useState } from 'react';
-import { Grid, Typography } from '@mui/material';
 
 import StageOneOfCourseCreation from './StageOneOfCourseCreation';
 import StageTwoOfCourseCreation from './StageTwoOfCourseCreation';
@@ -9,8 +16,6 @@ import StageFourOfCourseCreation from './StageFourOfCourseCreation';
 import { useStyles } from './newCourseUseStyles';
 import { useDispatch } from 'react-redux';
 import { saveCourse } from '../../state/reducers/coursesReducers';
-import { useSelector } from 'react-redux';
-import { enrollCourse } from '../../state/reducers/userReducer';
 
 const initialCourse = {
   id: 0,

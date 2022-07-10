@@ -1,5 +1,4 @@
-import { Typography } from '@material-ui/core';
-import { Box, Grid } from '@mui/material';
+import { Typography, Box, Grid } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CourseInProgressPreview from '../../components/CourseInProgressPreview';

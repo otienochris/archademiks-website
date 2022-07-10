@@ -1,5 +1,4 @@
-import { makeStyles } from '@material-ui/core';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Divider, Grid, Typography, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import CourseProgress from './CourseProgress';

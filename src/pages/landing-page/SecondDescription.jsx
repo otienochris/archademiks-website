@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/custom-controls/CustomButton';
 
 const useStyles = makeStyles({

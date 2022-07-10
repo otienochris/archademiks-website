@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import QuickStart from './QuickStart';
 import { users } from '../../data/users';

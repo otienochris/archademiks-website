@@ -2,7 +2,6 @@ import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import StudentReview from '../../components/StudentReview';
-// import { reviews } from '../../data/reviews';
 
 const useStyles = makeStyles({
   review: {
