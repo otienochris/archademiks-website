@@ -6,9 +6,11 @@ import {
   Typography,
   Accordion,
   AccordionSummary,
+  AccordionDetails,
+  AppBar,
+  Grid,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { AccordionDetails, AppBar, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
