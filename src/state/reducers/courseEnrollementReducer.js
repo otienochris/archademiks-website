@@ -3,13 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const courseEnrollmentDetails = [
   {
     id: 1,
-    studentId: 1,
+    studentId: 4,
     courseId: 1,
     status: 'pending',
     amount: 220,
     completionDate: null,
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
+    completedTopics: [1, 2],
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const courseEnrollmentDetails = [
     completionDate: '2022-08-02',
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
+    completedTopics: [1, 2],
   },
   {
     id: 2,
@@ -30,6 +32,7 @@ const courseEnrollmentDetails = [
     completionDate: '2022-08-02',
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
+    completedTopics: [1, 2],
   },
   {
     id: 3,
@@ -40,6 +43,7 @@ const courseEnrollmentDetails = [
     completionDate: '2022-08-02',
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
+    completedTopics: [1, 2],
   },
 ];
 

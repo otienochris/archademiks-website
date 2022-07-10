@@ -11,8 +11,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CourseLearningView({ course }) {
-  const classes = useStyles();
+export default function CourseLearningView({ course, enrollmentDetails }) {
+  // const classes = useStyles();
   return (
     <Grid container justifyContent={'center'}>
       <Grid item xs={12}>
@@ -21,7 +21,11 @@ export default function CourseLearningView({ course }) {
       </Grid>
       <Grid container justifyContent='center'>
         {course.topics.map((topic, index) => (
-          <TopicDetails key={index} topic={topic} />
+          <TopicDetails
+            isCompleted={enrollmentDetails.completedTopics.includes(topic.id)}
+            key={index}
+            topic={topic}
+          />
         ))}
       </Grid>
     </Grid>

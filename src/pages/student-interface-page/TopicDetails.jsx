@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  ButtonGroup,
   makeStyles,
   Step,
   StepContent,
@@ -11,6 +12,7 @@ import {
   Stepper,
   Typography,
 } from '@material-ui/core';
+import { Check } from '@material-ui/icons';
 import { ExpandMore } from '@mui/icons-material';
 import { Divider, Grid } from '@mui/material';
 import React, { useState } from 'react';
@@ -24,12 +26,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TopicDetails({ topic }) {
+export default function TopicDetails({ topic, isCompleted }) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
+  const [isTopicCompleted, setIsTopicCompleted] = useState(isCompleted);
+  const [activeStep, setActiveStep] = useState(
+    isTopicCompleted ? topic.subTopics.length - 1 : 0
+  );
 
-  const handleNext = () => {
+  const handleNext = (isEndOfTopics) => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (isEndOfTopics) {
+      setIsTopicCompleted(true);
+      // TODO: update enrollment details
+      // TODO: persist change
+    }
   };
 
   const handleBack = () => {
@@ -37,18 +47,48 @@ export default function TopicDetails({ topic }) {
   };
 
   return (
-    <Accordion style={{ width: '100%' }}>
+    <Accordion
+      style={
+        isTopicCompleted
+          ? { width: '100%', border: '1px solid green', margin: '5px auto' }
+          : { width: '100%', margin: '5px auto' }
+      }
+    >
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Grid container>
-          <Grid item xs={12}>
-            <Typography style={{ width: '100%' }} align='left' variant='h6'>
+          <Grid item xs={12} style={{ display: 'flex', direction: 'row' }}>
+            {isTopicCompleted ? (
+              <Check
+                style={{
+                  color: 'white',
+                  width: '15px',
+                  height: '15px',
+                  border: '1px solid green',
+                  borderRadius: '50%',
+                  margin: 'auto 5px',
+                  backgroundColor: 'green',
+                }}
+                fontSize='small'
+              />
+            ) : (
+              ''
+            )}
+            <Typography
+              style={{ width: '100%' }}
+              align='left'
+              variant={isTopicCompleted ? 'body2' : 'h6'}
+            >
               {topic.title}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography align='left' variant='body2'>
-              {topic.description}
-            </Typography>
+            {!isTopicCompleted ? (
+              <Typography align='left' variant='body2'>
+                {topic.description}
+              </Typography>
+            ) : (
+              ''
+            )}
           </Grid>
         </Grid>
         <Divider />
@@ -103,22 +143,34 @@ export default function TopicDetails({ topic }) {
                     />
                     <Box sx={{ mb: 2 }}>
                       <div>
-                        <Button
-                          variant='contained'
-                          onClick={handleNext}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
-                          {index === subTopic.length - 1
-                            ? 'Finish'
-                            : 'Continue'}
-                        </Button>
-                        <Button
-                          disabled={index === 0}
-                          onClick={handleBack}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
-                          Back
-                        </Button>
+                        <ButtonGroup style={{ margin: '20px auto' }}>
+                          {isTopicCompleted &&
+                          index === topic.subTopics.length - 1 ? (
+                            ''
+                          ) : (
+                            <Button
+                              variant='contained'
+                              color='primary'
+                              onClick={() =>
+                                handleNext(index + 1 == topic.subTopics.length)
+                              }
+                              sx={{ mt: 1, mr: 1 }}
+                            >
+                              {index === topic.subTopics.length - 1
+                                ? 'Finish'
+                                : 'Next'}
+                            </Button>
+                          )}
+                          <Button
+                            disabled={index === 0}
+                            onClick={handleBack}
+                            sx={{ mt: 1, mr: 1 }}
+                            variant='contained'
+                            color='secondary'
+                          >
+                            Back
+                          </Button>
+                        </ButtonGroup>
                       </div>
                     </Box>
                   </StepContent>
