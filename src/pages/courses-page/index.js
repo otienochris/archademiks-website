@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     margin: '20px auto',
   },
   courseListSection: {
-    backgroundColor: 'lightgrey',
+    // backgroundColor: 'lightgrey',
   },
   notchedOutline: {
     borderColor: '#ff8c00',

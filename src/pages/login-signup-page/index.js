@@ -1,5 +1,5 @@
 import {
-  Grid,
+  // Grid,
   Button,
   ButtonGroup,
   Container,
@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
 import Footer from '../../components/Footer';
+import { Grid } from '@mui/material';
 
 const useStyles = makeStyles({
   mainContainer: {
