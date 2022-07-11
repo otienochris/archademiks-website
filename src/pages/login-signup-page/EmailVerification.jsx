@@ -13,6 +13,10 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
+import { verifyEmail } from '../../state/reducers/allUsersReducer';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const schema = yup.object({
   code: yup.string().required('Code is Required.'),
@@ -57,12 +61,13 @@ const styles = makeStyles({
   },
 });
 
-function EmailVerification({ email }) {
+function EmailVerification({ email, setEmailVerified, emailVerified }) {
   const classes = styles();
   const dispatch = useDispatch();
-  const [emailVerified, setEmailVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [emailSentSuccessfully, setEmailSentSuccessfuly] = useState(false);
+  const users = useSelector((state) => state.allUsers.value);
+  const navigate = useNavigate();
 
   const {
     reset,
@@ -73,6 +78,12 @@ function EmailVerification({ email }) {
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (users.filter((user) => user.email === email)[0].isDisabled) {
+      console.log('verified');
+    }
+  }, [emailVerified]);
 
   const sendVerificationCode = async (email) => {
     const formData = new FormData();
@@ -99,7 +110,7 @@ function EmailVerification({ email }) {
     setIsLoading(false);
   };
 
-  const onResend = (data) => {
+  const onResend = () => {
     const verificationCode = uuid.slice(14, 18);
 
     sendVerificationCode({
@@ -112,57 +123,57 @@ function EmailVerification({ email }) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    data.email = email;
+    dispatch(verifyEmail(data));
+    setEmailVerified(true);
   };
 
   return (
-    <>
-      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant='h4' className={classes.header}>
-          Email Verification
-        </Typography>
-        <Divider className={classes.divider} />
-        <Typography variant='body2' className={classes.instructions}>
-          We have sent a code to your email. Use it to verify your email to
-          active your account
-        </Typography>
-        <TextField
-          variant='outlined'
-          label='Email Verification Code'
-          placeholder='Enter Code sent to your email'
-          className={classes.textField}
-          {...register('code')}
-          error={errors.code ? true : false}
-          helperText={errors.code ? errors.code.message : ''}
-        />
+    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      <Typography variant='h4' className={classes.header}>
+        Email Verification
+      </Typography>
+      <Divider className={classes.divider} />
+      <Typography variant='body2' className={classes.instructions}>
+        We have sent a code to your email. Use it to verify your email to active
+        your account
+      </Typography>
+      <TextField
+        variant='outlined'
+        label='Email Verification Code'
+        placeholder='Enter Code sent to your email'
+        className={classes.textField}
+        {...register('code')}
+        error={errors.code ? true : false}
+        helperText={errors.code ? errors.code.message : ''}
+      />
 
-        {isLoading ? (
-          <CircularProgress style={{ margin: 'auto' }} />
-        ) : (
-          <ButtonGroup
-            fullWidth
-            className={classes.btnGroup}
-            disabled={isLoading}
+      {isLoading ? (
+        <CircularProgress style={{ margin: 'auto' }} />
+      ) : (
+        <ButtonGroup
+          fullWidth
+          className={classes.btnGroup}
+          disabled={isLoading}
+        >
+          <Button
+            type='submit'
+            variant='contained'
+            className={classes.submitBtn}
           >
-            <Button
-              type='submit'
-              variant='contained'
-              className={classes.submitBtn}
-            >
-              Submit
-            </Button>
-            <Button
-              fullWidth
-              variant='outlined'
-              className={classes.resendBtn}
-              onClick={onResend}
-            >
-              Resend
-            </Button>
-          </ButtonGroup>
-        )}
-      </form>
-    </>
+            Submit
+          </Button>
+          <Button
+            fullWidth
+            variant='outlined'
+            className={classes.resendBtn}
+            onClick={onResend}
+          >
+            Resend
+          </Button>
+        </ButtonGroup>
+      )}
+    </form>
   );
 }
 

@@ -146,10 +146,25 @@ export const allUsersSlice = createSlice({
       };
 
       state.value.push(newUser);
+      // TODO persist in backend
+    },
+    verifyEmail: (state, action) => {
+      const currentState = state.value.map((user) => {
+        if (
+          user.email === action.payload.email &&
+          user.verificationCode === action.payload.code
+        ) {
+          user.isDisabled = false;
+        }
+        return user;
+      });
+
+      state.value = currentState;
     },
   },
 });
 
-export const { deleteUser, enrollCourse, addUser } = allUsersSlice.actions;
+export const { deleteUser, enrollCourse, addUser, verifyEmail } =
+  allUsersSlice.actions;
 
 export default allUsersSlice.reducer;
