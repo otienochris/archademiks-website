@@ -1,15 +1,21 @@
 import {
   Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   makeStyles,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+  Divider,
+  Box,
+  Typography,
 } from '@material-ui/core';
 import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { countries } from '../../components/CountrySelect';
 
 const useStyles = makeStyles({
   textField: {
@@ -28,6 +34,7 @@ const useStyles = makeStyles({
     justifyItems: 'center',
     minHeight: '575px',
     backgroundColor: 'white',
+    margin: '20px auto',
     // border: '4px solid #ff8c00',
   },
   radiogroup: {
@@ -38,7 +45,7 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     alignSelf: 'center',
     width: '300px',
-    // flexDirection: 'column',
+    flexDirection: 'column',
   },
   button: {
     width: '300px',
@@ -46,29 +53,42 @@ const useStyles = makeStyles({
     margin: '10px 30px',
     backgroundColor: '#ff8c00',
   },
-});
-
-const schema = yup.object({
-  firstName: yup.string().required('First name is requried'),
-  secondName: yup.string().required('Second name is required'),
-  userType: yup
-    .string()
-    .nullable()
-    .oneOf(['student', 'instructor'])
-    .required('A user type is required'),
-  email: yup
-    .string()
-    .email('Provided Email is invalid')
-    .required('Email is required to signup.'),
-  password: yup.string().required('Passord is required to signup.'),
-  password2: yup
-    .string()
-    .oneOf([yup.ref('password')], 'Passwords do not match')
-    .required('This is a required field'),
+  select: {
+    width: '300px',
+    alignSelf: 'center',
+    margin: '10px 30px',
+    backgroundColor: 'white',
+  },
+  customErroSpan: {
+    color: 'red',
+    textAlign: 'left',
+    marginLeft: '30px',
+    width: '100%',
+  },
 });
 
 export default function SignUp() {
   const classes = useStyles();
+
+  const schema = yup.object({
+    firstName: yup.string().required('First name is requried'),
+    secondName: yup.string().required('Second name is required'),
+    userType: yup
+      .string()
+      .nullable()
+      .oneOf(['STUDENT', 'INSTRUCTOR', 'PARENT'])
+      .required('A user type is required'),
+    email: yup
+      .string()
+      .email('Provided Email is invalid')
+      .required('Email is required to signup.'),
+    country: yup.string().required(),
+    password: yup.string().required('Passord is required to signup.'),
+    password2: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Passwords do not match')
+      .required('This is a required field'),
+  });
 
   const {
     register,
@@ -90,6 +110,36 @@ export default function SignUp() {
       onSubmit={handleSubmit(onSubmit)}
       className={classes.form}
     >
+      <Typography
+        variant='h6'
+        align='center'
+        style={{ fontFamily: 'monospace', margin: '20px auto' }}
+      >
+        Create Free Account:{' '}
+      </Typography>
+      <Divider />
+      <FormControl sx={{ m: 1, minWidth: 120 }} className={classes.select}>
+        <InputLabel style={{ marginLeft: '10px' }} id='select-user-type'>
+          Type of User
+        </InputLabel>
+        <Select
+          labelId='select-user-type'
+          variant='outlined'
+          {...register('userType')}
+          error={errors.userType ? true : false}
+        >
+          <MenuItem value='' disabled>
+            <em>None</em>
+          </MenuItem>
+          <Divider />
+          <MenuItem value='STUDENT'>Student</MenuItem>
+          <MenuItem value='INSTRUCTOR'>Instructor</MenuItem>
+          <MenuItem value='PARENT'>Parent</MenuItem>
+        </Select>
+        <FormHelperText>
+          {errors.userType ? errors.userType.message : ''}
+        </FormHelperText>
+      </FormControl>
       <TextField
         className={classes.textField}
         variant='outlined'
@@ -138,6 +188,44 @@ export default function SignUp() {
           },
         }}
       />
+
+      <FormControl sx={{ m: 1, minWidth: 120 }} className={classes.select}>
+        <InputLabel style={{ marginLeft: '10px' }} id='select-country'>
+          Country
+        </InputLabel>
+        <Select
+          labelId='select-country'
+          variant='outlined'
+          {...register('country')}
+          error={errors.school ? true : false}
+        >
+          <MenuItem value='' disabled>
+            <em>None</em>
+          </MenuItem>
+          <Divider />
+          {countries.map((country, index) => (
+            <MenuItem key={index} value={country.code}>
+              <Box
+                component='li'
+                sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                // {...props}
+              >
+                <img
+                  loading='lazy'
+                  width='20'
+                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                  srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                  alt=''
+                />
+                {country.label} ({country.code}) +{country.phone}
+              </Box>
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText>
+          {errors.country ? errors.country.message : ''}
+        </FormHelperText>
+      </FormControl>
       <TextField
         className={classes.textField}
         variant='outlined'
@@ -170,23 +258,6 @@ export default function SignUp() {
           },
         }}
       />
-      <RadioGroup row className={classes.radiogroup}>
-        <FormControlLabel
-          value='student'
-          control={<Radio />}
-          label='Student'
-          {...register('userType')}
-        />
-        <FormControlLabel
-          value='instructor'
-          control={<Radio />}
-          label='Instructor'
-          {...register('userType')}
-        />
-      </RadioGroup>
-      <span style={{ color: 'red', textAlign: 'center', marginBottom: '5px' }}>
-        {errors.userType ? errors.userType.message : ''}
-      </span>
       <Button
         variant='contained'
         type='submit'
