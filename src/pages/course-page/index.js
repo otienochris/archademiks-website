@@ -252,7 +252,7 @@ export default function Index({ courseId2 }) {
               <FiveStarRating rating={course.rating} />
             </div>
           </section>
-          {user.type === 'student' ||
+          {user.type === 'STUDENT' ||
           user.type === undefined ||
           user.type === '' ? (
             <CustomButton

@@ -74,17 +74,17 @@ export default function LogIn() {
       localStorage.setItem('user', JSON.stringify(userDetails));
       localStorage.setItem('isLoggedIn', JSON.stringify(true));
       switch (userDetails.type) {
-        case 'instructor':
+        case 'INSTRUCTOR':
           dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/instructor');
           break;
-        case 'student':
+        case 'STUDENT':
           dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/students');
           break;
-        case 'admin':
+        case 'ADMIN':
           dispatch(setLoggedInUser({ user: userDetails }));
           dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
           navigate('/admin');
@@ -102,7 +102,7 @@ export default function LogIn() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Typography
-        variant='h6'
+        variant='h4'
         align='center'
         style={{ fontFamily: 'monospace', margin: '20px auto' }}
       >

@@ -7,11 +7,14 @@ export const users = [
     lastName: 'Otieno',
     email: 'otienochris98@gmail.com',
     courses: [],
-    type: 'student',
+    type: 'STUDENT',
     creationDate: '2022-03-01',
     modificationDate: '2022-05-01',
     password: 'pass',
-    country: 'Kenya',
+    country: 'KE',
+    schools: [],
+    isDisabled: false,
+    verificationCode: '',
     addresses: [
       {
         id: 1,
@@ -30,11 +33,14 @@ export const users = [
     lastName: 'Ochieng',
     email: 'admin@gmail.com',
     courses: [1, 2],
-    type: 'admin',
+    type: 'ADMIN',
     creationDate: '2021-06-01',
     modificationDate: '2022-05-01',
     password: 'pass',
-    country: 'Kenya',
+    country: 'KE',
+    schools: [],
+    isDisabled: false,
+    verificationCode: '',
     addresses: [
       {
         id: 1,
@@ -53,11 +59,14 @@ export const users = [
     lastName: 'Mboya',
     email: 'mboya@gmail.com',
     courses: [1, 2],
-    type: 'instructor',
+    type: 'INSTRUCTOR',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
     password: 'pass',
-    country: 'Kenya',
+    country: 'KE',
+    schools: [],
+    isDisabled: false,
+    verificationCode: '',
     addresses: [
       {
         id: 1,
@@ -76,11 +85,14 @@ export const users = [
     lastName: 'Msimple',
     email: 'student@gmail.com',
     courses: [1],
-    type: 'student',
+    type: 'STUDENT',
     creationDate: '2021-07-01',
     modificationDate: '2022-05-01',
     password: 'pass',
-    country: 'Kenya',
+    country: 'KE',
+    schools: [],
+    isDisabled: false,
+    verificationCode: '',
     addresses: [
       {
         id: 1,
@@ -115,9 +127,29 @@ export const allUsersSlice = createSlice({
 
       state.value = newArray;
     },
+    addUser: (state, action) => {
+      const newUser = {
+        id: state.value.length + 1,
+        firstName: action.payload.firstName,
+        lastName: action.payload.secondName,
+        email: action.payload.email,
+        courses: [],
+        type: action.payload.userType,
+        creationDate: null,
+        modificationDate: null,
+        password: action.payload.password,
+        country: action.payload.country,
+        schools: [],
+        isDisabled: true,
+        verificationCode: action.payload.verificationCode,
+        addresses: [],
+      };
+
+      state.value.push(newUser);
+    },
   },
 });
 
-export const { deleteUser, enrollCourse } = allUsersSlice.actions;
+export const { deleteUser, enrollCourse, addUser } = allUsersSlice.actions;
 
 export default allUsersSlice.reducer;
