@@ -41,10 +41,10 @@ const useStyles = makeStyles({
   },
   courseSnapshotDetailsGrid: {
     width: '100%',
-    padding: '10px',
+    padding: '20px',
   },
   imageGrid: {
-    width: '100%',
+    padding: '20px',
     boxShadow: '2px black',
   },
   img: {
@@ -197,7 +197,7 @@ export default function Index({ courseId2 }) {
   };
 
   return (
-    <Container style={{ padding: '20px auto' }}>
+    <Container style={{ padding: '40px 0 0 0' }}>
       <Grid
         container
         justifyContent={'center'}
@@ -223,7 +223,7 @@ export default function Index({ courseId2 }) {
               {course.category}
             </Typography>
             <Typography variant='h4' className={classes.price}>
-              {course.price <= 0 ? 'Free' : `ksh. ${course.price}`}
+              {course.price <= 0 ? 'Free' : `$ ${course.price}`}
             </Typography>
           </div>
         </Grid>
