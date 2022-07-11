@@ -4,6 +4,7 @@ import courseEnrollementReducer from './reducers/courseEnrollementReducer';
 import coursesReducers from './reducers/coursesReducers';
 import loginReducer from './reducers/loginReducer';
 import reviewsReducer from './reducers/reviewsReducer';
+import schoolsReducer from './reducers/schoolsReducer';
 import userReducer from './reducers/userReducer';
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
     login: loginReducer,
     courseEnrollments: courseEnrollementReducer,
     reviews: reviewsReducer,
+    schools: schoolsReducer,
   },
 });
 

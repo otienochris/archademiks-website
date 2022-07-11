@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { Divider, makeStyles, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../../state/reducers/userReducer';
@@ -101,6 +101,14 @@ export default function LogIn() {
       className={classes.form}
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Typography
+        variant='h6'
+        align='center'
+        style={{ fontFamily: 'monospace', margin: '20px auto' }}
+      >
+        Login
+      </Typography>
+      <Divider />
       <TextField
         className={classes.textField}
         placeholder='Enter your email'
