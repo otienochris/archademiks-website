@@ -1,10 +1,4 @@
-import {
-  // Grid,
-  Button,
-  ButtonGroup,
-  Container,
-  makeStyles,
-} from '@material-ui/core';
+import { Button, ButtonGroup, Container, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
@@ -18,7 +12,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItem: 'center',
     margin: '69px auto',
-    // backgroundColor: 'black',
   },
   grid: {
     display: 'flex',
@@ -32,8 +25,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     minHeight: '70vh',
-    // backgroundColor: 'rgba(210,215,211,.3)',
-    // backgroundColor: 'black',
   },
   toggleButtons: {
     margin: '30px auto',
@@ -77,11 +68,13 @@ export default function Index() {
         item
         className={classes.grid}
         style={{
-          backgroundImage: 'url(/background2.webp)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
+          // backgroundImage: 'url(/background2.webp)',
+          // backgroundRepeat: 'no-repeat',
+          // backgroundSize: 'cover',
+          // backgroundPosition: 'center',
+          // backgroundAttachment: 'fixed',
+          backgroundImage:
+            'linear-gradient(to left, #293132, #474044, #4F5165, #547AA5, #50D8D7)',
         }}
       >
         {action === 'login' ? <LogIn /> : <SignUp />}
