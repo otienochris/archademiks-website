@@ -77,7 +77,7 @@ export default function Index() {
             'linear-gradient(to left, #293132, #474044, #4F5165, #547AA5, #50D8D7)',
         }}
       >
-        {action === 'login' ? <LogIn /> : <SignUp />}
+        {action === 'login' ? <LogIn /> : <SignUp setAction={setAction} />}
       </Grid>
       <Footer />
     </Container>
