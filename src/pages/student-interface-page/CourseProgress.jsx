@@ -9,7 +9,7 @@ function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CircularProgress
-        style={isValue100 ? { color: 'green' } : { color: 'blue' }}
+        style={isValue100 ? { color: 'green' } : { color: 'white' }}
         variant='determinate'
         {...props}
       />
@@ -28,7 +28,7 @@ function CircularProgressWithLabel(props) {
         <Typography
           variant='caption'
           component='div'
-          style={isValue100 ? { color: 'green' } : { color: 'blue' }}
+          style={isValue100 ? { color: 'green' } : { color: 'white' }}
         >
           {isValue100 ? <Check /> : `${Math.round(props.value)}%`}
         </Typography>
