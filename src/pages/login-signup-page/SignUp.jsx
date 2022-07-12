@@ -82,12 +82,13 @@ const useStyles = makeStyles({
 
 const uuid = '' + uuidv4();
 
-export default function SignUp() {
+export default function SignUp({ setAction }) {
   const classes = useStyles();
   const dispacth = useDispatch();
   const [email, setEmail] = useState('');
   const [emailSendSuccessfully, setEmailSentSuccessfuly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
 
   const schema = yup.object({
     firstName: yup.string().required('First name is requried'),
@@ -166,7 +167,12 @@ export default function SignUp() {
   return (
     <>
       {emailSendSuccessfully ? (
-        <EmailVerification email={email} />
+        <EmailVerification
+          setAction={setAction}
+          email={email}
+          setEmailVerified={setEmailVerified}
+          emailVerified={emailVerified}
+        />
       ) : (
         <form
           method='post'

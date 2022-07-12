@@ -9,10 +9,11 @@ import {
   styled,
   Typography,
   CardActions,
+  Grid,
+  Divider,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CustomButton from './custom-controls/CustomButton';
 import CourseProgress from '../pages/student-interface-page/CourseProgress';
 
 const ExpandMore = styled((props) => {
@@ -33,6 +34,11 @@ export default function CourseInProgressPreview({
   enrollmentDetails,
 }) {
   const [expanded, setExpanded] = useState(false);
+  const [courseCompletionPercentage] = useState(
+    Math.floor(
+      (enrollmentDetails[0].completedTopics.length / course.topics.length) * 100
+    )
+  );
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -41,7 +47,7 @@ export default function CourseInProgressPreview({
     setContinueLearning(true);
   };
   return (
-    <Card style={{ margin: '20px' }}>
+    <Card style={{ margin: '20px', maxWidth: '300px' }}>
       <CardMedia
         component={'img'}
         height='194'
@@ -49,59 +55,96 @@ export default function CourseInProgressPreview({
         alt='course thumbnail'
         style={{ height: '80px' }}
       />
-      <CardContent>
+      <CardContent style={{ height: '90px' }}>
         <Typography
-          style={{ fontFamily: 'monospace', margin: '20px 0px 0px 0px' }}
+          style={{
+            fontFamily: 'monospace',
+            margin: '20px 0px 0px 0px',
+          }}
           variant='subtitle2'
         >
           {course.title}
         </Typography>
       </CardContent>
 
-      <CardActions style={{ margin: 'auto 0px' }}>
-        <CourseProgress
-          currentProgress={Math.floor(
-            (enrollmentDetails[0].completedTopics.length /
-              course.topics.length) *
-              100
-          )}
-        />
-        <CustomButton
-          text='Continue Learning'
-          variant='outlined'
+      <CardActions
+        style={{
+          backgroundColor: 'black',
+          display: 'flex',
+          justifyContent: 'center',
+          justifyItems: 'center',
+          alignItems: '',
+        }}
+      >
+        <CourseProgress currentProgress={courseCompletionPercentage} />
+        <Button
+          variant='contained'
           onClick={handleContinueLearnig}
-        />
+          style={{
+            flexGrow: 1,
+            backgroundColor: '#ff8c00',
+          }}
+          color='primary'
+        >
+          <Typography
+            variant='subtitle2'
+            style={{
+              fontFamily: 'monospace',
+              color: '#230C0F',
+            }}
+          >
+            {enrollmentDetails[0].completedTopics.length == 0
+              ? 'Start Course'
+              : enrollmentDetails[0].completedTopics.length <
+                course.topics.length
+              ? 'Continue Learning'
+              : 'Revisit'}
+          </Typography>
+        </Button>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label='show more'
         >
-          <ExpandMoreIcon />
+          <ExpandMoreIcon fontSize='medium' style={{ color: '#ff8c00' }} />
         </ExpandMore>
       </CardActions>
 
       <Collapse in={expanded} timeout='auto' unmountOnExit>
-        <ButtonGroup fullWidth style={{ margin: 'auto 0px' }}>
-          <Button variant='outlined' color='primary'>
-            <Typography variant='body2'>10 Assignments</Typography>
-          </Button>
-          <Button variant='contained' color='primary'>
-            <Typography variant='body2'>
-              {course.topics.length} modules
+        <Grid container justifyContent='center' style={{ margin: '10px auto' }}>
+          <Grid item xs={6}>
+            <Button
+              // fullWidth
+              variant='outlined'
+              color='primary'
+              disabled={courseCompletionPercentage < 100}
+              style={{ margin: 'auto 10px' }}
+            >
+              <Typography variant='body2'>Download Certificate</Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              variant='body2'
+              style={{
+                fontFamily: 'monospace',
+              }}
+            >
+              {enrollmentDetails[0].completedTopics.length}/
+              {course.topics.length} module(s)
             </Typography>
-          </Button>
-          <Button variant='outlined' color='primary'>
-            <Typography variant='body1'>
-              {Math.floor(
-                (enrollmentDetails[0].completedTopics.length /
-                  course.topics.length) *
-                  100
-              )}
-              % Done
+            <Divider />
+            <Typography
+              variant='body1'
+              style={{
+                fontFamily: 'monospace',
+              }}
+            >
+              {courseCompletionPercentage}% Done
             </Typography>
-          </Button>
-        </ButtonGroup>
+          </Grid>
+        </Grid>
       </Collapse>
     </Card>
   );

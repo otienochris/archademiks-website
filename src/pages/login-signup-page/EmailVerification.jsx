@@ -61,7 +61,12 @@ const styles = makeStyles({
   },
 });
 
-function EmailVerification({ email, setEmailVerified, emailVerified }) {
+function EmailVerification({
+  email,
+  setEmailVerified,
+  emailVerified,
+  setAction,
+}) {
   const classes = styles();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -125,6 +130,7 @@ function EmailVerification({ email, setEmailVerified, emailVerified }) {
   const onSubmit = (data) => {
     data.email = email;
     dispatch(verifyEmail(data));
+    setAction('login');
     setEmailVerified(true);
   };
 

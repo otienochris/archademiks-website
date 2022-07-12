@@ -118,7 +118,7 @@ export default function Index() {
         </Tabs>
       </Drawer>
       {!continueLearning ? (
-        <Container>
+        <Container style={{ minHeight: '87vh' }}>
           {value === 2 ? (
             <Support />
           ) : value === 1 ? (
