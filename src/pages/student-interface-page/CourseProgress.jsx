@@ -9,7 +9,17 @@ function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CircularProgress
-        style={isValue100 ? { color: 'green' } : { color: 'white' }}
+        style={
+          isValue100
+            ? {
+                color: 'green',
+                backgroundColor: 'green',
+                width: '35px',
+                height: '35px',
+                borderRadius: '50%',
+              }
+            : { color: 'white' }
+        }
         variant='determinate'
         {...props}
       />
@@ -25,13 +35,17 @@ function CircularProgressWithLabel(props) {
           justifyContent: 'center',
         }}
       >
-        <Typography
-          variant='caption'
-          component='div'
-          style={isValue100 ? { color: 'green' } : { color: 'white' }}
-        >
-          {isValue100 ? <Check /> : `${Math.round(props.value)}%`}
-        </Typography>
+        {isValue100 ? (
+          <Check style={{ color: 'white' }} />
+        ) : (
+          <Typography
+            variant='caption'
+            component='div'
+            style={{ color: 'white' }}
+          >
+            {Math.round(props.value)}%
+          </Typography>
+        )}
       </Box>
     </Box>
   );
