@@ -624,6 +624,6 @@ export const coursesSlice = createSlice({
   },
 });
 
-export const { deleteCourse, saveCourse } = coursesSlice.actions;
+export const { deleteCourse, saveCourse, getCourseById } = coursesSlice.actions;
 
 export default coursesSlice.reducer;

@@ -83,10 +83,13 @@ const courseEnrollmentSlice = createSlice({
     enrollUserToCourse: (state, action) => {
       state.value.push(action.payload);
     },
+    setCourseEnrollments: (state, action) => {
+      return action.payload;
+    },
   },
 });
 
-export const { addCompletedTopic, enrollUserToCourse } =
+export const { addCompletedTopic, enrollUserToCourse, setCourseEnrollments } =
   courseEnrollmentSlice.actions;
 
 export default courseEnrollmentSlice.reducer;
