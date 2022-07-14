@@ -30,13 +30,15 @@ function PaypalForm({ orderDetails, course }) {
     criteriaMode: 'all',
   });
 
+  const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
+
   const handlePaypal = async (data) => {
     localStorage.setItem('courseId', JSON.stringify(course.id));
     setIsLoading(true);
     orderDetails.buyer.email = data.email;
 
     const response = await fetch(
-      'http://localhost:8080/paypal/payment/authorize',
+      baseUrlForPayment + '/paypal/payment/authorize',
       {
         method: 'POST',
         mode: 'cors',
