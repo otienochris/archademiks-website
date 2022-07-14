@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Button,
   CircularProgress,
@@ -12,7 +12,6 @@ import * as yup from 'yup';
 
 import { Email } from '@material-ui/icons';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -32,6 +31,7 @@ function PaypalForm({ orderDetails, course }) {
   });
 
   const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
+  // const baseUrlForPayment = 'http://localhost:8080';
 
   const handlePaypal = async (data) => {
     localStorage.setItem('courseId', JSON.stringify(course.id));

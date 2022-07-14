@@ -61,12 +61,13 @@ const courseEnrollmentSlice = createSlice({
         if (
           parseInt(enrollment.studentId) ===
             parseInt(action.payload.studentId) &&
-          parseInt(enrollment.courseId) == parseInt(action.payload.courseId)
+          parseInt(enrollment.courseId) === parseInt(action.payload.courseId)
         ) {
           enrollmentToBeUpdated = enrollment;
         } else {
           restOfEnrollments.push(enrollment);
         }
+        return undefined;
       });
 
       // add the topic id only if it doesn't exist
@@ -84,7 +85,7 @@ const courseEnrollmentSlice = createSlice({
       state.value.push(action.payload);
     },
     setCourseEnrollments: (state, action) => {
-      return action.payload;
+      state.value = action.payload;
     },
   },
 });
