@@ -140,9 +140,11 @@ function ConfirmOrder() {
     fetchOrderDetails();
     const user = localStorage.getItem('user');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const courseEnrollments = localStorage.getItem('courseEnrollments');
 
     dispatch(setLoggedInUser({ user: JSON.parse(user) }));
     dispatch(loginAction({ isLoggedIn: isLoggedIn, token: 'hfoshfsofh' }));
+    dispatch(setCourseEnrollments(JSON.parse(courseEnrollments)));
   }, [paymentId, payerId]);
 
   return (
