@@ -106,10 +106,13 @@ export default function Index() {
     initialOrderDetails.products = [productObject];
 
     // set local storage
-    localStorage.setItem('courseEnrollments', courseEnrollments); // carry foward this state after redirect
     localStorage.setItem('courseId', courseId);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    localStorage.setItem(
+      'courseEnrollments',
+      JSON.stringify(courseEnrollments)
+    ); // carry foward this state after redirect
   }, [course, courseId]);
 
   return (
