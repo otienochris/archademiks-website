@@ -13,7 +13,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
+import {
+  enrollUserToCourse,
+  setCourseEnrollments,
+} from '../../state/reducers/courseEnrollementReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import { setLoggedInUser } from '../../state/reducers/userReducer';
 
@@ -97,7 +100,6 @@ function ConfirmOrder() {
               completedTopics: [],
             })
           );
-          console.log(itemList);
         }
         return data;
       })
@@ -109,7 +111,7 @@ function ConfirmOrder() {
   };
 
   const fetchOrderDetails = async () => {
-    const response = await fetch(reviewPaymentUrl, {
+    await fetch(reviewPaymentUrl, {
       method: 'GET',
       mode: 'cors',
     })
@@ -124,7 +126,6 @@ function ConfirmOrder() {
           (transaction) => transaction.amount.total
         );
         setTotalAmount(amount);
-        console.log(data);
         return data;
       })
       .catch((error) => console.log(error));
@@ -134,9 +135,11 @@ function ConfirmOrder() {
     fetchOrderDetails();
     const user = localStorage.getItem('user');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const courseEnrollments = localStorage.getItem('courseEnrollments');
 
     dispatch(setLoggedInUser({ user: JSON.parse(user) }));
     dispatch(loginAction({ isLoggedIn: isLoggedIn, token: 'hfoshfsofh' }));
+    dispatch(setCourseEnrollments(JSON.parse(courseEnrollments)));
   }, [paymentId, payerId]);
 
   return (
@@ -171,8 +174,8 @@ function ConfirmOrder() {
               <tr>
                 <th className={classes.header}>Name/Title</th>
                 <th className={classes.header}>Qty</th>
-                <th className={classes.header}>Unit Price</th>
-                <th className={classes.header}>Total</th>
+                <th className={classes.header}>Unit Price ($)</th>
+                <th className={classes.header}>Total ($)</th>
               </tr>
               {itemList.map((item, index) => (
                 <tr key={index}>
@@ -230,7 +233,7 @@ function ConfirmOrder() {
                 {isLoading && isPaying ? (
                   <CircularProgress />
                 ) : (
-                  `| Complete Payment | Ksh (${totalAmount})`
+                  `| Complete Payment | $ (${totalAmount})`
                 )}
               </Button>
             )}

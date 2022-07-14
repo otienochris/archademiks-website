@@ -37,18 +37,15 @@ function PaypalForm({ orderDetails, course }) {
     setIsLoading(true);
     orderDetails.buyer.email = data.email;
 
-    const response = await fetch(
-      baseUrlForPayment + '/paypal/payment/authorize',
-      {
-        method: 'POST',
-        mode: 'cors',
-        redirect: 'follow',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderDetails),
-      }
-    )
+    await fetch(baseUrlForPayment + '/paypal/payment/authorize', {
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderDetails),
+    })
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);

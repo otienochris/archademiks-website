@@ -29,14 +29,6 @@ function CustomAppBar2() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('user');
-    const isLoggedInFromLocalStorage = localStorage.getItem('isLoggedIn');
-
-    console.log(userFromLocalStorage);
-    console.log(isLoggedInFromLocalStorage);
-  }, []);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -58,13 +50,13 @@ function CustomAppBar2() {
 
   const handleDashboard = () => {
     switch (user.type) {
-      case 'instructor':
+      case 'INSTRUCTOR':
         navigate('/instructor');
         break;
-      case 'student':
+      case 'STUDENT':
         navigate('/students');
         break;
-      case 'admin':
+      case 'ADMIN':
         navigate('/admin');
         break;
       default:
