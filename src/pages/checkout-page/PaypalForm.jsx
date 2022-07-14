@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   CircularProgress,
@@ -12,6 +12,7 @@ import * as yup from 'yup';
 
 import { Email } from '@material-ui/icons';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   email: yup.string().email().required(),
