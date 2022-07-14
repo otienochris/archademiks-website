@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { list } from '../../data/courses';
 import CourseCard from '../../components/CourseCard';
 import {
   AccordionDetails,
@@ -8,7 +7,6 @@ import {
   AccordionSummary,
   Container,
   Typography,
-  Button,
   Grid,
   makeStyles,
 } from '@material-ui/core';
@@ -17,23 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaypalForm from './PaypalForm';
 import MpesaForm from './MpesaForm';
 import { useSelector } from 'react-redux';
-
-const initialCourse = {
-  id: 0,
-  title: '',
-  thumbnail: '',
-  description: '',
-  rating: 0,
-  price: 0.0,
-  category: '',
-  numberOfEnrolledStudents: 0,
-  creationDate: '',
-  modificationDate: '',
-  topics: [{}],
-  subTopics: [{}],
-  content: [{}],
-  links: [{}],
-};
+import { useDispatch } from 'react-redux';
 
 const addressObject = {
   city: '',
@@ -71,8 +53,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     marginTop: '20px',
-    // justifyContent: 'center',
-    // justifyItems: 'center',
   },
   paymentSection: {
     margin: '8px auto',
@@ -95,16 +75,20 @@ const useStyles = makeStyles({
 });
 
 export default function Index() {
+  const dispacth = useDispatch();
   const { courseId } = useParams();
-  const [course, setCourse] = useState(initialCourse);
+  const allCourses = useSelector((state) => state.courses.value);
+  const [course] = useState(
+    allCourses.filter((course) => parseInt(course.id) === parseInt(courseId))[0]
+  );
   const classes = useStyles();
   const user = useSelector((state) => state.user.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
+  const courseEnrollments = useSelector(
+    (state) => state.courseEnrollments.value
+  );
 
   useEffect(() => {
-    const filteredCourses = list.filter((course) => course.id == courseId);
-    setCourse(filteredCourses[0]);
-
     // set buyer
     initialOrderDetails.buyer.firstName = user.firstName;
     initialOrderDetails.buyer.lastName = user.lastName;
@@ -122,6 +106,8 @@ export default function Index() {
     initialOrderDetails.products = [productObject];
 
     // set local storage
+    localStorage.setItem('courseEnrollments', courseEnrollments); // carry foward this state after redirect
+    localStorage.setItem('courseId', courseId);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
   }, [course, courseId]);
