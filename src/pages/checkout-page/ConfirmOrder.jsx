@@ -63,6 +63,11 @@ function ConfirmOrder() {
   const courseId = localStorage.getItem('courseId');
   const user = localStorage.getItem('user');
 
+  useEffect(() => {
+    const courseEnrollments = localStorage.getItem('courseEnrollments');
+    dispatch(setCourseEnrollments(courseEnrollments));
+  }, []);
+
   const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
 
   const reviewPaymentUrl =
