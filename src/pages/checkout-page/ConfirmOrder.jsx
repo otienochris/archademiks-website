@@ -63,12 +63,8 @@ function ConfirmOrder() {
   const courseId = localStorage.getItem('courseId');
   const user = localStorage.getItem('user');
 
-  useEffect(() => {
-    const courseEnrollments = localStorage.getItem('courseEnrollments');
-    dispatch(setCourseEnrollments(courseEnrollments));
-  }, []);
-
   const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
+  // const baseUrlForPayment = 'http://localhost:8080';
 
   const reviewPaymentUrl =
     baseUrlForPayment + '/paypal/payment/review/' + paymentId;
@@ -82,7 +78,7 @@ function ConfirmOrder() {
   const handlePayment = async () => {
     setIsLoading(true);
     setIsPaying(true);
-    const response = await fetch(executePaymenturl, {
+    await fetch(executePaymenturl, {
       method: 'GET',
       mode: 'cors',
     })
@@ -243,23 +239,6 @@ function ConfirmOrder() {
               </Button>
             )}
           </Grid>
-          <Grid
-            item
-            // className={classes.table}
-            // style={{ margin: '20px auto' }}
-            xs={12}
-            md={8}
-            alignContent='center'
-            alignItems='center'
-          >
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum
-              dignissimos quis sit similique debitis doloremque molestiae
-              impedit consequatur iure architecto id nam, temporibus fugiat a
-              possimus pariatur reiciendis, quasi repellendus!
-            </p>
-          </Grid>
-          <Grid item xs={0} md={4}></Grid>
         </Grid>
       )}
     </Container>
