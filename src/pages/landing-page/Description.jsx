@@ -54,8 +54,9 @@ export default function Description() {
           className={classes.mainTitle}
           style={{ fontFamily: 'monospace' }}
         >
-          Get your <span className={classes.spans}>Certification</span> and{' '}
-          <span className={classes.spans}>Skills</span> Online
+          Become <span className={classes.spans}>Skilled</span> and
+          <span className={classes.spans}>Certified</span>
+          <span style={{ color: 'greenyellow' }}>Online</span>, Today!
           <hr />
         </Typography>
         <Typography
