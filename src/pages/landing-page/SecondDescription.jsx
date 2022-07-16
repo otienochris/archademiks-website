@@ -38,10 +38,10 @@ export default function SecondDescription(props) {
             Excelent Learning <span className={classes.spans}>Experience</span>
           </Typography>
           <Typography variant='body1'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit,
-            quisquam iste harum voluptates minima quia magni numquam! Molestias
-            vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum
-            earum accusantium ut aspernatur!
+            Akademi offers the best study buddy for self-paced self-learning for
+            its users. Its user-friendly interface is intuitive and enjoyable.
+            Learning using this platform provides an Excellent Learning
+            Experience.
           </Typography>
           <CustomButton
             text='View All Courses'

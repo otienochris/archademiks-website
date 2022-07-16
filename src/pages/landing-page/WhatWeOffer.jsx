@@ -35,6 +35,7 @@ const useStyles = makeStyles({
     border: '2px solid #ff8c00',
     backgroundColor: 'black',
     color: 'white',
+    height: '360px',
   },
   icon: {
     margin: '20px auto',
@@ -46,7 +47,7 @@ export default function WhatWeOffer(props) {
   return (
     <Container>
       <Typography variant='h3' className={classes.whatWeOfferTitle}>
-        What we <span className={classes.spans}>Offer</span>
+        What we <span className={classes.spans}>Offer </span>:
       </Typography>
       <Grid
         container
@@ -64,10 +65,10 @@ export default function WhatWeOffer(props) {
               Certification
             </Typography>
             <Typography align='center' variant='body2'>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum
-              sequi maiores porro. Dolor, totam saepe eligendi veritatis quos
-              consectetur ullam odit! Mollitia aperiam harum ab magni. Qui
-              incidunt quas hic!
+              Certifications are the surest way to prove what you have learned
+              and mastered. Akademi offers affordable courses that grant
+              certificates of completion that are easily downloadable and
+              sharable on social media.
             </Typography>
           </Paper>
         </Grid>
@@ -82,10 +83,10 @@ export default function WhatWeOffer(props) {
               Quality Content
             </Typography>
             <Typography align='center' variant='body2'>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum
-              sequi maiores porro. Dolor, totam saepe eligendi veritatis quos
-              consectetur ullam odit! Mollitia aperiam harum ab magni. Qui
-              incidunt quas hic!
+              Our courses go through intense review and scrutiny by
+              professionals to yield high quality content that meets current
+              market needs. Enrolling and completing Akademi's courses improves
+              your competitiveness globally.
             </Typography>
           </Paper>
         </Grid>
@@ -103,10 +104,10 @@ export default function WhatWeOffer(props) {
               Support
             </Typography>
             <Typography align='center' variant='body2'>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum
-              sequi maiores porro. Dolor, totam saepe eligendi veritatis quos
-              consectetur ullam odit! Mollitia aperiam harum ab magni. Qui
-              incidunt quas hic!
+              We value our clients. Therefore, we aim to provide the best
+              learning experience through user friendly platform that require
+              little support. However, if stuck, our support team are few
+              seconds away.
             </Typography>
           </Paper>
         </Grid>

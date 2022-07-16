@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     minHeight: '50vh',
     borderTop: '2px solid #E0E8EC',
     borderBottom: '2px solid #E0E8EC',
+    display: 'flex',
+    justifyContent: 'center',
+    justifyItems: 'center',
   },
   categories: {
     width: '100%',
@@ -96,27 +99,42 @@ export default function MostPopularCourses() {
       }}
     >
       <Grid container className={classes.mainContainer}>
-        <Typography variant='h4' className={classes.mainTitle}>
-          <span className={classes.spans}>Most Popular</span> Courses
-        </Typography>
-        <Grid container className={classes.categories}>
-          <Grid item className={classes.category}>
-            <Button onClick={() => filterByCategory('')} variant='contained'>
-              All Courses
+        <Grid item xs={12}>
+          <Typography variant='h4' align='center' className={classes.mainTitle}>
+            <span className={classes.spans}>Most Popular</span> Courses
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            variant='h6'
+            style={{ fontFamily: 'monospace', marginLeft: '20px' }}
+          >
+            Filters:{' '}
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sm={3} md={2} className={classes.category}>
+          <Button onClick={() => filterByCategory('')} variant='contained'>
+            All Courses
+          </Button>
+        </Grid>
+        {categories.map((category, index) => (
+          <Grid
+            key={index}
+            item
+            xs={4}
+            sm={3}
+            md={2}
+            className={classes.category}
+          >
+            <Button
+              style={{ color: 'white', borderColor: '#ff8c00' }}
+              onClick={() => filterByCategory(category)}
+              variant='outlined'
+            >
+              {category}
             </Button>
           </Grid>
-          {categories.map((category, index) => (
-            <Grid key={index} item className={classes.category}>
-              <Button
-                style={{ color: 'white', borderColor: '#ff8c00' }}
-                onClick={() => filterByCategory(category)}
-                variant='outlined'
-              >
-                {category}
-              </Button>
-            </Grid>
-          ))}
-        </Grid>
+        ))}
         <Grid container justifyContent='center'>
           {listOfCourses.map((course, index) => (
             <Grid

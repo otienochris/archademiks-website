@@ -54,6 +54,7 @@ export default function StudentsRatings() {
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
+        paddingBottom: '30px',
       }}
     >
       <Grid container justifyContent='center' className={classes.mainContainer}>

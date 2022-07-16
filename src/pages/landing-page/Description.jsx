@@ -5,7 +5,7 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 
 const useStyles = makeStyles({
   mainGrid: {
-    minHeight: '94vh',
+    minHeight: '82vh',
     marginTop: '30px',
     backgroundImage: 'url("/Basic-Landing-Page-background.jpg")',
     // backgroundImage: 'url("/main_background.jpg")',
@@ -41,21 +41,14 @@ export default function Description() {
   const navigate = useNavigate();
   return (
     <Grid container justifyContent='center' className={classes.mainGrid}>
-      <Grid
-        item
-        xs={11}
-        sm={8}
-        md={5}
-        className={classes.gridItem}
-        // style={{ maxWidth: '450px' }}
-      >
+      <Grid item xs={11} sm={8} md={5} className={classes.gridItem}>
         <Typography
           variant='h3'
           className={classes.mainTitle}
           style={{ fontFamily: 'monospace' }}
         >
           Become <span className={classes.spans}>Skilled</span> and
-          <span className={classes.spans}>Certified</span>
+          <span className={classes.spans}> Certified </span>
           <span style={{ color: 'greenyellow' }}>Online</span>, Today!
           <hr />
         </Typography>
@@ -63,10 +56,10 @@ export default function Description() {
           variant='subtitle1'
           style={{ fontFamily: 'monospace', margin: '20px auto' }}
         >
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit,
-          quisquam iste harum voluptates minima quia magni numquam! Molestias
-          vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum earum
-          accusantium ut aspernatur!
+          As demand for skilled labor increases, demand for certifications to
+          illustrate competency equally increases. Akademi seeks to bridge these
+          phenomena by equipping you with relevant certifications and skills to
+          increase your employability. Join us today!
         </Typography>
         {/* <NavLink className={classes.navlink} to={'/login-signup'}> */}
         <CustomButton
