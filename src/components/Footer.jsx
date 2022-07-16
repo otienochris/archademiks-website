@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -71,81 +71,87 @@ const useStyles = makeStyles({
 export default function Footer() {
   const classes = useStyles();
   return (
-    <Grid
-      container
-      className={classes.mainCointaner}
-      justifyContent='space-evenly'
-    >
-      <Grid item className={classes.socials} xs={12} sm={5}>
-        <Typography variant='body1'>
-          {footerLinks.socials.noteToAudience}
-        </Typography>
-        <div className={classes.socials}>
-          <a
-            href={footerLinks.socials.socialMedia.facebook}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={classes.socialIcons}
-          >
-            <FacebookIcon fontSize='large' />
-          </a>
-          <a
-            href={footerLinks.socials.socialMedia.instagram}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={classes.socialIcons}
-          >
-            <InstagramIcon fontSize='large' />
-          </a>
-          <NavLink
-            to={footerLinks.socials.socialMedia.twitter}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={classes.socialIcons}
-          >
-            <TwitterIcon fontSize='large' />
-          </NavLink>
-        </div>
+    <Container>
+      <Grid
+        container
+        className={classes.mainCointaner}
+        justifyContent='space-evenly'
+      >
+        <Grid item className={classes.socials} xs={12} sm={5}>
+          <Typography variant='body1'>
+            {footerLinks.socials.noteToAudience}
+          </Typography>
+          <div className={classes.socials}>
+            <a
+              href={footerLinks.socials.socialMedia.facebook}
+              target='_blank'
+              rel='noopener noreferrer'
+              className={classes.socialIcons}
+            >
+              <FacebookIcon fontSize='large' />
+            </a>
+            <a
+              href={footerLinks.socials.socialMedia.instagram}
+              target='_blank'
+              rel='noopener noreferrer'
+              className={classes.socialIcons}
+            >
+              <InstagramIcon fontSize='large' />
+            </a>
+            <NavLink
+              to={footerLinks.socials.socialMedia.twitter}
+              target='_blank'
+              rel='noopener noreferrer'
+              className={classes.socialIcons}
+            >
+              <TwitterIcon fontSize='large' />
+            </NavLink>
+          </div>
+        </Grid>
+        <Grid item className={classes.explore} xs={4} sm={2}>
+          <Typography style={{ marginBotton: '30px' }}>Explore</Typography>
+          {footerLinks.explore.map((exploreItem, index) => (
+            <NavLink
+              key={index}
+              to={exploreItem.path}
+              className={classes.navLink}
+            >
+              {exploreItem.title}
+            </NavLink>
+          ))}
+        </Grid>
+        <Grid item className={classes.about} xs={4} sm={3}>
+          <Typography>About</Typography>
+          {footerLinks.about.map((aboutItem, index) => (
+            <NavLink
+              key={index}
+              to={aboutItem.path}
+              className={classes.navLink}
+            >
+              {aboutItem.title}
+            </NavLink>
+          ))}
+        </Grid>
+        <Grid item className={classes.community} xs={4} sm={2}>
+          <Typography>Community</Typography>
+          {footerLinks.community.map((communityItem, index) => (
+            <NavLink
+              key={index}
+              to={communityItem.path}
+              className={classes.navLink}
+            >
+              {communityItem.title}
+            </NavLink>
+          ))}
+        </Grid>
+        <Grid item xs={12} style={{ marginTop: '30px' }}>
+          <hr />
+          <CopyrightIcon
+            style={{ display: 'inline-block', margin: '30px auto auto auto' }}
+          />
+          <Typography style={{ display: 'block' }}>Copyright 2022</Typography>
+        </Grid>
       </Grid>
-      <Grid item className={classes.explore} xs={4} sm={2}>
-        <Typography style={{ marginBotton: '30px' }}>Explore</Typography>
-        {footerLinks.explore.map((exploreItem, index) => (
-          <NavLink
-            key={index}
-            to={exploreItem.path}
-            className={classes.navLink}
-          >
-            {exploreItem.title}
-          </NavLink>
-        ))}
-      </Grid>
-      <Grid item className={classes.about} xs={4} sm={3}>
-        <Typography>About</Typography>
-        {footerLinks.about.map((aboutItem, index) => (
-          <NavLink key={index} to={aboutItem.path} className={classes.navLink}>
-            {aboutItem.title}
-          </NavLink>
-        ))}
-      </Grid>
-      <Grid item className={classes.community} xs={4} sm={2}>
-        <Typography>Community</Typography>
-        {footerLinks.community.map((communityItem, index) => (
-          <NavLink
-            key={index}
-            to={communityItem.path}
-            className={classes.navLink}
-          >
-            {communityItem.title}
-          </NavLink>
-        ))}
-      </Grid>
-      <Grid item xs={12} style={{ marginTop: '30px' }}>
-        <hr />
-        <CopyrightIcon
-          style={{ display: 'inline-block', margin: '30px auto auto auto' }}
-        />
-        <Typography style={{ display: 'block' }}>Copyright 2022</Typography>
-      </Grid>
-    </Grid>
+    </Container>
   );
 }
