@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import StudentReview from '../../components/StudentReview';
@@ -29,8 +29,8 @@ const useStyles = makeStyles({
   },
   mainContainer: {
     // backgroundColor: '#E0E8EC',
-    color: 'white',
-    backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
+    // color: 'white',
+    // backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
   },
 });
 
@@ -47,27 +47,37 @@ export default function StudentsRatings() {
   }, []);
 
   return (
-    <Grid container justifyContent='center' className={classes.mainContainer}>
-      <Grid item className={classes.title}>
-        <Typography variant='h4'>
-          What Our <span className={classes.spans}>Students</span> Have to Say
-        </Typography>
+    <Container
+      style={{
+        backgroundImage: 'url("/main_background.jpg")',
+        color: 'white',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      <Grid container justifyContent='center' className={classes.mainContainer}>
+        <Grid item className={classes.title}>
+          <Typography variant='h4'>
+            What Our <span className={classes.spans}>Students</span> Have to Say
+          </Typography>
+        </Grid>
+        <Grid container className={classes.reviewsSection}>
+          {listOfReviews.map((review, index) => (
+            <Grid
+              key={index}
+              item
+              xs={12}
+              sm={8}
+              md={6}
+              lg={4}
+              className={classes.review}
+            >
+              <StudentReview key={review.id} review={review} />
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
-      <Grid container className={classes.reviewsSection}>
-        {listOfReviews.map((review, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sm={8}
-            md={6}
-            lg={4}
-            className={classes.review}
-          >
-            <StudentReview key={review.id} review={review} />
-          </Grid>
-        ))}
-      </Grid>
-    </Grid>
+    </Container>
   );
 }

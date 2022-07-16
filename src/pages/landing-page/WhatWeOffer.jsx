@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 export default function WhatWeOffer(props) {
   const classes = useStyles();
   return (
-    <Container style={{ maxWidth: '100%' }}>
+    <Container>
       <Typography variant='h3' className={classes.whatWeOfferTitle}>
         What we <span className={classes.spans}>Offer</span>
       </Typography>

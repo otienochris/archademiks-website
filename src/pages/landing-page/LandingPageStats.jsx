@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import CourseStats from '../../components/CourseStats';
 
@@ -56,30 +56,32 @@ const useStyles = makeStyles({
 export default function LandingPageStats() {
   const classes = useStyles();
   return (
-    <Grid container className={classes.mainContainer} justifyContent='center'>
-      <Grid item xs={12} className={classes.mainTitle}>
-        <Typography variant='h4' className={classes.mainTitle}>
-          <span className={classes.spans}>statistics</span>
-        </Typography>
+    <Container>
+      <Grid container className={classes.mainContainer} justifyContent='center'>
+        <Grid item xs={12} className={classes.mainTitle}>
+          <Typography variant='h4' className={classes.mainTitle}>
+            <span className={classes.spans}>statistics</span>
+          </Typography>
+        </Grid>
+        <Grid container className={classes.mainContainer}>
+          {stats.map((statistic, index) => (
+            <Grid
+              key={index}
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              className={classes.statsSection}
+            >
+              <CourseStats
+                number={statistic.number}
+                title={statistic.title}
+                description={statistic.description}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
-      <Grid container className={classes.mainContainer}>
-        {stats.map((statistic, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sm={4}
-            md={3}
-            className={classes.statsSection}
-          >
-            <CourseStats
-              number={statistic.number}
-              title={statistic.title}
-              description={statistic.description}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </Grid>
+    </Container>
   );
 }
