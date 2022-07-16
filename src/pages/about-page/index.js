@@ -26,10 +26,15 @@ const styles = makeStyles({
     backgroundColor: 'whitesmoke',
     width: '90%',
     padding: '30px',
+    color: 'white',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    backgroundImage: 'url("/Basic-Landing-Page-background.jpg")',
   },
   wordings: {
     fontFamily: 'monospace',
-    color: 'black',
+    color: 'white',
   },
   titles: {
     marginBottom: '20px',
@@ -82,13 +87,17 @@ export default function Index() {
             xs={12}
             // md={6}
             className={classes.paperGrid}
+            style={{ margin: 'auto 0px', width: '100%' }}
           >
             <Paper
               variant='elevation'
               square
               className={classes.paper}
               elevation={0}
-              style={{ backgroundColor: 'whitesmoke' }}
+              style={{
+                width: '95%',
+                borderRadius: '20px 20px 0px 0px',
+              }}
             >
               <Typography
                 variant='h3'
@@ -205,7 +214,7 @@ export default function Index() {
               square
               className={classes.paper}
               elevation={0}
-              style={{ backgroundColor: 'whitesmoke' }}
+              style={{ width: '95%' }}
             >
               <Typography
                 variant='h3'

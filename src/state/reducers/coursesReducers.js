@@ -18,6 +18,14 @@ export const courseCategories = [
   'DevOps',
 ];
 
+const subtopicDescription =
+  'Object-oriented programming (OOP) is a computer programming model that organizes software design around data, or objects, rather than functions and logic. An object can be defined as a data field that has unique attributes and behavior. OOP focuses on the objects that developers want to manipulate rather than the logic required to manipulate them. This approach to programming is well-suited for programs that are large, complex and actively updated or maintained. This includes programs for manufacturing and design, as well as mobile applications; for example, OOP can be used for manufacturing system simulation software.';
+
+const sampleContent =
+  '<h3 style="margin-left:0px;"><span style="color: rgb(50,50,50);background-color: rgb(255,255,255);font-size: 20px;font-family: Arial, sans-serif;">What is object-oriented programming?</span></h3><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">Object-oriented programming (OOP) is a computer programming model that organizes software design around data, or objects, rather than functions and logic. An object can be defined as a data field that has unique attributes and behavior.</span></p><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">OOP focuses on the objects that developers want to manipulate rather than the logic required to manipulate them. This approach to programming is well-suited for programs that are large, complex and actively updated or maintained. This includes programs for manufacturing and design, as well as mobile applications; for example, OOP can be used for manufacturing system simulation software.</span></p><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">The organization of an object-oriented program also makes the method beneficial to collaborative development, where projects are divided into groups. Additional benefits of OOP include code reusability, scalability and efficiency.</span></p><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">The first step in OOP is to collect all of the objects a programmer wants to manipulate and identify how they relate to each other -- an exercise known as</span> <a href="https://www.techtarget.com/searchdatamanagement/definition/data-modeling" target="_self"><span style="color: rgb(0,124,173);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><ins>data modeling</ins></span></a><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">.</span></p><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">Examples of an object can range from physical entities, such as a human being who is described by properties like name and address, to small computer programs, such as</span> <a href="https://www.techtarget.com/whatis/definition/widget" target="_self"><span style="color: rgb(0,124,173);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><ins>widgets</ins></span></a><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">.</span></p><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">Once an object is known, it is labeled with a</span> <a href="https://www.techtarget.com/whatis/definition/class" target="_self"><span style="color: rgb(0,124,173);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><ins>class</ins></span></a> <span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">of objects that defines the kind of data it contains and any logic sequences that can manipulate it. Each distinct logic sequence is known as a method. Objects can communicate with well-defined interfaces called messages.</span></p><h3 style="margin-left:0px;"><span style="color: rgb(50,50,50);background-color: rgb(255,255,255);font-size: 20px;font-family: Arial, sans-serif;">What is the structure of object-oriented programming?</span></h3><p style="margin-left:0px;"><span style="color: rgb(108,108,108);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">The structure, or building blocks, of object-oriented programming include the following:</span></p><ul><li style="margin-left:0px;"><span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><strong>Classes</strong></span> <span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">are user-defined data types that act as the blueprint for individual objects, attributes and methods.</span></li><li style="margin-left:0px;"><span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><strong>Objects</strong></span> <span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">are instances of a class created with specifically defined data. Objects can correspond to real-world objects or an abstract entity. When class is defined initially, the description is the only object that is defined.</span></li>' +
+  '<li style="margin-left:0px;"><span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><strong>Methods</strong></span> <span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">are functions that are defined inside a class that describe the behaviors of an object. Each method contained in class definitions starts with a reference to an instance object. Additionally, the subroutines contained in an object are called instance methods. Programmers use methods for reusability or keeping functionality encapsulated inside one object at a time.</span></li>' +
+  '<li style="margin-left:0px;"><span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;"><strong>Attributes</strong></span> <span style="color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 18px;font-family: Arial, sans-serif;">are defined in the class template and represent the state of an object. Objects will have data stored in the attributes field. Class attributes belong to the class itself.</span></li></ul>"';
+
 const instructorsList = [
   {
     id: 1,
@@ -102,29 +110,29 @@ export const list = [
         title: 'Introduction',
         description:
           'In this section, you will learn how to be effective in academic writing. It assumes you have little to no knowledge regarding this topic. Thus, it expounds even the topics one might consider obvious. ',
-        content: 'Tools and Skills required',
+        content: sampleContent,
         link: '',
         subTopics: [
           {
             id: 1,
             title: 'What is Academic English',
-            description: 'Some description',
+            description: subtopicDescription,
             link: 'MyTLosz6aHA',
-            content: 'Tools and Skills required',
+            content: sampleContent,
           },
           {
             id: 2,
             title: 'What is Academic Writing',
-            description: 'Some description',
+            description: subtopicDescription,
             link: '',
-            content: 'Tools and Skills required',
+            content: sampleContent,
           },
           {
             id: 3,
             title: 'Example of Academic writing works',
             description: 'Some description',
             link: '',
-            content: 'Tools and Skills required',
+            content: sampleContent,
           },
         ],
       },
@@ -132,7 +140,7 @@ export const list = [
         id: 2,
         title: 'Tools and Skills required',
         description: 'Some description',
-        content: 'Tools and Skills required',
+        content: sampleContent,
         link: '',
         subTopics: [
           {
@@ -155,7 +163,7 @@ export const list = [
         id: 3,
         title: 'Microsoft Office',
         description: 'Some description',
-        content: 'Tools and Skills required',
+        content: sampleContent,
         link: '',
         subTopics: [
           {
@@ -186,7 +194,7 @@ export const list = [
         title: 'Productivity Tools',
         description:
           'In this section, you will learn how to be effective in academic writing. It assumes you have little to no knowledge regarding this topic. Thus, it expounds even the topics one might consider obvious. ',
-        content: 'Tools and Skills required',
+        content: sampleContent,
         link: '',
         subTopics: [
           {
@@ -223,7 +231,7 @@ export const list = [
         id: 5,
         title: 'Interpreting Requirements',
         description: 'Some description',
-        content: 'Tools and Skills required',
+        content: sampleContent,
         link: '',
         subTopics: [
           {

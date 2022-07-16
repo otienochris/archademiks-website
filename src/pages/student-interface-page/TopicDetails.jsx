@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
 import { ExpandMore } from '@mui/icons-material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
@@ -34,20 +34,26 @@ export default function TopicDetails({
   topic,
   isCompleted,
   courseId,
-  setRefreshCourseProgress,
+  completedTopics,
+  setCompletedTopics,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.value.id);
-  const [isTopicCompleted, setIsTopicCompleted] = useState(isCompleted);
-  const [activeStep, setActiveStep] = useState(
-    isTopicCompleted ? topic.subTopics.length - 1 : 0
-  );
+  const [activeStep, setActiveStep] = useState(0);
+  // const [activeStep, setActiveStep] = useState(
+  //   isCompleted ? topic.subTopics.length - 1 : 0
+  // );
+  const [isTopicCompleted, setIsTopicCompleted] = useState();
+
+  useEffect(() => {
+    setIsTopicCompleted(isCompleted);
+    setActiveStep(0);
+  }, [isCompleted, topic]);
 
   const handleNext = (isEndOfTopics) => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (isEndOfTopics) {
-      setIsTopicCompleted(true);
       dispatch(
         addCompletedTopic({
           courseId: courseId,
@@ -55,6 +61,10 @@ export default function TopicDetails({
           topicId: topic.id,
         })
       );
+      // setIsTopicCompleted(true);
+      const topics = completedTopics.filter((item) => true);
+      topics.push(parseInt(topic.id));
+      setCompletedTopics(topics);
       // TODO: update enrollment details
       // TODO: persist change
     }
@@ -67,7 +77,7 @@ export default function TopicDetails({
   return (
     <Accordion
       style={
-        isTopicCompleted
+        isCompleted || isTopicCompleted
           ? { width: '100%', border: '1px solid green', margin: '5px auto' }
           : { width: '100%', margin: '5px auto' }
       }
@@ -75,7 +85,7 @@ export default function TopicDetails({
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Grid container>
           <Grid item xs={12} style={{ display: 'flex', direction: 'row' }}>
-            {isTopicCompleted ? (
+            {isCompleted ? (
               <Check
                 style={{
                   color: 'white',
@@ -94,13 +104,13 @@ export default function TopicDetails({
             <Typography
               style={{ width: '100%' }}
               align='left'
-              variant={isTopicCompleted ? 'body2' : 'h6'}
+              variant={isCompleted ? 'body2' : 'h6'}
             >
               {topic.title}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            {!isTopicCompleted ? (
+            {!isCompleted ? (
               <Typography align='left' variant='body2'>
                 {topic.description}
               </Typography>
@@ -115,11 +125,20 @@ export default function TopicDetails({
         <Grid container>
           <Grid item xs={12}>
             {topic.link && <YoutubeEmbed embedId={topic.link} />}
+            <Typography
+              variant='h5'
+              style={{ marginLeft: '20px', fontFamily: 'monospace' }}
+            >
+              Introduction:
+            </Typography>
+            <hr />
             <div
               style={{
                 margin: '16px',
                 padding: '5px',
-                border: '2px solid grey',
+                // border: '2px solid grey',
+                padding: '30px',
+                fontFamily: 'monospace',
               }}
               className={classes.videoResponsive}
               dangerouslySetInnerHTML={{
@@ -127,11 +146,12 @@ export default function TopicDetails({
               }}
             />
             <Typography
-              style={{ width: '100%', textAlign: 'center' }}
-              variant='h6'
+              style={{ margin: '30px auto 20px 20px', fontFamily: 'monospace' }}
+              variant='h5'
             >
-              Lessons
+              Sub-topic(s)
             </Typography>
+            <hr />
           </Grid>
           <Grid item xs={12}>
             <Stepper
@@ -143,17 +163,38 @@ export default function TopicDetails({
                 <Step key={index}>
                   <StepLabel>{subTopic.title}</StepLabel>
                   <StepContent>
-                    <Typography variant='body1'>
+                    <Typography variant='h6'>A. Description:</Typography>
+                    <Typography
+                      variant='body1'
+                      style={{ fontFamily: 'monospace', padding: '20px' }}
+                    >
                       {subTopic.description}
                     </Typography>
 
+                    {/* <hr style={{ margin: '20px auto' }} /> */}
+
+                    <Typography variant='h6' style={{ marginBottom: '20px' }}>
+                      B. Video:
+                    </Typography>
                     {subTopic.link === '' || subTopic.link === null ? (
-                      ''
+                      <Typography variant='body1' align='center'>
+                        Video Not Available
+                      </Typography>
                     ) : (
                       <YoutubeEmbed embedId={subTopic.link} />
                     )}
 
+                    <Typography variant='h6' style={{ marginBottom: '20px' }}>
+                      C. Content:
+                    </Typography>
                     <div
+                      style={{
+                        margin: '16px',
+                        padding: '5px',
+                        border: '2px solid grey',
+                        padding: '30px',
+                        fontFamily: 'monospace',
+                      }}
                       className={classes.videoResponsive}
                       dangerouslySetInnerHTML={{
                         __html: `${subTopic.content}`,
@@ -162,7 +203,7 @@ export default function TopicDetails({
                     <Box sx={{ mb: 2 }}>
                       <div>
                         <ButtonGroup style={{ margin: '20px auto' }}>
-                          {isTopicCompleted &&
+                          {isCompleted &&
                           index === topic.subTopics.length - 1 ? (
                             ''
                           ) : (

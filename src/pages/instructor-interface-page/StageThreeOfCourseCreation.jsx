@@ -74,6 +74,9 @@ export default function StageThreeOfCourseCreation({
 
     newCourse.topics[data.topicId].subTopics.push(subTopic);
 
+    // set completed topics
+
+    console.log(newCourse);
     setNewCourse(newCourse);
     setIsStageSubmited(true);
 

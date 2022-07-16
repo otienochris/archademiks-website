@@ -158,14 +158,7 @@ export default function Index() {
         </Container>
       ) : (
         <Container style={{ minHeight: '87vh' }}>
-          <CourseLearningView
-            enrollmentDetails={
-              enrollmentDetails.filter(
-                (item) => item.courseId === courseToContinue.id
-              )[0]
-            }
-            course={courseToContinue}
-          />
+          <CourseLearningView userId={user.id} course={courseToContinue} />
         </Container>
       )}
     </>

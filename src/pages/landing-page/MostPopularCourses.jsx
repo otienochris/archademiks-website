@@ -11,8 +11,6 @@ import { list } from '../../data/courses';
 
 const useStyles = makeStyles({
   mainContainer: {
-    // backgroundColor: 'lightgrey',
-    // backgroundImage: 'linear-gradient(to right, #434343 0%, black 100%)',
     marginTop: '30px auto',
     width: '100%',
     minHeight: '50vh',
