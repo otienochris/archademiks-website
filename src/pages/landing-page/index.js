@@ -10,7 +10,8 @@ import WhatWeOffer from './WhatWeOffer';
 
 export default function Index() {
   return (
-    <Container>
+    <>
+      {/* <Container> */}
       <Description />
       <WhatWeOffer />
       <SecondDescription />
@@ -18,6 +19,8 @@ export default function Index() {
       <LandingPageStats />
       <StudentsRatings />
       <Footer />
-    </Container>
+
+      {/* </Container> */}
+    </>
   );
 }

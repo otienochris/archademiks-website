@@ -5,8 +5,17 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 
 const useStyles = makeStyles({
   mainGrid: {
-    minHeight: '73vh',
+    minHeight: '94vh',
     marginTop: '30px',
+    backgroundImage: 'url("/Basic-Landing-Page-background.jpg")',
+    // backgroundImage: 'url("/main_background.jpg")',
+    color: 'white',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    // opacity: '0.9',
+    backgroundColor: 'black',
+    color: 'white',
   },
   gridItem: {
     margin: 'auto 10px',
@@ -31,19 +40,29 @@ export default function Description() {
   const classes = useStyles();
   const navigate = useNavigate();
   return (
-    <Grid
-      container
-      justifyContent='center'
-      justifyItems='center'
-      className={classes.mainGrid}
-    >
-      <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
-        <Typography variant='h4' className={classes.mainTitle}>
-          Get your <span className={classes.spans}>Certification</span> and{' '}
-          <span className={classes.spans}>Skills</span> Online
+    <Grid container justifyContent='center' className={classes.mainGrid}>
+      <Grid
+        item
+        xs={11}
+        sm={8}
+        md={5}
+        className={classes.gridItem}
+        // style={{ maxWidth: '450px' }}
+      >
+        <Typography
+          variant='h3'
+          className={classes.mainTitle}
+          style={{ fontFamily: 'monospace' }}
+        >
+          Become <span className={classes.spans}>Skilled</span> and{' '}
+          <span className={classes.spans}>Certified</span>{' '}
+          <span style={{ color: 'greenyellow' }}>Online</span>, Today!
           <hr />
         </Typography>
-        <Typography variant='body1'>
+        <Typography
+          variant='subtitle1'
+          style={{ fontFamily: 'monospace', margin: '20px auto' }}
+        >
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit,
           quisquam iste harum voluptates minima quia magni numquam! Molestias
           vitae numquam enim blanditiis reprehenderit itaque eveniet. Eum earum
@@ -54,20 +73,12 @@ export default function Description() {
           text='Get Started'
           onClick={() => navigate('/login-signup', { replace: true })}
           style={{
-            backgroundColor: 'black',
-            color: '#ff8c00',
+            backgroundColor: '#ff8c00',
+            color: 'black',
             fontWeight: 'bolder',
           }}
         />
         {/* </NavLink> */}
-      </Grid>
-
-      <Grid item xs={10} sm={8} md={4} className={classes.gridItem}>
-        <img
-          style={{ border: '2px solid #ff8c00' }}
-          src='https://static.vecteezy.com/system/resources/previews/005/051/189/original/boy-study-in-online-school-illustration-concept-flat-illustration-isolated-on-white-background-vector.jpg'
-          alt='A person learning online'
-        />
       </Grid>
     </Grid>
   );
