@@ -8,10 +8,12 @@ import {
   Drawer,
   Tab,
   Tabs,
+  Button,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Support from './Support';
 import Calendar from '../../components/Calendar';
 import MyCourses from './MyCourses';
@@ -158,6 +160,15 @@ export default function Index() {
         </Container>
       ) : (
         <Container style={{ minHeight: '87vh' }}>
+          <Button
+            onClick={() => setContinueLearning(false)}
+            variant='contained'
+            startIcon={<ArrowBackIcon />}
+            color='primary'
+            style={{ margin: '20px auto' }}
+          >
+            Back to My Courses
+          </Button>
           <CourseLearningView userId={user.id} course={courseToContinue} />
         </Container>
       )}
