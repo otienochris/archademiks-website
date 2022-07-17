@@ -28,6 +28,11 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyItems: 'center',
   },
+  titles: {
+    marginLeft: '20px',
+    fontFamily: 'monospace',
+    backgroundColor: 'orange',
+  },
 });
 
 export default function TopicDetails({
@@ -36,6 +41,7 @@ export default function TopicDetails({
   courseId,
   completedTopics,
   setCompletedTopics,
+  moveToNextTopic,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -65,6 +71,7 @@ export default function TopicDetails({
       const topics = completedTopics.filter((item) => true);
       topics.push(parseInt(topic.id));
       setCompletedTopics(topics);
+      moveToNextTopic();
       // TODO: update enrollment details
       // TODO: persist change
     }
@@ -127,7 +134,11 @@ export default function TopicDetails({
             {topic.link && <YoutubeEmbed embedId={topic.link} />}
             <Typography
               variant='h5'
-              style={{ marginLeft: '20px', fontFamily: 'monospace' }}
+              style={{
+                backgroundColor: 'black',
+                color: 'whitesmoke',
+                padding: '20px',
+              }}
             >
               Introduction:
             </Typography>
@@ -137,7 +148,7 @@ export default function TopicDetails({
                 margin: '16px',
                 padding: '5px',
                 // border: '2px solid grey',
-                padding: '30px',
+                padding: '30px 5px 30px 30px',
                 fontFamily: 'monospace',
               }}
               className={classes.videoResponsive}
@@ -146,8 +157,12 @@ export default function TopicDetails({
               }}
             />
             <Typography
-              style={{ margin: '30px auto 20px 20px', fontFamily: 'monospace' }}
               variant='h5'
+              style={{
+                backgroundColor: 'black',
+                color: 'whitesmoke',
+                padding: '20px',
+              }}
             >
               Sub-topic(s)
             </Typography>
@@ -163,7 +178,16 @@ export default function TopicDetails({
                 <Step key={index}>
                   <StepLabel>{subTopic.title}</StepLabel>
                   <StepContent>
-                    <Typography variant='h6'>A. Description:</Typography>
+                    <Typography
+                      variant='subtitle1'
+                      style={{
+                        backgroundColor: 'black',
+                        color: 'whitesmoke',
+                        padding: '10px',
+                      }}
+                    >
+                      Description:
+                    </Typography>
                     <Typography
                       variant='body1'
                       style={{ fontFamily: 'monospace', padding: '20px' }}
@@ -171,26 +195,39 @@ export default function TopicDetails({
                       {subTopic.description}
                     </Typography>
 
-                    {/* <hr style={{ margin: '20px auto' }} /> */}
-
-                    <Typography variant='h6' style={{ marginBottom: '20px' }}>
-                      B. Video:
+                    <Typography
+                      variant='subtitle1'
+                      style={{
+                        backgroundColor: 'black',
+                        color: 'whitesmoke',
+                        padding: '10px',
+                      }}
+                    >
+                      Video:
                     </Typography>
-                    {subTopic.link === '' || subTopic.link === null ? (
-                      <Typography variant='body1' align='center'>
-                        Video Not Available
-                      </Typography>
-                    ) : (
-                      <YoutubeEmbed embedId={subTopic.link} />
-                    )}
+                    <div style={{ margin: '20px' }}>
+                      {subTopic.link === '' || subTopic.link === null ? (
+                        <Typography variant='body1' align='center'>
+                          Video Not Available
+                        </Typography>
+                      ) : (
+                        <YoutubeEmbed embedId={subTopic.link} />
+                      )}
+                    </div>
 
-                    <Typography variant='h6' style={{ marginBottom: '20px' }}>
-                      C. Content:
+                    <Typography
+                      variant='subtitle1'
+                      style={{
+                        backgroundColor: 'black',
+                        color: 'whitesmoke',
+                        padding: '10px',
+                      }}
+                    >
+                      Content:
                     </Typography>
                     <div
                       style={{
                         margin: '16px',
-                        padding: '5px',
                         border: '2px solid grey',
                         padding: '30px',
                         fontFamily: 'monospace',
@@ -211,7 +248,7 @@ export default function TopicDetails({
                               variant='contained'
                               color='primary'
                               onClick={() =>
-                                handleNext(index + 1 == topic.subTopics.length)
+                                handleNext(index + 1 === topic.subTopics.length)
                               }
                               sx={{ mt: 1, mr: 1 }}
                             >

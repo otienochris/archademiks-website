@@ -5,10 +5,9 @@ import {
   makeStyles,
   Button,
 } from '@material-ui/core';
+import { Check } from '@material-ui/icons';
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import CourseProgress from './CourseProgress';
 import TopicDetails from './TopicDetails';
 
 const useStyles = makeStyles({
@@ -32,11 +31,15 @@ export default function CourseLearningView({ course, userId }) {
   );
 
   const handleNext = () => {
-    setCurrentIndex((current) => current + 1);
+    if (currentIndex < course.topics.length - 1) {
+      setCurrentIndex((current) => current + 1);
+    }
   };
 
   const handlePrevious = () => {
-    setCurrentIndex((current) => current - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex((current) => current - 1);
+    }
   };
 
   return (
@@ -55,13 +58,41 @@ export default function CourseLearningView({ course, userId }) {
           Previous
         </Button>
         <div style={{ flexGrow: '1' }}></div>
-        <Typography>
-          Topic {currentIndex} (
-          {completedTopics.includes(course.topics[currentIndex].id)
-            ? 'Done'
-            : 'Pending'}
-          ) of {course.topics.length}
+
+        <Typography
+          style={
+            completedTopics.includes(course.topics[currentIndex].id)
+              ? {
+                  border: '2px solid green',
+                  // backgroundColor: 'green',
+                  color: 'green',
+                  padding: '7px',
+                  borderRadius: '5px',
+                }
+              : {
+                  border: '2px solid grey',
+                  padding: '7px',
+                  borderRadius: '5px',
+                }
+          }
+        >
+          Topic {currentIndex + 1} of {course.topics.length}
         </Typography>
+        {completedTopics.includes(course.topics[currentIndex].id) ? (
+          <Check
+            fontSize='small'
+            style={{
+              backgroundColor: 'green',
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              color: 'white',
+            }}
+          />
+        ) : (
+          ''
+        )}
+
         <div style={{ flexGrow: '1' }}></div>
         <Button
           variant='contained'
@@ -73,13 +104,13 @@ export default function CourseLearningView({ course, userId }) {
         </Button>
       </Grid>
       <Grid item xs={12} style={{ minHeight: '60vh' }}>
-        {console.log(completedTopics.includes(course.topics[currentIndex].id))}
         <TopicDetails
           completedTopics={completedTopics}
           setCompletedTopics={setCompletedTopics}
           isCompleted={completedTopics.includes(course.topics[currentIndex].id)}
           topic={course.topics[currentIndex]}
           courseId={course.id}
+          moveToNextTopic={handleNext}
         />
       </Grid>
       <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
