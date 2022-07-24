@@ -14,6 +14,7 @@ import AdminInterfacePage from './pages/admin-interface-page';
 import ProtectedRoute from './components/ProtectedRoute';
 import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
 import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
+import CertificateView from './components/CertificateView';
 
 export default function App() {
   return (
@@ -59,6 +60,10 @@ export default function App() {
           <Route path='/login-signup' element={<LoginSignupPage />} />
           <Route path='/partners' element={<PartnersPage />} />
           <Route path='/' element={<LandingPage />} />
+          <Route
+            path='/certificates/:certificateId'
+            element={<CertificateView />}
+          />
         </Routes>
       </Layout>
     </Router>
