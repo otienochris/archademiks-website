@@ -15,6 +15,7 @@ import {
 import React, { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CourseProgress from '../pages/student-interface-page/CourseProgress';
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -33,7 +34,9 @@ export default function CourseInProgressPreview({
   setCourseToContinue,
   enrollmentDetails,
 }) {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
+  const [certificateId] = useState(enrollmentDetails[0].certificateId);
   const [courseCompletionPercentage] = useState(
     Math.floor(
       (enrollmentDetails[0].completedTopics.length / course.topics.length) * 100
@@ -46,6 +49,9 @@ export default function CourseInProgressPreview({
     setCourseToContinue(course);
     setContinueLearning(true);
   };
+
+  console.log(enrollmentDetails);
+
   return (
     <Card style={{ margin: '20px', maxWidth: '300px' }}>
       <CardMedia
@@ -115,13 +121,17 @@ export default function CourseInProgressPreview({
         <Grid container justifyContent='center' style={{ margin: '10px auto' }}>
           <Grid item xs={6}>
             <Button
-              // fullWidth
+              onClick={() =>
+                navigate('/certificates/' + certificateId, {
+                  replace: true,
+                })
+              }
               variant='outlined'
               color='primary'
               disabled={courseCompletionPercentage < 100}
               style={{ margin: 'auto 10px' }}
             >
-              <Typography variant='body2'>Download Certificate</Typography>
+              <Typography variant='body2'>Generate Certificate</Typography>
             </Button>
           </Grid>
           <Grid item xs={6}>

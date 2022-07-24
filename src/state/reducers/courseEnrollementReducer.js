@@ -11,6 +11,7 @@ const courseEnrollmentDetails = [
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
+    certificateId: 1,
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const courseEnrollmentDetails = [
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
+    certificateId: 1,
   },
   {
     id: 2,
@@ -33,6 +35,7 @@ const courseEnrollmentDetails = [
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
+    certificateId: 1,
   },
   {
     id: 3,
@@ -44,6 +47,7 @@ const courseEnrollmentDetails = [
     creationDate: '2022-02-02',
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
+    certificateId: 1,
   },
 ];
 

@@ -99,7 +99,6 @@ export const list = [
     rating: 5,
     price: 9.9,
     category: courseCategories[1],
-    // numberOfEnrolledStudents: 14,
     creationDate: '2022-01-08',
     modificationDate: '2022-01-08',
     link: '',

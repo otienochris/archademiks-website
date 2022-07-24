@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import allUsersReducer from './reducers/allUsersReducer';
+import certificatesReducer from './reducers/certificatesReducer';
 import courseEnrollementReducer from './reducers/courseEnrollementReducer';
 import coursesReducers from './reducers/coursesReducers';
 import loginReducer from './reducers/loginReducer';
@@ -16,6 +17,7 @@ const store = configureStore({
     courseEnrollments: courseEnrollementReducer,
     reviews: reviewsReducer,
     schools: schoolsReducer,
+    certificates: certificatesReducer,
   },
 });
 
