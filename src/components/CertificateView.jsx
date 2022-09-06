@@ -1,5 +1,7 @@
 import { Button, Container, Typography } from '@material-ui/core';
+import { FileDownload } from '@mui/icons-material';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -7,22 +9,27 @@ import Certificate from './Certificate';
 
 function CertificateView() {
   const { certificateId } = useParams();
-  const certificate = useSelector((state) =>
-    state.certificates.value.filter(
-      (item) => item.certicateId === parseInt(certificateId)
-    )
+  const certificates = useSelector((state) => state.certificates.value);
+  const certificate = certificates.filter(
+    (item) => item.id === parseInt(certificateId)
   );
 
-  // TODO:
   const createPdf = () => {
-    const pdf = new jsPDF('portrait', 'pt', 'a4');
     const data = document.querySelector('#certificate');
-    pdf.html(data).then(() => {
+
+    html2canvas(data, {
+      logging: true,
+      letterRendering: 1,
+      useCORS: true,
+    }).then((canvas) => {
+      const imgWidth = 208;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgData = canvas.toDataURL('img/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('certificate.pdf');
     });
   };
-
-  console.log(certificate);
 
   return (
     <Container
@@ -31,10 +38,45 @@ function CertificateView() {
         display: 'flex',
         alignContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column',
       }}
     >
-      <Button onClick={createPdf}>Download</Button>
-      <Certificate />
+      <Button
+        variant='text'
+        style={{
+          marginTop: '20px',
+          height: '60px',
+        }}
+        onClick={createPdf}
+        startIcon={
+          <FileDownload
+            style={{
+              width: '40px',
+              height: '40px',
+              padding: '3px',
+              borderRadius: '50%',
+              backgroundColor: 'green',
+              color: 'white',
+            }}
+            fontSize={'small'}
+          />
+        }
+      >
+        Download
+      </Button>
+      <Certificate
+        certificate={
+          certificate.length > 0
+            ? certificate[0]
+            : {
+                studentFullName: '',
+                courseTitle: '',
+                type: '',
+                dateCreated: '',
+                dateModified: '',
+              }
+        }
+      />
     </Container>
   );
 }
