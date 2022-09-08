@@ -9,6 +9,7 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  Divider,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
   seachbar: {
     width: '100%',
     overflowWrap: 'anywhere',
-    margin: '30px auto',
+    margin: '10px 20px 20px 10px',
   },
   searchBarSection: {
     margin: '20px auto',
@@ -63,9 +64,6 @@ export default function Index() {
   return (
     <Container>
       <Grid container justifyContent='center' className={classes.mainContainer}>
-        <Grid item xs={12} md={false}>
-          <div style={{ height: '40px' }}></div>
-        </Grid>
         <Grid
           container
           justifyContent={'center'}
@@ -74,32 +72,38 @@ export default function Index() {
           <Grid
             item
             xs={12}
-            md={3}
-            style={{ width: '100%', margin: '20px auto' }}
+            // md={3}
+            // style={{ width: '100%', margin: '20px auto' }}
           >
-            <Typography
+            <h1
               variant='h4'
-              style={{ flexGrow: 1 }}
-              sx={{
+              style={{
+                flexGrow: 1,
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 fontSize: 'regular',
+                margin: '20px',
               }}
             >
               All Courses:
-            </Typography>
+            </h1>
           </Grid>
-          <Grid item xs={12} md={9} className={classes.seachbar}>
+          <Grid
+            item
+            xs={12}
+            // md={9}
+            className={classes.seachbar}
+          >
             <TextField
               className={classes.seachbar}
               onChange={(e) => handleSeachKeyInput(e)}
               variant='outlined'
-              label='filter'
+              label='search'
               type='search'
               placeholder='... by title/description/category/price/rating'
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
+                endAdornment: (
+                  <InputAdornment position='end'>
                     <SearchIcon />
                   </InputAdornment>
                 ),
@@ -110,6 +114,7 @@ export default function Index() {
             />
           </Grid>
         </Grid>
+
         <Grid
           container
           justifyContent={'center'}

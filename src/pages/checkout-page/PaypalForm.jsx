@@ -93,7 +93,7 @@ function PaypalForm({ orderDetails, course }) {
         {isLoading ? (
           <CircularProgress />
         ) : (
-          `Click here to pay Ksh. ${course.price}`
+          `Click here to pay $ ${course.price}`
         )}
       </Button>
     </form>
