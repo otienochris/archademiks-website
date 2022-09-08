@@ -47,6 +47,8 @@ const useStyles = makeStyles({
 
 function ResetPasswordView() {
   const classes = useStyles();
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
 
   const {
     register,
@@ -58,7 +60,11 @@ function ResetPasswordView() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    const body = { password: data.password, token: token };
+    console.log(body);
+    // TODO: call backend to actually change password
+  };
 
   return (
     <Container
