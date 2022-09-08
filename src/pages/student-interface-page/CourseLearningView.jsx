@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CourseLearningView({ course, userId }) {
+export default function CourseLearningView({ course, userId, userType }) {
   const enrollmentDetails = useSelector(
     (state) =>
       state.courseEnrollments.value.filter(
@@ -27,7 +27,9 @@ export default function CourseLearningView({ course, userId }) {
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completedTopics, setCompletedTopics] = useState(
-    enrollmentDetails === undefined ? [] : enrollmentDetails.completedTopics
+    enrollmentDetails === undefined || userType === 'instructor'
+      ? []
+      : enrollmentDetails.completedTopics
   );
 
   const handleNext = () => {

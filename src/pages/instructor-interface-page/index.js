@@ -10,6 +10,8 @@ import {
   Tooltip,
   AppBar,
   Grid,
+  makeStyles,
+  Button,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,12 +20,23 @@ import AddIcon from '@mui/icons-material/Add';
 import InstructorCourses from './InstructorCourses';
 import CreateCourse from './CreateCourse';
 import { useSelector } from 'react-redux';
+import CourseLearningView from '../student-interface-page/CourseLearningView';
+import { ArrowLeftOutlined } from '@material-ui/icons';
+import EditCourseView from './EditCourseView';
+
+const useStyles = makeStyles({
+  mainContainer: {
+    minHeight: '93.5vh',
+  },
+});
 
 export default function Index() {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = useState(0);
   const [courseToViewOrEdit, setCourseToViewOrEdit] = useState({});
   const [viewCourse, setViewCourse] = useState(false);
+  const [editCourse, setEditCourse] = useState(false);
   const [createNewCourse, setCreateNewCourse] = useState(false);
   const instructor = useSelector((state) => state.user.value);
   const ownedCourses = useSelector((state) =>
@@ -38,7 +51,7 @@ export default function Index() {
   };
 
   return (
-    <Container>
+    <Container className={classes.mainContainer}>
       <AppBar
         position='static'
         open={open}
@@ -95,17 +108,74 @@ export default function Index() {
         </Tabs>
       </Drawer>
       <Container>
-        <Grid item xs={12}>
-          {createNewCourse ? (
+        {/* <Grid item xs={12}> */}
+        {createNewCourse ? (
+          <div>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<ArrowLeftOutlined />}
+              onClick={() => {
+                setViewCourse(false);
+                setEditCourse(false);
+                setCreateNewCourse(false);
+              }}
+              style={{ margin: '30px auto' }}
+            >
+              Back to all courses
+            </Button>
+            <Divider />
             <CreateCourse setCreateNewCourse={setCreateNewCourse} />
-          ) : (
-            <InstructorCourses
-              setCourseToViewOrEdit={setCourseToViewOrEdit}
-              setViewCourse={setViewCourse}
-              courses={ownedCourses}
+          </div>
+        ) : viewCourse ? (
+          <div style={{ margin: '5px auto' }}>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<ArrowLeftOutlined />}
+              onClick={() => {
+                setViewCourse(false);
+                setEditCourse(false);
+                setCreateNewCourse(false);
+              }}
+              style={{ margin: '30px auto' }}
+            >
+              Back to my courses
+            </Button>
+            <Divider />
+            <CourseLearningView
+              course={courseToViewOrEdit}
+              userId={undefined}
+              userType='instructor'
             />
-          )}
-        </Grid>
+          </div>
+        ) : editCourse ? (
+          <div style={{ margin: '5px auto' }}>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<ArrowLeftOutlined />}
+              onClick={() => {
+                setViewCourse(false);
+                setEditCourse(false);
+                setCreateNewCourse(false);
+              }}
+              style={{ margin: '30px auto' }}
+            >
+              Back to my courses
+            </Button>
+            <Divider />
+            <EditCourseView course={courseToViewOrEdit} />
+          </div>
+        ) : (
+          <InstructorCourses
+            setCourseToViewOrEdit={setCourseToViewOrEdit}
+            setViewCourse={setViewCourse}
+            setEditCourse={setEditCourse}
+            courses={ownedCourses}
+          />
+        )}
+        {/* </Grid> */}
       </Container>
     </Container>
   );

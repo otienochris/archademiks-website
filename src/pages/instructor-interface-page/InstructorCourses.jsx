@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Divider, Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import InstructorCoursePreview from './InstructorCoursePreview';
 
@@ -6,11 +6,15 @@ export default function InstructorCourses({
   courses,
   setCourseToViewOrEdit,
   setViewCourse,
+  setEditCourse,
 }) {
   return (
     <>
-      <Typography variant='h6'>My Courses</Typography>
-      <Grid container justifyContent={'center'}>
+      <Typography style={{ margin: '23px auto' }} align='left' variant='h6'>
+        My Courses
+      </Typography>
+      <Divider />
+      <Grid container>
         {courses.map((course, index) => (
           <Grid item xs={12} sm={8} md={4} key={index}>
             <Box
@@ -23,6 +27,7 @@ export default function InstructorCourses({
               <InstructorCoursePreview
                 setCourseToViewOrEdit={setCourseToViewOrEdit}
                 setViewCourse={setViewCourse}
+                setEditCourse={setEditCourse}
                 course={course}
               />
             </Box>

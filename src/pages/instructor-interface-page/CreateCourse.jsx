@@ -110,9 +110,6 @@ export default function CreateCourse({ setCreateNewCourse }) {
     <Container>
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant='h4 ' className={classes.mainTitle}>
-            Create New Course:
-          </Typography>
           <Stepper activeStep={step} className={classes.stepperSection}>
             {stepsDetails.map((stepItem, index) => (
               <Step key={index} style={{ color: '#ff8c00' }}>
