@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
 import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 import CertificateView from './components/CertificateView';
+import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
 
 export default function App() {
   return (
@@ -55,6 +56,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path='/reset-password' element={<ResetPasswordView />} />
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/login-signup' element={<LoginSignupPage />} />

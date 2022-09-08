@@ -4,13 +4,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Divider, makeStyles, Typography } from '@material-ui/core';
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import { TextField } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
+const sendEmailUrl =
+  'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
 const useStyles = makeStyles({
   textField: {
     width: '300px',
@@ -33,6 +42,7 @@ const useStyles = makeStyles({
     justifyItems: 'center',
     minHeight: '575px',
     backgroundColor: 'white',
+    padding: '20px',
   },
 });
 
@@ -40,7 +50,7 @@ const schema = yup.object({
   email: yup
     .string()
     .email('Provided Email is invalid')
-    .required('Email is required to login.'),
+    .required('Email is required.'),
   password: yup.string().required('Passord is required to log in.'),
 });
 
@@ -51,10 +61,14 @@ export default function LogIn() {
   const dispatch = useDispatch();
   const [usersList, setUsersList] = useState(users);
   const [wrongCredentials, setWrongCredentials] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailSentSuccessfuly, setEmailSentSuccessfuly] = useState(false);
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -95,6 +109,33 @@ export default function LogIn() {
     }
   };
 
+  const sendChangePasswordCode = async (emailToSendCode) => {
+    const uuid = '' + uuidv4();
+    const url = window.location.origin;
+    const formData = new FormData();
+    formData.append('emailTo', emailToSendCode);
+    formData.append('subject', 'Change Password');
+    formData.append('message', url + '/reset-password?token=' + uuid);
+
+    setIsLoading(true);
+
+    await fetch(sendEmailUrl, {
+      method: 'POST',
+      mode: 'cors',
+      body: formData,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          setEmailSentSuccessfuly(true);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+
+    setIsLoading(false);
+  };
+
   return (
     <form
       method='post'
@@ -106,7 +147,7 @@ export default function LogIn() {
         align='center'
         style={{ fontFamily: 'monospace', margin: '20px auto' }}
       >
-        Login
+        {forgotPassword ? 'Change Password' : 'Login'}
       </Typography>
       <Divider />
       <TextField
@@ -122,17 +163,37 @@ export default function LogIn() {
         error={errors.email ? true : false}
         helperText={errors.email ? errors.email.message : ''}
       />
-      <TextField
-        className={classes.textField}
-        label='password'
-        autoComplete='off'
-        placeholder='Enter your password'
-        type={'password'}
-        {...register('password')}
-        error={errors.password ? true : false}
-        helperText={errors.password ? errors.password.message : ''}
-      />
-      <CustomButton type='submit' text='Log In' className={classes.button} />
+      {forgotPassword ? undefined : (
+        <TextField
+          className={classes.textField}
+          label='password'
+          autoComplete='off'
+          placeholder='Enter your password'
+          type={'password'}
+          {...register('password')}
+          error={errors.password ? true : false}
+          helperText={errors.password ? errors.password.message : ''}
+        />
+      )}
+      {forgotPassword ? undefined : (
+        <CustomButton type='submit' text='Log In' className={classes.button} />
+      )}
+      {forgotPassword ? (
+        <CustomButton
+          disabled={isLoading}
+          startIcon={isLoading ? <CircularProgress /> : ''}
+          onClick={() => sendChangePasswordCode(getValues('email'))}
+          text={isLoading ? '' : !emailSentSuccessfuly ? 'Submit' : 'Re-submit'}
+          className={classes.button}
+        />
+      ) : (
+        <CustomButton
+          onClick={() => setForgotPassword(true)}
+          variant='text'
+          text='Forgot Password'
+          style={{ margin: '0px' }}
+        />
+      )}
     </form>
   );
 }
