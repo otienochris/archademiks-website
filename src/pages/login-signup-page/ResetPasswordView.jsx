@@ -47,6 +47,7 @@ const useStyles = makeStyles({
 
 function ResetPasswordView() {
   const classes = useStyles();
+  const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
@@ -110,6 +111,12 @@ function ResetPasswordView() {
           helperText={errors.password2 ? errors.password2.message : ''}
         />
         <CustomButton type='submit' text='Submit' className={classes.button} />
+        <Divider />
+        <CustomButton
+          variant='text'
+          text='Login Instead'
+          onClick={() => navigate('/login-signup', { replace: true })}
+        />
       </form>
     </Container>
   );
