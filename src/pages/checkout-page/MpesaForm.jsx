@@ -68,7 +68,7 @@ function MpesaForm({ orderDetails, course }) {
           startIcon={<DoubleArrowIcon />}
           type='submit'
         >
-          Pay Ksh. {course.price}
+          Pay $ {course.price}
         </Button>
         <Button variant='outlined' color='info' startIcon={<CheckIcon />}>
           confirm payment

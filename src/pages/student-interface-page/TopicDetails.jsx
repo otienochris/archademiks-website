@@ -88,9 +88,7 @@ export default function TopicDetails({
   return (
     <Accordion
       style={
-        isCompleted || isTopicCompleted
-          ? { width: '100%', border: '1px solid green', margin: '5px auto' }
-          : { width: '100%', margin: '5px auto' }
+        isCompleted || isTopicCompleted ? { border: '1px solid green' } : {}
       }
     >
       <AccordionSummary expandIcon={<ExpandMore />}>
@@ -112,22 +110,14 @@ export default function TopicDetails({
             ) : (
               ''
             )}
-            <Typography
-              style={{ width: '100%' }}
-              align='left'
-              variant={isCompleted ? 'body2' : 'h6'}
-            >
+            <Typography style={{ width: '100%' }} align='left' variant={'h6'}>
               {topic.title}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            {!isCompleted ? (
-              <Typography align='left' variant='body2'>
-                {topic.description}
-              </Typography>
-            ) : (
-              ''
-            )}
+            <Typography align='left' variant='body2'>
+              {topic.description}
+            </Typography>
           </Grid>
         </Grid>
         <Divider />
