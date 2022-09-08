@@ -1,4 +1,4 @@
-import { Typography, Box, Grid } from '@material-ui/core';
+import { Typography, Box, Grid, Divider } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CourseInProgressPreview from '../../components/CourseInProgressPreview';
@@ -16,7 +16,8 @@ export default function MyCourses({
   return (
     <>
       <Typography variant='h6'>My Courses</Typography>
-      <Grid container justifyContent={'center'}>
+      <Divider />
+      <Grid container>
         {courses.map((course, index) => (
           <Grid item xs={12} sm={8} md={4} key={index}>
             <Box

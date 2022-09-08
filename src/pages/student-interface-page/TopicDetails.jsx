@@ -74,6 +74,10 @@ export default function TopicDetails({
       moveToNextTopic();
       // TODO: update enrollment details
       // TODO: persist change
+
+      // move top
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0;
     }
   };
 
