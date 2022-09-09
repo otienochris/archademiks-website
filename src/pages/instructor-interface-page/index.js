@@ -12,6 +12,7 @@ import {
   Grid,
   makeStyles,
   Button,
+  Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -113,7 +114,7 @@ export default function Index() {
           <div>
             <Button
               variant='contained'
-              color='primary'
+              color='secondary'
               startIcon={<ArrowLeftOutlined />}
               onClick={() => {
                 setViewCourse(false);
@@ -122,7 +123,7 @@ export default function Index() {
               }}
               style={{ margin: '30px auto' }}
             >
-              Back to all courses
+              Back to my courses
             </Button>
             <Divider />
             <CreateCourse setCreateNewCourse={setCreateNewCourse} />
@@ -131,7 +132,7 @@ export default function Index() {
           <div style={{ margin: '5px auto' }}>
             <Button
               variant='contained'
-              color='primary'
+              color='secondary'
               startIcon={<ArrowLeftOutlined />}
               onClick={() => {
                 setViewCourse(false);

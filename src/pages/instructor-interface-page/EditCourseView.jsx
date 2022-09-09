@@ -1,6 +1,14 @@
-import { AppBar, Container, Grid, Tab, Tabs } from '@material-ui/core';
+import {
+  AppBar,
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import EditBasics from './EditBasics';
+import EditTopics from './EditTopics';
 
 function EditCourseView({ course }) {
   const [tab, setTab] = useState(0);
@@ -10,7 +18,15 @@ function EditCourseView({ course }) {
   return (
     <Grid container>
       <Grid item xs='12'>
-        <AppBar position='static'>
+        <AppBar position='static' style={{ backgroundColor: 'white' }}>
+          <div style={{ color: 'black', margin: '10px auto' }}>
+            <Typography variant='h3' align='center'>
+              Edit Course
+            </Typography>
+            <Typography variant='body1' align='center'>
+              Title: {course.title}{' '}
+            </Typography>
+          </div>
           <Tabs
             value={tab}
             onChange={handleTabChange}
@@ -29,7 +45,7 @@ function EditCourseView({ course }) {
         {tab === 0 ? (
           <EditBasics course={course} />
         ) : tab === 1 ? (
-          'topics'
+          <EditTopics topics={course.topics} />
         ) : (
           'subtopics'
         )}
