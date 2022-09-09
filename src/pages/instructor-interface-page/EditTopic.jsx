@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -7,7 +7,12 @@ import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button, TextField, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
-import { convertToRaw } from 'draft-js';
+import {
+  ContentState,
+  // CompositeDecorator,
+  convertFromHTML,
+} from 'draft-js';
+import { useStyles } from './newCourseUseStyles';
 
 const schema = yup.object({
   title: yup.string().min(10).max(50).required('Course Title is required.'),
@@ -24,20 +29,32 @@ const schema = yup.object({
     ),
 });
 
-export default function StageTwoOfCourseCreation({
-  classes,
-  newCourse,
-  setNewCourse,
-  setIsStageSubmited,
-}) {
+function EditTopic({ topic }) {
+  const classes = useStyles();
+  // const decorator = new CompositeDecorator([
+  //   {
+  //     strategy: findLinkEntities,
+  //     component: Link,
+  //   },
+  //   {
+  //     strategy: findImageEntities,
+  //     component: Image,
+  //   },
+  // ]);
+  const blocksFromHTML = convertFromHTML(topic.content);
+  const state = ContentState.createFromBlockArray(
+    blocksFromHTML.contentBlocks,
+    blocksFromHTML.entityMap
+  );
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+    EditorState.createWithContent(state, null)
   );
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -45,43 +62,20 @@ export default function StageTwoOfCourseCreation({
     criteriaMode: 'all',
   });
 
-  const onSubmit = (data) => {
-    // extract embedid
-    const splitLink = data.link.split('/');
-    const embedId = splitLink[splitLink.length - 1];
-    newCourse.link = embedId;
+  useEffect(() => {
+    setValue('title', topic.title, { shouldValidate: true });
+    setValue('description', topic.description, { shouldValidate: true });
+    if (topic.link) {
+      setValue('link', 'https://youtu.be/' + topic.link, {
+        shouldValidate: true,
+      });
+    }
+  }, [topic]);
 
-    // extract content from editor
-    const contentInHtml = draftToHtml(
-      convertToRaw(editorState.getCurrentContent())
-    );
-
-    const topic = {
-      title: data.title,
-      description: data.description,
-      content: contentInHtml,
-      link: embedId,
-      subTopics: [],
-    };
-
-    newCourse.topics.push(topic);
-    setNewCourse(newCourse);
-
-    setIsStageSubmited(true);
-
-    // resetting the fields
-    reset();
-    setEditorState(EditorState.createEmpty());
-    var title = document.getElementById('title');
-    var description = document.getElementById('description');
-    var link = document.getElementById('link');
-    title.value = '';
-    description.value = '';
-    link.value = '';
-  };
+  const onSubmit = (data) => {};
 
   return (
-    <>
+    <form className={classes.form}>
       <TextField
         id='title'
         variant='filled'
@@ -95,6 +89,7 @@ export default function StageTwoOfCourseCreation({
       />
 
       <TextField
+        multiline
         id='description'
         variant='filled'
         label='Topic Description'
@@ -135,9 +130,12 @@ export default function StageTwoOfCourseCreation({
         variant='contained'
         color='secondary'
         onClick={handleSubmit(onSubmit)}
+        fullWidth
       >
         save
       </Button>
-    </>
+    </form>
   );
 }
+
+export default EditTopic;
