@@ -153,7 +153,7 @@ export default function Index() {
           <div style={{ margin: '5px auto' }}>
             <Button
               variant='contained'
-              color='primary'
+              color='secondary'
               startIcon={<ArrowLeftOutlined />}
               onClick={() => {
                 setViewCourse(false);
@@ -164,7 +164,7 @@ export default function Index() {
             >
               Back to my courses
             </Button>
-            <Divider />
+            {/* <Divider /> */}
             <EditCourseView course={courseToViewOrEdit} />
           </div>
         ) : (
