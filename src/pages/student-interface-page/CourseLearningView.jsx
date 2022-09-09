@@ -57,7 +57,7 @@ export default function CourseLearningView({ course, userId, userType }) {
           disabled={currentIndex === 0}
           onClick={handlePrevious}
         >
-          Previous
+          Prev
         </Button>
         <div style={{ flexGrow: '1' }}></div>
 
@@ -122,7 +122,7 @@ export default function CourseLearningView({ course, userId, userType }) {
           disabled={currentIndex === 0}
           onClick={() => setCurrentIndex((current) => current - 1)}
         >
-          Previous
+          Prev
         </Button>
         <div style={{ flexGrow: '1' }}></div>
         <Button
