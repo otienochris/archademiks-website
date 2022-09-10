@@ -8,6 +8,9 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import CustomButton from './custom-controls/CustomButton';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 const useStyles = makeStyles({
   textField: {
@@ -35,11 +38,11 @@ function ProfileSecuritySettings({ email }) {
           placeholder='Change Your Email'
           variant='outlined'
           style={{ color: 'black' }}
+          label='your email is: '
           fullWidth
           type={'email'}
-          value={'Your Email is: ' + email}
+          value={email}
           className={classes.textField}
-          disabled
         />
       </Grid>
       <Grid item xs={12}>
