@@ -1,3 +1,12 @@
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -5,13 +14,8 @@ import * as yup from 'yup';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { Button, TextField, Typography } from '@material-ui/core';
-import draftToHtml from 'draftjs-to-html';
-import {
-  ContentState,
-  // CompositeDecorator,
-  convertFromHTML,
-} from 'draft-js';
+import draftjsToHtml from 'draftjs-to-html';
+import { convertToRaw, ContentState, convertFromHTML } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
 
 const schema = yup.object({
@@ -29,9 +33,11 @@ const schema = yup.object({
     ),
 });
 
-function EditTopic({ topic }) {
+const onSubmit = (data) => {};
+
+function EditSubtopic({ subtopic }) {
   const classes = useStyles();
-  const blocksFromHTML = convertFromHTML(topic.content);
+  const blocksFromHTML = convertFromHTML(subtopic.content);
   const state = ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
     blocksFromHTML.entityMap
@@ -53,25 +59,23 @@ function EditTopic({ topic }) {
   });
 
   useEffect(() => {
-    setValue('title', topic.title, { shouldValidate: true });
-    setValue('description', topic.description, { shouldValidate: true });
-    if (topic.link) {
-      setValue('link', 'https://youtu.be/' + topic.link, {
+    setValue('title', subtopic.title, { shouldValidate: true });
+    setValue('description', subtopic.description, { shouldValidate: true });
+    if (subtopic.link) {
+      setValue('link', 'https://youtu.be/' + subtopic.link, {
         shouldValidate: true,
       });
     }
-  }, [topic]);
-
-  const onSubmit = (data) => {};
+  }, [subtopic]);
 
   return (
     <form className={classes.form}>
       <TextField
-        id='title'
+        id='sutopicTitle'
         variant='filled'
-        label='Topic Title'
+        label='Sub-topic Title'
         placeholder='Provide a brief yet descriptive title'
-        autoComplete='off'
+        autoComplete='on'
         {...register('title')}
         error={errors.title ? true : false}
         helperText={errors.title ? errors.title.message : ''}
@@ -79,24 +83,23 @@ function EditTopic({ topic }) {
       />
 
       <TextField
-        multiline
-        id='description'
+        id='subtopicDescription'
         variant='filled'
-        label='Topic Description'
-        placeholder='Provide a brief description of the goals and contents of the topic'
-        autoComplete='off'
+        label='Sub-topic Description'
+        placeholder='Provide a brief description of the goals and contents of the sub-topic'
+        autoComplete='on'
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}
         style={{ margin: '16px' }}
       />
       <TextField
-        id='link'
-        {...register('link')}
+        id='subtopicLink'
         variant='filled'
         label='Introduction Video'
-        placeholder='Add link to a video of your topics introduction video'
-        autoComplete='off'
+        placeholder="Add link to a video of your sub-topic's introduction video"
+        autoComplete='on'
+        {...register('link')}
         error={errors.link ? true : false}
         helperText={errors.link ? errors.link.message : ''}
         style={{ margin: '16px' }}
@@ -120,7 +123,6 @@ function EditTopic({ topic }) {
         variant='contained'
         color='secondary'
         onClick={handleSubmit(onSubmit)}
-        fullWidth
       >
         save
       </Button>
@@ -128,4 +130,4 @@ function EditTopic({ topic }) {
   );
 }
 
-export default EditTopic;
+export default EditSubtopic;
