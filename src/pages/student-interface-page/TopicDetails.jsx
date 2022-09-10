@@ -33,6 +33,13 @@ const useStyles = makeStyles({
     fontFamily: 'monospace',
     backgroundColor: 'orange',
   },
+  tab: {
+    backgroundColor: 'black',
+    color: 'whitesmoke',
+    padding: '10px',
+    width: '130px',
+    marginLeft: '20px',
+  },
 });
 
 export default function TopicDetails({
@@ -125,9 +132,8 @@ export default function TopicDetails({
       <AccordionDetails>
         <Grid container>
           <Grid item xs={12}>
-            {topic.link && <YoutubeEmbed embedId={topic.link} />}
             <Typography
-              variant='h5'
+              variant='body1'
               style={{
                 backgroundColor: 'black',
                 color: 'whitesmoke',
@@ -151,14 +157,14 @@ export default function TopicDetails({
               }}
             />
             <Typography
-              variant='h5'
+              variant='body1'
               style={{
                 backgroundColor: 'black',
                 color: 'whitesmoke',
                 padding: '20px',
               }}
             >
-              Sub-topic(s)
+              Sub-topics
             </Typography>
             <hr />
           </Grid>
@@ -170,34 +176,27 @@ export default function TopicDetails({
             >
               {topic.subTopics.map((subTopic, index) => (
                 <Step key={index}>
-                  <StepLabel>{subTopic.title}</StepLabel>
+                  <StepLabel>
+                    <Typography variant='h5'>{subTopic.title}</Typography>
+                  </StepLabel>
                   <StepContent>
                     <Typography
-                      variant='subtitle1'
-                      style={{
-                        backgroundColor: 'black',
-                        color: 'whitesmoke',
-                        padding: '10px',
-                      }}
+                      variant='subtitle2'
+                      align='center'
+                      className={classes.tab}
                     >
-                      Description:
+                      Description
                     </Typography>
-                    <Typography
-                      variant='body1'
-                      style={{ fontFamily: 'monospace', padding: '20px' }}
-                    >
+                    <Typography variant='body1' style={{ padding: '20px' }}>
                       {subTopic.description}
                     </Typography>
 
                     <Typography
-                      variant='subtitle1'
-                      style={{
-                        backgroundColor: 'black',
-                        color: 'whitesmoke',
-                        padding: '10px',
-                      }}
+                      variant='subtitle2'
+                      align='center'
+                      className={classes.tab}
                     >
-                      Video:
+                      Video
                     </Typography>
                     <div style={{ margin: '20px' }}>
                       {subTopic.link === '' || subTopic.link === null ? (
@@ -210,14 +209,11 @@ export default function TopicDetails({
                     </div>
 
                     <Typography
-                      variant='subtitle1'
-                      style={{
-                        backgroundColor: 'black',
-                        color: 'whitesmoke',
-                        padding: '10px',
-                      }}
+                      variant='subtitle2'
+                      className={classes.tab}
+                      align='center'
                     >
-                      Content:
+                      Content
                     </Typography>
                     <div
                       style={{
