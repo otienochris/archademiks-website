@@ -8,9 +8,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomButton(props) {
+export default function CustomButton({ variant, color, text, ...others }) {
   const classes = useStyles();
-  const { variant, color, text, ...others } = props;
   return (
     <Button
       className={classes.btn}
