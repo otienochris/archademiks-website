@@ -71,7 +71,6 @@ function EditTopic({ topic }) {
         variant='filled'
         label='Topic Title'
         placeholder='Provide a brief yet descriptive title'
-        autoComplete='off'
         {...register('title')}
         error={errors.title ? true : false}
         helperText={errors.title ? errors.title.message : ''}
