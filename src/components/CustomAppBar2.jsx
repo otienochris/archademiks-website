@@ -65,7 +65,10 @@ function CustomAppBar2() {
     setAnchorElUser(null);
   };
 
-  const handleProfile = () => {};
+  const handleProfile = () => {
+    navigate('/profile');
+    setAnchorElUser(null);
+  };
   const handleReports = () => {};
   const handleLogout = () => {
     dispatch(loginAction({ isLoggedIn: false, token: '' }));
@@ -75,7 +78,7 @@ function CustomAppBar2() {
   };
 
   const settings = [
-    { title: 'Profile', action: handleProfile, disabled: true },
+    { title: 'Profile', action: handleProfile, disabled: false },
     { title: 'Dashboard', action: handleDashboard, disabled: false },
     { title: 'Reports', action: handleReports, disabled: true },
     { title: 'Logout', action: handleLogout, disabled: false },

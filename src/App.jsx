@@ -16,6 +16,7 @@ import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
 import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 import CertificateView from './components/CertificateView';
 import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
+import ProfilePage from './components/ProfilePage';
 
 export default function App() {
   return (
@@ -53,6 +54,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AdminInterfacePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />
