@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import EditBasics from './EditBasics';
+import EditSubtopics from './EditSubtopics';
 import EditTopics from './EditTopics';
 
 function EditCourseView({ course }) {
@@ -47,7 +48,7 @@ function EditCourseView({ course }) {
         ) : tab === 1 ? (
           <EditTopics topics={course.topics} />
         ) : (
-          'subtopics'
+          <EditSubtopics topics={course.topics} />
         )}
       </Grid>
     </Grid>
