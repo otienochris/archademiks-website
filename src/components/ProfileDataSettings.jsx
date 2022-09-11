@@ -13,8 +13,24 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 const schema = yup.object({
-  firstName: yup.string().min(5).max(50).required('Course Title is required.'),
-  lastName: yup.string().min(5).max(50).required('Description is required.'),
+  firstName: yup
+    .string()
+    .min(5)
+    .max(50)
+    .matches(
+      '^[A-Za-z]+$',
+      'First name cannot caintain spaces, digits or special characters'
+    )
+    .required('Course Title is required.'),
+  lastName: yup
+    .string()
+    .min(5)
+    .max(50)
+    .matches(
+      '^[A-Za-z]+$',
+      'First name cannot caintain spaces, digits or special characters'
+    )
+    .required('Description is required.'),
   title: yup.string().max(200),
   description: yup.string().max(200),
 });
@@ -72,18 +88,97 @@ function ProfileDataSettings({
 
   return (
     <Grid container>
-      <Grid item xs={12} style={{ margin: '10px auto' }}>
+      <Grid item xs={12} style={{ margin: '20px auto' }}>
         <Typography variant='h4' align='center'>
           Profile
         </Typography>
         <Typography variant='body2' align='center'>
           Add information about yourself
         </Typography>
+      </Grid>
+      <Grid item xs={12}>
         <Divider />
       </Grid>
       <Grid item xs={11} sm={10} md={6} style={{ margin: '10px auto' }}>
+        <Typography
+          variant='h6'
+          align='center'
+          style={{
+            marginBottom: '20px',
+            width: '100px',
+            backgroundColor: 'black',
+            color: 'white',
+          }}
+        >
+          Account
+        </Typography>
         <div className={classes.div}>
-          <Typography variant='subtitle2'>Nationality:</Typography>
+          <Typography className={classes.title} variant='subtitle2'>
+            User type:
+          </Typography>
+          <TextField
+            placeholder='Joine On'
+            variant='outlined'
+            style={{ marginRight: '0px' }}
+            value={userType}
+            className={classes.textField}
+            InputProps={{
+              readOnly: true,
+            }}
+            size='small'
+          />
+        </div>
+        <div className={classes.div}>
+          <Typography className={classes.title} variant='subtitle2'>
+            Joined on:
+          </Typography>
+          <TextField
+            placeholder='Joine On'
+            variant='outlined'
+            style={{ marginRight: '0px' }}
+            value={new Date(dateJoined).toDateString()}
+            className={classes.textField}
+            size='small'
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+        <div className={classes.div}>
+          <Typography className={classes.title} variant='subtitle2'>
+            Modified on:
+          </Typography>
+          <TextField
+            placeholder='Last Modified On:'
+            variant='outlined'
+            style={{ marginRight: '0px' }}
+            value={new Date(dateModified).toDateString()}
+            className={classes.textField}
+            size='small'
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      <Grid item xs={11} sm={10} md={6} style={{ margin: '10px auto' }}>
+        <Typography
+          variant='h6'
+          align='center'
+          style={{
+            marginBottom: '20px',
+            width: '100px',
+            backgroundColor: 'black',
+            color: 'white',
+          }}
+        >
+          Basics
+        </Typography>
+        <div className={classes.div} style={{ margin: '20px auto' }}>
+          <Typography variant='subtitle2'>Country:</Typography>
           <Box
             component='div'
             sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
@@ -99,50 +194,9 @@ function ProfileDataSettings({
             />
           </Box>
         </div>
-        <div className={classes.div}>
-          <Typography className={classes.title} variant='subtitle2'>
-            User type:
-          </Typography>
-          <TextField
-            placeholder='Joine On'
-            variant='outlined'
-            style={{ marginRight: '0px' }}
-            value={userType}
-            className={classes.textField}
-          />
-        </div>
-        <div className={classes.div}>
-          <Typography className={classes.title} variant='subtitle2'>
-            Joined on:
-          </Typography>
-          <TextField
-            placeholder='Joine On'
-            variant='outlined'
-            style={{ marginRight: '0px' }}
-            value={new Date(dateJoined).toDateString()}
-            className={classes.textField}
-          />
-        </div>
-        <div className={classes.div}>
-          <Typography className={classes.title} variant='subtitle2'>
-            Modified on:
-          </Typography>
-          <TextField
-            placeholder='Last Modified On:'
-            variant='outlined'
-            style={{ marginRight: '0px' }}
-            value={new Date(dateModified).toDateString()}
-            className={classes.textField}
-          />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
-      <Grid item xs={11} sm={10} md={6} style={{ margin: '10px auto' }}>
-        <Typography variant='subtitle2'>Basics:</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
+            label='First Name'
             placeholder='Enter Your First Name'
             variant='outlined'
             style={{ color: 'black' }}
@@ -153,6 +207,7 @@ function ProfileDataSettings({
             helperText={errors.firstName ? errors.firstName.message : ''}
           />
           <TextField
+            label='Last Name'
             placeholder='Enter Your Last Name'
             variant='outlined'
             style={{ color: 'black' }}
@@ -163,6 +218,7 @@ function ProfileDataSettings({
             helperText={errors.lastName ? errors.firstName.message : ''}
           />
           <TextField
+            label='Title'
             placeholder='Enter Your Title'
             variant='outlined'
             style={{ color: 'black' }}
@@ -173,6 +229,7 @@ function ProfileDataSettings({
             helperText={errors.title ? errors.title.message : ''}
           />
           <TextField
+            label='Description'
             placeholder='Enter Description'
             multiline
             variant='outlined'

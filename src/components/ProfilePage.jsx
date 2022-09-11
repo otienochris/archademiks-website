@@ -65,8 +65,8 @@ function ProfilePage() {
             firstName={user.firstName}
             lastName={user.lastName}
             nationality={user.country}
-            userDescription={''}
-            userTitle={''}
+            userDescription={user.description}
+            userTitle={user.title}
             userType={user.type}
           />
         ) : selectedTab === 1 ? (
