@@ -11,6 +11,7 @@ import CustomButton from './custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { Email } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   textField: {
@@ -22,16 +23,17 @@ function ProfileSecuritySettings({ email }) {
   const classes = useStyles();
   return (
     <Grid container>
-      <Grid item xs={12} style={{ margin: '10px auto' }}>
+      <Grid item xs={11} style={{ margin: '10px auto' }}>
         <Typography variant='h4' align='center'>
-          Account
+          Security
         </Typography>
         <Typography variant='body2' align='center'>
           Edit your account settings and change your password here.
         </Typography>
+      </Grid>
+      <Grid item xs={12}>
         <Divider />
       </Grid>
-
       <Grid item xs={11} sm={10} md={6} style={{ margin: '10px auto' }}>
         <Typography variant='subtitle2'>Email:</Typography>
         <TextField
@@ -43,6 +45,10 @@ function ProfileSecuritySettings({ email }) {
           type={'email'}
           value={email}
           className={classes.textField}
+          InputProps={{
+            readOnly: true,
+            startAdornment: <Email style={{ marginRight: '5px' }} />,
+          }}
         />
       </Grid>
       <Grid item xs={12}>

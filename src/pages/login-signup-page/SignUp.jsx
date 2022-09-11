@@ -91,8 +91,20 @@ export default function SignUp({ setAction }) {
   const [emailVerified, setEmailVerified] = useState(false);
 
   const schema = yup.object({
-    firstName: yup.string().required('First name is requried'),
-    secondName: yup.string().required('Second name is required'),
+    firstName: yup
+      .string()
+      .matches(
+        '^[A-Za-z]+$',
+        'First name cannot caintain spaces, digits or special characters'
+      )
+      .required('First name is requried'),
+    secondName: yup
+      .string()
+      .matches(
+        '^[A-Za-z]+$',
+        'First name cannot caintain spaces, digits or special characters'
+      )
+      .required('Second name is required'),
     userType: yup
       .string()
       .nullable()
