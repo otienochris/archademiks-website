@@ -28,7 +28,7 @@ function ProfileSecuritySettings({ email }) {
           Security
         </Typography>
         <Typography variant='body2' align='center'>
-          Edit your account settings and change your password here.
+          Edit your account credentials here here.
         </Typography>
       </Grid>
       <Grid item xs={12}>
