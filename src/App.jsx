@@ -4,7 +4,7 @@ import Layout from './components/Layout';
 import LandingPage from './pages/landing-page';
 import AboutPage from './pages/about-page';
 import CoursesPage from './pages/courses-page';
-import PartnersPage from './pages/partners-page';
+import HelpPage from './pages/help-page/Index';
 import CoursePage from './pages/course-page';
 import CheckOutPage from './pages/checkout-page';
 import LoginSignupPage from './pages/login-signup-page';
@@ -69,7 +69,7 @@ export default function App() {
           <Route path='/courses/:courseId' element={<CoursePage />} />
           <Route path='/courses' element={<CoursesPage />} />
           <Route path='/login-signup' element={<LoginSignupPage />} />
-          <Route path='/partners' element={<PartnersPage />} />
+          <Route path='/help' element={<HelpPage />} />
           <Route path='/' element={<LandingPage />} />
           <Route
             path='/certificates/:certificateId'

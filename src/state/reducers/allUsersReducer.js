@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const notificationObject = {
+  promotions: true,
+  announcements: true,
+  purchases: false,
+  dropouts: false,
+};
+
 export const users = [
   {
     id: 1,
@@ -17,6 +24,7 @@ export const users = [
     schools: [],
     isDisabled: false,
     verificationCode: '',
+    notifications: notificationObject,
     addresses: [
       {
         id: 1,
@@ -45,6 +53,7 @@ export const users = [
     schools: [],
     isDisabled: false,
     verificationCode: '',
+    notifications: notificationObject,
     addresses: [
       {
         id: 1,
@@ -74,6 +83,7 @@ export const users = [
     schools: [],
     isDisabled: false,
     verificationCode: '',
+    notifications: notificationObject,
     addresses: [
       {
         id: 1,
@@ -102,6 +112,7 @@ export const users = [
     schools: [],
     isDisabled: false,
     verificationCode: '',
+    notifications: notificationObject,
     addresses: [
       {
         id: 1,

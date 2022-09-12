@@ -8,11 +8,11 @@ import ProfileNotificationSettings from './ProfileNotificationSettings';
 import ProfileSecuritySettings from './ProfileSecuritySettings';
 
 const tabOptions = [
-  'bio data',
-  'security',
-  'notifications',
-  'affiliations',
-  'activities',
+  { title: 'bio data', disabled: false },
+  { title: 'security', disabled: false },
+  { title: 'notifications', disabled: false },
+  { title: 'affiliations', disabled: true },
+  { title: 'activities', disabled: true },
 ];
 
 function ProfilePage() {
@@ -21,7 +21,6 @@ function ProfilePage() {
     setSelectedTab(newValue);
   };
   const user = useSelector((state) => state.user.value);
-  console.log(user);
   return (
     <Container style={{ minHeight: '93.5vh' }}>
       <AppBar
@@ -42,10 +41,15 @@ function ProfilePage() {
           onChange={handleTabSelection}
           //   centered
           variant='scrollable'
-          style={{ backgroundColor: 'black', color: 'white' }}
+          style={{ backgroundColor: 'black', color: 'white', padding: '5px' }}
         >
           {tabOptions.map((option, idx) => (
-            <Tab key={idx} value={idx} label={option} />
+            <Tab
+              key={idx}
+              value={idx}
+              label={option.title}
+              disabled={option.disabled}
+            />
           ))}
         </Tabs>
       </AppBar>
@@ -72,7 +76,11 @@ function ProfilePage() {
         ) : selectedTab === 1 ? (
           <ProfileSecuritySettings email={user.email} />
         ) : (
-          <ProfileNotificationSettings userId={user.id} />
+          <ProfileNotificationSettings
+            userId={user.id}
+            userType={user.type}
+            notifications={user.notifications}
+          />
         )}
       </div>
     </Container>

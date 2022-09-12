@@ -94,8 +94,8 @@ function CustomAppBar2() {
     setAnchorElNav(null);
   };
 
-  const handlePartnersPage = () => {
-    navigate('/partners', { replace: true });
+  const handleHelpPage = () => {
+    navigate('/help', { replace: true });
     setAnchorElNav(null);
   };
 
@@ -111,8 +111,8 @@ function CustomAppBar2() {
       disable: false,
     },
     {
-      title: 'Partners',
-      action: handlePartnersPage,
+      title: 'Help',
+      action: handleHelpPage,
       disable: false,
     },
   ];
