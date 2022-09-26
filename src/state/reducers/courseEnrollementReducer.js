@@ -12,6 +12,7 @@ const courseEnrollmentDetails = [
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
     certificateId: 1,
+    testEnrollmentId: 1,
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const courseEnrollmentDetails = [
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
     certificateId: 1,
+    testEnrollmentId: 1,
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ const courseEnrollmentDetails = [
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
     certificateId: 1,
+    testEnrollmentId: 1,
   },
   {
     id: 3,
@@ -48,6 +51,7 @@ const courseEnrollmentDetails = [
     modificationDate: '2022-03-02',
     completedTopics: [1, 2],
     certificateId: 1,
+    testEnrollmentId: 1,
   },
 ];
 
