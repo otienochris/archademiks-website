@@ -8,23 +8,51 @@ import {
   FormGroup,
   FormLabel,
   Grid,
+  List,
+  ListItem,
   Radio,
   RadioGroup,
   Typography,
 } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
+import {
+  ArrowCircleLeftTwoTone,
+  ArrowCircleRightTwoTone,
+} from '@mui/icons-material';
 import React, { useState } from 'react';
+import SingleAnswerOptions from './SingleAnswerOptions';
 
 function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
-  const handleChange = (event) => {};
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [chosenAnswer, setChosenAnswer] = useState([]);
+  const [submited, setSubmited] = useState(false);
+  const [result, setResult] = useState({});
+
+  const handleCheckbox = (event, type) => {
+    var newValue = event.target.value;
+    var isChecked = event.target.checked;
+
+    if (type === 'MULTIPLE' && isChecked && !chosenAnswer.includes(newValue)) {
+      chosenAnswer.push(newValue);
+    }
+
+    if (type === 'MULTIPLE' && !isChecked) {
+      const idx = chosenAnswer.indexOf(newValue);
+      chosenAnswer.splice(idx, 1);
+    }
+  };
 
   const handleNext = () => {
     setCurrentIndex((state) => state + 1);
+    setSubmited(false);
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((state) => state - 1);
+  const handleSubmit = (answerType) => {
+    console.log(chosenAnswer);
+    if ('MULTIPLE') {
+    } else {
+    }
+    setSubmited(true);
   };
   return (
     <Container style={{ minHeight: '93.5vh' }}>
@@ -39,42 +67,60 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
       >
         Back to tests
       </Button>
+      <Divider />
       <Grid container>
         <Grid item xs='12'>
-          <Typography variant='subtitle1'>
+          <Typography variant='h6'>Question {currentIndex + 1} </Typography>
+          <Typography variant='subtitle1' style={{ margin: '20px' }}>
             {questions[currentIndex].question}
           </Typography>
           {questions[currentIndex].answerType === 'MULTIPLE' ? (
-            <FormControl>
-              <FormGroup>
+            <div>
+              <Typography variant='h6'>Choose Multiple Answers: </Typography>
+              <FormGroup style={{ margin: '20px' }}>
                 {questions[currentIndex].answers.map((answer, idx) => (
                   <FormControlLabel
+                    key={idx}
                     control={
                       <Checkbox
-                        value={idx}
-                        onChange={handleChange}
-                        name={idx}
+                        value={answer.answerId}
+                        onChange={(event) => handleCheckbox(event, 'MULTIPLE')}
                       />
                     }
                     label={answer.content}
                   />
                 ))}
               </FormGroup>
-            </FormControl>
+              <Button
+                fullWidth
+                variant='contained'
+                color='secondary'
+                disabled={submited}
+                onClick={() => handleSubmit('MULTIPLE')}
+              >
+                Submit
+              </Button>
+            </div>
           ) : (
-            <FormControl>
-              <RadioGroup name='single-answers-radio-buttons'>
-                {questions[currentIndex].answers.map((answer, idx) => (
-                  <FormControlLabel
-                    control={<Radio />}
-                    value={idx}
-                    label={answer.content}
-                    key={idx}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
+            <Grid item xs='12'>
+              <Typography variant='h6'>Choose One Answer below: </Typography>
+              <SingleAnswerOptions
+                setChosenAnswer={setChosenAnswer}
+                answers={questions[currentIndex].answers}
+                submited={submited}
+              />
+              <Button
+                fullWidth
+                variant='contained'
+                color='secondary'
+                disabled={submited}
+                onClick={() => handleSubmit('SINGLE')}
+              >
+                {submited ? 'Submited' : 'Submit'}
+              </Button>
+            </Grid>
           )}
+
           <Divider style={{ margin: '20px auto' }} />
         </Grid>
       </Grid>
@@ -83,19 +129,13 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
         xs='12'
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
+        <div></div>
         <Button
-          color='secondary'
-          variant='outlined'
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-        >
-          Prev
-        </Button>
-        <Button
-          color='secondary'
+          color='primary'
           variant='contained'
           onClick={handleNext}
-          disabled={currentIndex === questions.length - 1}
+          disabled={currentIndex === questions.length - 1 || !submited}
+          endIcon={<ArrowCircleRightTwoTone />}
         >
           Next
         </Button>
