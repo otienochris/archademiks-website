@@ -50,8 +50,6 @@ export default function CourseInProgressPreview({
     setContinueLearning(true);
   };
 
-  console.log(enrollmentDetails);
-
   return (
     <Card style={{ margin: '20px', maxWidth: '300px' }}>
       <CardMedia
@@ -119,6 +117,19 @@ export default function CourseInProgressPreview({
 
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <Grid container justifyContent='center' style={{ margin: '10px auto' }}>
+          <Grid item xs='12'>
+            <Typography
+              variant='subtitle1'
+              style={{
+                fontFamily: 'monospace',
+              }}
+              align='center'
+            >
+              {enrollmentDetails[0].completedTopics.length}/
+              {course.topics.length} modules done
+            </Typography>
+            <Divider style={{ marginBottom: '20px' }} />
+          </Grid>
           <Grid item xs={6}>
             <Button
               onClick={() =>
@@ -135,24 +146,20 @@ export default function CourseInProgressPreview({
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Typography
-              variant='body2'
+            <Button
+              color='secondary'
+              variant='contained'
+              fullWidth
               style={{
-                fontFamily: 'monospace',
+                backgroundColor: '#ff8c00',
+                margin: '0px 10px',
+                width: '120px',
+                height: '100%',
               }}
+              onClick={() => navigate('/tests?courseId=1&studentId=3')}
             >
-              {enrollmentDetails[0].completedTopics.length}/
-              {course.topics.length} module(s)
-            </Typography>
-            <Divider />
-            <Typography
-              variant='body1'
-              style={{
-                fontFamily: 'monospace',
-              }}
-            >
-              {courseCompletionPercentage}% Done
-            </Typography>
+              <Typography variant='body2'>Complete Tests</Typography>
+            </Button>
           </Grid>
         </Grid>
       </Collapse>

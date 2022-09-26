@@ -17,6 +17,7 @@ import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 import CertificateView from './components/CertificateView';
 import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
 import ProfilePage from './components/ProfilePage';
+import TestsPage from './pages/tests-page';
 
 export default function App() {
   return (
@@ -62,6 +63,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/tests'
+            element={
+              <ProtectedRoute>
+                <TestsPage />
               </ProtectedRoute>
             }
           />
