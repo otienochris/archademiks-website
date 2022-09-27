@@ -273,7 +273,6 @@ export default function TopicDetails({
                 subtopicIndex + 1 === topic.subTopics.length
                   ? {}
                   : {
-                      // backgroundColor: '#ff8c00',
                       color: '#ff8c00',
                       fontWeight: 'bolder',
                     }

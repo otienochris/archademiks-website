@@ -14,13 +14,13 @@ function SingleAnswerOptions({ submited, answers, setChosenAnswer }) {
           style={
             selected === answer.answerId && submited && answer.isCorrect
               ? {
-                  backgroundColor: 'green',
-                  color: 'white',
+                  border: '4px solid green',
+                  color: 'green',
                 }
               : selected === answer.answerId && submited && !answer.isCorrect
               ? {
-                  backgroundColor: 'red',
-                  color: 'white',
+                  border: '4px solid red',
+                  color: 'red',
                 }
               : selected === answer.answerId
               ? {
