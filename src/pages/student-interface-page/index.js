@@ -165,7 +165,12 @@ export default function Index() {
             variant='contained'
             startIcon={<ArrowBackIcon />}
             color='primary'
-            style={{ margin: '20px auto' }}
+            style={{
+              margin: '20px auto',
+              backgroundColor: '#ff8c00',
+              color: 'black',
+              fontWeight: 'bolder',
+            }}
           >
             Back to My Courses
           </Button>

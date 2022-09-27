@@ -542,6 +542,7 @@ export const list = [
         subTopics: [
           {
             id: 1,
+            title: 'some title',
             link: '',
             content: 'Tools and Skills required',
           },
@@ -574,6 +575,7 @@ export const list = [
         subTopics: [
           {
             id: 1,
+            title: 'some title',
             link: '',
             content: 'Tools and Skills required',
           },
