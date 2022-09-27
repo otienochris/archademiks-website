@@ -178,6 +178,7 @@ export default function TopicDetails({
                     fontWeight: 'bolder',
                   }}
                   onClick={() => {
+                    setSubtopicIndex(0);
                     setSubtopicsOpened(true);
                     setOpenSubtopis(true);
                   }}
@@ -269,7 +270,7 @@ export default function TopicDetails({
             </Typography>
             <IconButton
               style={
-                subtopicIndex === 0
+                subtopicIndex + 1 === topic.subTopics.length
                   ? {}
                   : {
                       // backgroundColor: '#ff8c00',
