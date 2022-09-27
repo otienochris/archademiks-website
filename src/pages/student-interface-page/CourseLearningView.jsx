@@ -5,7 +5,12 @@ import {
   makeStyles,
   Button,
 } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
+import {
+  ArrowBackRounded,
+  ArrowForward,
+  ArrowForwardIosRounded,
+  Check,
+} from '@material-ui/icons';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import TopicDetails from './TopicDetails';
@@ -19,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 export default function CourseLearningView({ course, userId, userType }) {
+  const [subtopicsOpened, setSubtopicsOpened] = useState(false);
   const enrollmentDetails = useSelector(
     (state) =>
       state.courseEnrollments.value.filter(
@@ -50,62 +56,59 @@ export default function CourseLearningView({ course, userId, userType }) {
         <Typography variant='h4'>{course.title}</Typography>
         <Divider />
       </Grid>
-      <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
-        <Button
-          variant='contained'
-          color='secondary'
-          disabled={currentIndex === 0}
-          onClick={handlePrevious}
-        >
-          Prev
-        </Button>
-        <div style={{ flexGrow: '1' }}></div>
+      {!subtopicsOpened && (
+        <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
+          <Button
+            startIcon={<ArrowBackRounded />}
+            variant='contained'
+            style={
+              currentIndex === 0
+                ? {}
+                : {
+                    backgroundColor: '#ff8c00',
+                    color: 'black',
+                    fontWeight: 'bolder',
+                  }
+            }
+            disabled={currentIndex === 0}
+            onClick={handlePrevious}
+          >
+            Topic {currentIndex}
+          </Button>
+          <div style={{ flexGrow: '1' }}></div>
 
-        <Typography
-          style={
-            completedTopics.includes(course.topics[currentIndex].id)
-              ? {
-                  border: '2px solid green',
-                  // backgroundColor: 'green',
-                  color: 'green',
-                  padding: '7px',
-                  borderRadius: '5px',
-                }
-              : {
-                  border: '2px solid grey',
-                  padding: '7px',
-                  borderRadius: '5px',
-                }
-          }
-        >
-          Topic {currentIndex + 1} of {course.topics.length}
-        </Typography>
-        {completedTopics.includes(course.topics[currentIndex].id) ? (
-          <Check
-            fontSize='small'
+          <Typography
             style={{
-              backgroundColor: 'green',
-              width: '20px',
-              height: '20px',
-              borderRadius: '50%',
-              color: 'white',
+              padding: '7px',
+              borderRadius: '5px',
             }}
-          />
-        ) : (
-          ''
-        )}
+          >
+            {currentIndex + 1} of {course.topics.length}
+          </Typography>
 
-        <div style={{ flexGrow: '1' }}></div>
-        <Button
-          variant='contained'
-          color='secondary'
-          disabled={currentIndex === course.topics.length - 1}
-          onClick={handleNext}
-        >
-          Next
-        </Button>
-      </Grid>
+          <div style={{ flexGrow: '1' }}></div>
+          <Button
+            endIcon={<ArrowForward />}
+            variant='contained'
+            color='secondary'
+            style={
+              currentIndex === course.topics.length - 1
+                ? {}
+                : {
+                    backgroundColor: '#ff8c00',
+                    color: 'black',
+                    fontWeight: 'bolder',
+                  }
+            }
+            disabled={currentIndex === course.topics.length - 1}
+            onClick={handleNext}
+          >
+            Topic {currentIndex + 2}
+          </Button>
+        </Grid>
+      )}
       <Grid item xs={12} style={{ minHeight: '60vh' }}>
+        <Divider />
         <TopicDetails
           completedTopics={completedTopics}
           setCompletedTopics={setCompletedTopics}
@@ -113,27 +116,48 @@ export default function CourseLearningView({ course, userId, userType }) {
           topic={course.topics[currentIndex]}
           courseId={course.id}
           moveToNextTopic={handleNext}
+          setSubtopicsOpened={setSubtopicsOpened}
         />
       </Grid>
-      <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
-        <Button
-          variant='contained'
-          color='secondary'
-          disabled={currentIndex === 0}
-          onClick={() => setCurrentIndex((current) => current - 1)}
-        >
-          Prev
-        </Button>
-        <div style={{ flexGrow: '1' }}></div>
-        <Button
-          variant='contained'
-          color='secondary'
-          disabled={currentIndex === course.topics.length - 1}
-          onClick={() => setCurrentIndex((current) => current + 1)}
-        >
-          Next
-        </Button>
-      </Grid>
+      {!subtopicsOpened && (
+        <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
+          <Button
+            startIcon={<ArrowBackRounded />}
+            variant='contained'
+            style={
+              currentIndex === 0
+                ? {}
+                : {
+                    backgroundColor: '#ff8c00',
+                    color: 'black',
+                    fontWeight: 'bolder',
+                  }
+            }
+            disabled={currentIndex === 0}
+            onClick={() => setCurrentIndex((current) => current - 1)}
+          >
+            Topic {currentIndex + 1}
+          </Button>
+          <div style={{ flexGrow: '1' }}></div>
+          <Button
+            endIcon={<ArrowForward />}
+            variant='contained'
+            style={
+              currentIndex === course.topics.length - 1
+                ? {}
+                : {
+                    backgroundColor: '#ff8c00',
+                    color: 'black',
+                    fontWeight: 'bolder',
+                  }
+            }
+            disabled={currentIndex === course.topics.length - 1}
+            onClick={() => setCurrentIndex((current) => current + 1)}
+          >
+            Topic {currentIndex + 2}
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 }
