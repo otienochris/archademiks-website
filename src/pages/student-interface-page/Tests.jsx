@@ -64,7 +64,6 @@ function Tests({ testCodes, setQuestions, setCompleteTest }) {
   const classes = useStyles();
 
   const handleStartTest = (testId) => {
-    console.log(testId);
     setQuestions(
       questions.filter((item) =>
         tests
@@ -211,15 +210,15 @@ function Tests({ testCodes, setQuestions, setCompleteTest }) {
                   }
             }
           >
-            <Button variant='outlined' color='default'>
-              Restart
-            </Button>
             <Button
-              variant='contained'
-              color='primary'
+              style={{
+                backgroundColor: '#ff8c00',
+                fontWeight: 'bolder',
+                color: 'black',
+              }}
               onClick={() => handleStartTest(test.testId)}
             >
-              Start/Continue
+              Start test
             </Button>
             <Button variant='outlined' color='secondary'>
               Drop Out

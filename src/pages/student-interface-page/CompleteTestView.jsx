@@ -22,18 +22,34 @@ import {
 import React, { useState } from 'react';
 import SingleAnswerOptions from './SingleAnswerOptions';
 
+const successMessages = [
+  'You have worked so hard for this. Congrats!',
+  'This is awesome! You’re awesome! Way to go!',
+  'Bet you thought no one would notice you’ve hit your unmatched efforts. Well, I did!',
+  'I’m impressed. Congradulations! Keep it up!',
+  'Sincere congratulations on your hard-earned success.',
+  'I’ve got a feeling this is only the beginning of even more great things to come for you!',
+  'Celebrating the record you just set and looking forward to watching you cross your next finish line!',
+  'Hurray! Words can’t express how proud I am!',
+  'You are proof that good things come to those who are willing to sacrifice to reach a worthwhile goal. ',
+  'Nice one! You have the creativity and determination to do whatever you can dream. ',
+  'I hope you feel proud today and confident in your ability to rise to your next challenge.',
+  'Celebrating the dedication you’ve shown on the way to this achievement. You’ve earned every bit of the success you’re enjoying.',
+];
+
 function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [chosenAnswer, setChosenAnswer] = useState([]);
   const [submited, setSubmited] = useState(false);
   const [result, setResult] = useState({});
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(undefined);
 
   const handleCheckbox = (event, type) => {
     var newValue = event.target.value;
     var isChecked = event.target.checked;
 
     if (type === 'MULTIPLE' && isChecked && !chosenAnswer.includes(newValue)) {
-      chosenAnswer.push(newValue);
+      chosenAnswer.push(parseInt(newValue));
     }
 
     if (type === 'MULTIPLE' && !isChecked) {
@@ -48,8 +64,23 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
   };
 
   const handleSubmit = (answerType) => {
-    console.log(chosenAnswer);
-    if ('MULTIPLE') {
+    if (answerType === 'MULTIPLE') {
+      const correctAnswers = questions[currentIndex].answers
+        .filter((anx) => anx.isCorrect)
+        .flatMap((correctAnswer) => correctAnswer.answerId);
+
+      setIsAnswerCorrect(true); // assume is correct
+
+      if (chosenAnswer.length > correctAnswers.lenth) {
+        setIsAnswerCorrect(false);
+      } else {
+        chosenAnswer.map((choice) => {
+          if (!correctAnswers.includes(choice)) {
+            setIsAnswerCorrect(false);
+            return;
+          }
+        });
+      }
     } else {
     }
     setSubmited(true);
@@ -63,7 +94,12 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
           setCompleteTest(false);
         }}
         startIcon={<ArrowBack />}
-        style={{ margin: '20px auto' }}
+        style={{
+          margin: '20px auto',
+          backgroundColor: '#ff8c00',
+          fontWeight: 'bolder',
+          color: 'black',
+        }}
       >
         Back to tests
       </Button>
@@ -83,6 +119,13 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
                     key={idx}
                     control={
                       <Checkbox
+                        style={
+                          isAnswerCorrect === undefined
+                            ? { color: 'grey' }
+                            : isAnswerCorrect
+                            ? { color: 'green' }
+                            : { color: 'red' }
+                        }
                         value={answer.answerId}
                         onChange={(event) => handleCheckbox(event, 'MULTIPLE')}
                       />
@@ -91,14 +134,44 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
                   />
                 ))}
               </FormGroup>
+              {isAnswerCorrect === undefined ? (
+                ''
+              ) : isAnswerCorrect ? (
+                <Typography
+                  variant='h6'
+                  style={{ color: 'green', margin: '20px' }}
+                >
+                  {
+                    successMessages[
+                      Math.floor(Math.random() * (successMessages.length - 1))
+                    ]
+                  }
+                </Typography>
+              ) : !isAnswerCorrect ? (
+                <Typography
+                  variant='h5'
+                  style={{ color: 'red', margin: '20px' }}
+                >
+                  Oops! You got this one wrong
+                </Typography>
+              ) : (
+                ''
+              )}
               <Button
                 fullWidth
-                variant='contained'
-                color='secondary'
+                style={
+                  submited
+                    ? {}
+                    : {
+                        backgroundColor: '#ff8c00',
+                        fontWeight: 'bolder',
+                        color: 'black',
+                      }
+                }
                 disabled={submited}
                 onClick={() => handleSubmit('MULTIPLE')}
               >
-                Submit
+                {submited ? 'Submited' : 'Submit'}
               </Button>
             </div>
           ) : (
@@ -131,8 +204,15 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
       >
         <div></div>
         <Button
-          color='primary'
-          variant='contained'
+          style={
+            currentIndex === questions.length - 1 || !submited
+              ? {}
+              : {
+                  backgroundColor: '#ff8c00',
+                  fontWeight: 'bolder',
+                  color: 'black',
+                }
+          }
           onClick={handleNext}
           disabled={currentIndex === questions.length - 1 || !submited}
           endIcon={<ArrowCircleRightTwoTone />}
