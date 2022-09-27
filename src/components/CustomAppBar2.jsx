@@ -221,7 +221,9 @@ function CustomAppBar2() {
                 style={{ color: 'white' }}
                 endIcon={<AccountCircleIcon fontSize='medium' />}
               >
-                {isLoggedIn ? user.lastName : 'login'}
+                {isLoggedIn
+                  ? user.firstName[0] + '.' + user.lastName[0]
+                  : 'login'}
               </Button>
             </Tooltip>
             <Menu
