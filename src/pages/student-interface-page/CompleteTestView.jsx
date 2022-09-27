@@ -126,6 +126,7 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
                             ? { color: 'green' }
                             : { color: 'red' }
                         }
+                        disabled={submited}
                         value={answer.answerId}
                         onChange={(event) => handleCheckbox(event, 'MULTIPLE')}
                       />
