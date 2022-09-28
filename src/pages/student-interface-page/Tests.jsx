@@ -220,9 +220,11 @@ function Tests({ testCodes, setQuestions, setCompleteTest }) {
             >
               Start test
             </Button>
-            <Button variant='outlined' color='secondary'>
-              Drop Out
-            </Button>
+            {test.isOptional && (
+              <Button variant='outlined' color='secondary'>
+                Drop Out
+              </Button>
+            )}
           </AccordionActions>
         </Accordion>
       ))}
