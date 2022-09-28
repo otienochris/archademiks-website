@@ -9,6 +9,8 @@ import {
   AccordionDetails,
   AppBar,
   Grid,
+  Button,
+  Divider,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useEffect, useState } from 'react';
@@ -197,12 +199,47 @@ export default function Index({ courseId2 }) {
   };
 
   return (
-    <Container style={{ padding: '40px 0 0 0' }}>
+    <Container>
       <Grid
         container
         justifyContent={'center'}
         className={classes.mainGridContainer}
       >
+        <Grid
+          container
+          style={{
+            padding: '20px',
+            backgroundColor: 'black',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '20px auto auto auto',
+          }}
+        >
+          <Grid item xs='12'>
+            <Typography
+              align='center'
+              variant='h6'
+              style={{
+                color: 'white',
+              }}
+            >
+              Course Preview
+            </Typography>
+          </Grid>
+          <Grid item xs='12' style={{ alignSelf: 'center' }}>
+            <div
+              style={{
+                margin: '10px auto 0px auto',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <FiveStarRating rating={course.rating} />
+            </div>
+          </Grid>
+        </Grid>
         <Grid item className={classes.imageGrid} xs={12} sm={6} md={5}>
           <img
             src={course.thumbnail}
@@ -248,26 +285,27 @@ export default function Index({ courseId2 }) {
                 : `${course.topics.length} topic`}
               {}
             </Typography>
-            <div className={classes.ratingSection}>
-              <FiveStarRating rating={course.rating} />
-            </div>
           </section>
           {user.type === 'STUDENT' ||
           user.type === undefined ||
           user.type === '' ? (
-            <CustomButton
+            <Button
+              style={{
+                margin: '20px auto',
+                backgroundColor: '#ff8c00',
+                fontWeight: 'bolder',
+                color: 'black',
+              }}
               onClick={course.price > 0 ? handleBuyButton : handleGetForFree}
               endIcon={
                 course.price > 0 ? <ShoppingCartCheckoutIcon /> : <StartIcon />
               }
-              style={{
-                position: 'sticky',
-                width: '100%',
-                backgroundColor: 'gold',
-                color: 'black',
-              }}
-              text={course.price > 0 ? 'Buy' : 'Get for Free'}
-            />
+            >
+              {' '}
+              <Typography>
+                {course.price > 0 ? 'proceed to pay' : 'Get for Free'}
+              </Typography>{' '}
+            </Button>
           ) : (
             <Typography
               style={{
@@ -286,7 +324,15 @@ export default function Index({ courseId2 }) {
           )}
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid item xs='12'>
+        <Divider />
+        <Typography
+          align='center'
+          variant='h6'
+          style={{ padding: '20px', backgroundColor: 'black', color: 'white' }}
+        >
+          Course Content Preview
+        </Typography>
         <AppBar position='static' color='default' className={classes.appbar}>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab icon={<SummarizeIcon />} label={'Topics'} />
