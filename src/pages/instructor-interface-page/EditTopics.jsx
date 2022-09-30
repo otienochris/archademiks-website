@@ -23,7 +23,12 @@ function EditTopics({ topics }) {
             color='secondary'
             variant='contained'
             startIcon={<ArrowBackIosOutlined />}
-            style={{ margin: '20px' }}
+            style={{
+              margin: '20px',
+              backgroundColor: '#ff8c00',
+              color: 'black',
+              fontWeight: 'bolder',
+            }}
             onClick={() => {
               setTopicSeleted(false);
               setTopicToBeEdited(null);

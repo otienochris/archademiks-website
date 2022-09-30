@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const testsList = [
   {
     testId: 1,
-    title: 'Some Useless Title one',
+    title: 'Complete Introduction to Object Oriente programming',
     type: 'ASSIGNMENT',
     courseId: 1,
     topicId: 1,

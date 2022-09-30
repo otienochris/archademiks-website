@@ -9,6 +9,7 @@ import {
 import React, { useState } from 'react';
 import EditBasics from './EditBasics';
 import EditSubtopics from './EditSubtopics';
+import EditTests from './EditTests';
 import EditTopics from './EditTopics';
 
 function EditCourseView({ course }) {
@@ -38,7 +39,7 @@ function EditCourseView({ course }) {
             <Tab label='Basics' />
             <Tab label='Topics' />
             <Tab label='Sub-Topics' />
-            <Tab label='Tests' disabled />
+            <Tab label='Tests' />
           </Tabs>
         </AppBar>
       </Grid>
@@ -47,8 +48,10 @@ function EditCourseView({ course }) {
           <EditBasics course={course} />
         ) : tab === 1 ? (
           <EditTopics topics={course.topics} />
-        ) : (
+        ) : tab == 2 ? (
           <EditSubtopics topics={course.topics} />
+        ) : (
+          <EditTests topics={course.topics} />
         )}
       </Grid>
     </Grid>
