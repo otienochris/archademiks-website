@@ -1,8 +1,19 @@
 import {
   Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
+  FormControl,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Slide,
+  TextField,
   Tooltip,
   Typography,
 } from '@material-ui/core';
@@ -17,8 +28,26 @@ import React from 'react';
 import { useState } from 'react';
 import EditQuestion from './EditQuestion';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
+
 function EditTest({ test }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [openEditPage, setOpenEditPage] = useState(false);
+  const [answerType, setAnswerType] = useState('');
+  const [editedQuestion, setEditedQuestion] = useState();
+
+  const handleEditPageClose = () => {
+    setOpenEditPage(false);
+  };
+
+  const handleSubmitQuestionChanges = () => {
+    console.log(answerType);
+    console.log(editedQuestion);
+    setOpenEditPage(false);
+  };
+
   return (
     <Grid container>
       <Grid item xs='12' sm='9' md='10'>
@@ -65,9 +94,98 @@ function EditTest({ test }) {
               borderRadius: '50%',
               margin: 'auto 10px',
             }}
+            onClick={() => setOpenEditPage(true)}
           >
             <Edit />
           </IconButton>
+          <Dialog
+            open={openEditPage}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleEditPageClose}
+            fullScreen
+          >
+            <Container
+              style={{
+                height: '100%',
+                width: '100%',
+                // display: 'flex',
+                // alignItems: 'center',
+              }}
+            >
+              <DialogTitle
+                style={{
+                  backgroundColor: 'black',
+                  color: 'white',
+                  textAlign: 'center',
+                  margin: '10px',
+                }}
+              >
+                Edit Question
+              </DialogTitle>
+              <DialogContent>
+                <TextField
+                  minRows={5}
+                  multiline
+                  label='Question Box'
+                  placeholder='Enter the question here'
+                  variant='outlined'
+                  defaultValue={test.questions[currentIndex].question}
+                  fullWidth
+                  // margin='dense'
+                  onChange={(event) => setEditedQuestion(event.target.value)}
+                />
+
+                <Typography variant='h6' style={{ marginTop: '20px' }}>
+                  Answer Type:{' '}
+                </Typography>
+                <FormControl style={{ minWidth: '100px' }}>
+                  {/* <InputLabel id='answer-type'>Answer type</InputLabel> */}
+                  <Select
+                    labelId='answer-type'
+                    id='something'
+                    value={answerType}
+                    label='Answer type'
+                    onChange={(event) => setAnswerType(event.target.value)}
+                  >
+                    <MenuItem value=''>
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={'MULTI_CHOICE'}>MULTI_CHOICE</MenuItem>
+                    <MenuItem value={'OPEN_ENDED'}>OPEN_ENDED</MenuItem>
+                    <MenuItem value={'SINGLE_CHOICE'}>SINGLE_CHOICE</MenuItem>
+                  </Select>
+                  {/* <FormHelperText>Disabled</FormHelperText> */}
+                </FormControl>
+                <Divider
+                  style={{
+                    margin: '10px',
+                  }}
+                />
+              </DialogContent>
+
+              <DialogActions
+                style={{
+                  margin: '10px',
+                }}
+              >
+                <Button
+                  variant='outlined'
+                  style={{ color: '#ff8c00', borderColor: 'ff8c00' }}
+                  onClick={handleSubmitQuestionChanges}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant='contained'
+                  onClick={() => setOpenEditPage(false)}
+                  style={{ backgroundColor: '#ff8c00' }}
+                >
+                  Cancel
+                </Button>
+              </DialogActions>
+            </Container>
+          </Dialog>
         </div>
         <EditQuestion question={test.questions[currentIndex]} />
 
