@@ -59,18 +59,16 @@ function Tests({ testCodes, setQuestions, setCompleteTest }) {
     state.tests.value.filter((item) => testCodes.includes(item.testId))
   );
 
-  const questions = useSelector((state) => state.questions.value);
+  // const questions = useSelector((state) => state.questions.value);
+  // const questions = tests.;
 
   const classes = useStyles();
 
   const handleStartTest = (testId) => {
     setQuestions(
-      questions.filter((item) =>
-        tests
-          .filter((test) => test.testId === testId)
-          .flatMap((test) => test.questions)
-          .includes(item.questionId)
-      )
+      tests
+        .filter((test) => test.testId === testId)
+        .flatMap((test) => test.questions)
     );
     setCompleteTest(true);
   };
