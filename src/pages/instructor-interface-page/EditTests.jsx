@@ -24,15 +24,19 @@ import EditTest from './EditTest';
 function EditTests({ topics }) {
   const [testToBeEdited, setTestToBeEdited] = useState();
   const [isTestSelected, setIsTestSeleted] = useState(false);
-  const topicIds = topics.flatMap((topic) => topic.id);
   const tests = useSelector((state) => state.tests.value);
+  const [addAnswerPayload, setAddAnswerPayload] = useState({
+    testId: 0,
+    questionId: 0,
+    answer: {},
+  });
 
   return (
     <>
       {!isTestSelected ? (
         <div>
-          {topics.map((topic) => (
-            <Accordion style={{ margin: '5px auto' }}>
+          {topics.map((topic, idx) => (
+            <Accordion key={idx} style={{ margin: '5px auto' }}>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant='h6'>
                   <span style={{ margin: '10px' }}>{topic.id}.</span>
@@ -42,9 +46,14 @@ function EditTests({ topics }) {
               <AccordionDetails>
                 <Grid container>
                   <List title='Click to edit' style={{ width: '100%' }}>
-                    {tests.map((test) =>
+                    {tests.map((test, idx) =>
                       test.topicId === topic.id ? (
-                        <Grid item xs='12' style={{ display: 'flex' }}>
+                        <Grid
+                          key={idx}
+                          item
+                          xs='12'
+                          style={{ display: 'flex' }}
+                        >
                           <div
                             style={{
                               border: '1px solid grey',
@@ -119,8 +128,7 @@ function EditTests({ topics }) {
           >
             all tests per topic
           </Button>
-          {/* <EditSubtopic subtopic={testToBeEdited} /> */}
-          <EditTest test={testToBeEdited} />
+          <EditTest test={testToBeEdited} addAnswerPayload={addAnswerPayload} />
         </div>
       )}
     </>
