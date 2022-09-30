@@ -85,9 +85,17 @@ export const testSlice = createSlice({
     setTests: (state, action) => {
       state.value = action.payload.tests;
     },
+    addAnswerAction: (state, action) => {
+      state.value
+        .filter((item) => item.testId === parseInt(action.payload.testId))[0]
+        .questions.filter(
+          (quiz) => quiz.questionId === parseInt(action.payload.questionId)
+        )[0]
+        .answers.push(action.payload.answer);
+    },
   },
 });
 
-export const { setTests } = testSlice.actions;
+export const { setTests, addAnswerAction } = testSlice.actions;
 
 export default testSlice.reducer;

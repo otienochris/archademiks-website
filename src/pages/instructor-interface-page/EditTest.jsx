@@ -9,21 +9,13 @@ import {
   FormControl,
   Grid,
   IconButton,
-  InputLabel,
   MenuItem,
   Select,
   Slide,
   TextField,
-  Tooltip,
   Typography,
 } from '@material-ui/core';
-import {
-  ArrowBackIos,
-  ArrowForwardIos,
-  Delete,
-  Edit,
-  Save,
-} from '@material-ui/icons';
+import { ArrowBackIos, ArrowForwardIos, Edit, Save } from '@material-ui/icons';
 import React from 'react';
 import { useState } from 'react';
 import EditQuestion from './EditQuestion';
@@ -32,11 +24,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-function EditTest({ test }) {
+function EditTest({ test, addAnswerPayload }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openEditPage, setOpenEditPage] = useState(false);
   const [answerType, setAnswerType] = useState('');
   const [editedQuestion, setEditedQuestion] = useState();
+
+  addAnswerPayload.testId = test.testId;
 
   const handleEditPageClose = () => {
     setOpenEditPage(false);
@@ -107,10 +101,7 @@ function EditTest({ test }) {
           >
             <Container
               style={{
-                height: '100%',
-                width: '100%',
-                // display: 'flex',
-                // alignItems: 'center',
+                margin: 'auto',
               }}
             >
               <DialogTitle
@@ -132,15 +123,13 @@ function EditTest({ test }) {
                   variant='outlined'
                   defaultValue={test.questions[currentIndex].question}
                   fullWidth
-                  // margin='dense'
                   onChange={(event) => setEditedQuestion(event.target.value)}
                 />
 
                 <Typography variant='h6' style={{ marginTop: '20px' }}>
                   Answer Type:{' '}
                 </Typography>
-                <FormControl style={{ minWidth: '100px' }}>
-                  {/* <InputLabel id='answer-type'>Answer type</InputLabel> */}
+                <FormControl style={{ minWidth: '200px' }} fullWidth>
                   <Select
                     labelId='answer-type'
                     id='something'
@@ -155,7 +144,6 @@ function EditTest({ test }) {
                     <MenuItem value={'OPEN_ENDED'}>OPEN_ENDED</MenuItem>
                     <MenuItem value={'SINGLE_CHOICE'}>SINGLE_CHOICE</MenuItem>
                   </Select>
-                  {/* <FormHelperText>Disabled</FormHelperText> */}
                 </FormControl>
                 <Divider
                   style={{
@@ -187,7 +175,10 @@ function EditTest({ test }) {
             </Container>
           </Dialog>
         </div>
-        <EditQuestion question={test.questions[currentIndex]} />
+        <EditQuestion
+          question={test.questions[currentIndex]}
+          addAnswerPayload={addAnswerPayload}
+        />
 
         <Divider />
       </Grid>
