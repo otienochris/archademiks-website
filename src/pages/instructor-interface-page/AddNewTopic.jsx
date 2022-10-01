@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -7,11 +7,7 @@ import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button, TextField, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
-import {
-  ContentState,
-  // CompositeDecorator,
-  convertFromHTML,
-} from 'draft-js';
+import { convertToRaw } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
 
 const schema = yup.object({
@@ -29,22 +25,17 @@ const schema = yup.object({
     ),
 });
 
-function EditTopic({ topic }) {
-  const classes = useStyles();
-  const blocksFromHTML = convertFromHTML(topic.content);
-  const state = ContentState.createFromBlockArray(
-    blocksFromHTML.contentBlocks,
-    blocksFromHTML.entityMap
-  );
+function AddNewTopic() {
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createWithContent(state, null)
+    EditorState.createEmpty()
   );
+
+  const classes = useStyles();
 
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -52,17 +43,42 @@ function EditTopic({ topic }) {
     criteriaMode: 'all',
   });
 
-  useEffect(() => {
-    setValue('title', topic.title, { shouldValidate: true });
-    setValue('description', topic.description, { shouldValidate: true });
-    if (topic.link) {
-      setValue('link', 'https://youtu.be/' + topic.link, {
-        shouldValidate: true,
-      });
-    }
-  }, [topic]);
+  const onSubmit = (data) => {
+    // extract embedid
+    const splitLink = data.link.split('/');
+    const embedId = splitLink[splitLink.length - 1];
+    // newCourse.link = embedId;
 
-  const onSubmit = (data) => {};
+    // extract content from editor
+    const contentInHtml = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    const topic = {
+      title: data.title,
+      description: data.description,
+      content: contentInHtml,
+      link: embedId,
+      subTopics: [],
+    };
+
+    console.log(topic);
+
+    //   newCourse.topics.push(topic);
+    //   setNewCourse(newCourse);
+
+    //   setIsStageSubmited(true);
+
+    // resetting the fields
+    //   reset();
+    //   setEditorState(EditorState.createEmpty());
+    //   var title = document.getElementById('title');
+    //   var description = document.getElementById('description');
+    //   var link = document.getElementById('link');
+    //   title.value = '';
+    //   description.value = '';
+    //   link.value = '';
+  };
 
   return (
     <form className={classes.form}>
@@ -71,6 +87,7 @@ function EditTopic({ topic }) {
         variant='filled'
         label='Topic Title'
         placeholder='Provide a brief yet descriptive title'
+        autoComplete='off'
         {...register('title')}
         error={errors.title ? true : false}
         helperText={errors.title ? errors.title.message : ''}
@@ -78,7 +95,6 @@ function EditTopic({ topic }) {
       />
 
       <TextField
-        multiline
         id='description'
         variant='filled'
         label='Topic Description'
@@ -107,8 +123,9 @@ function EditTopic({ topic }) {
 
       <div
         className={classes.editor}
-        style={{ border: '1px solid black', padding: '5px' }}
+        style={{ border: '1px solid black', padding: '2px' }}
       >
+        {/* <div> */}
         <Editor
           editorState={editorState}
           toolbarClassName='toolbarClassName'
@@ -122,7 +139,6 @@ function EditTopic({ topic }) {
         variant='contained'
         color='secondary'
         onClick={handleSubmit(onSubmit)}
-        fullWidth
       >
         save
       </Button>
@@ -130,4 +146,4 @@ function EditTopic({ topic }) {
   );
 }
 
-export default EditTopic;
+export default AddNewTopic;

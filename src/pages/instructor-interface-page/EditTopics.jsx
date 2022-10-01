@@ -12,7 +12,6 @@ import {
   Slide,
   Typography,
 } from '@material-ui/core';
-import { ArrowBackIosOutlined } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
@@ -22,7 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-function EditTopics({ topics }) {
+function EditTopics({ topics, courseId }) {
   const [openEditPage, setOpenEditPage] = useState(false);
   const [topicToBeEdited, setTopicToBeEdited] = useState();
   const [topicSelected, setTopicSeleted] = useState(false);
@@ -52,6 +51,7 @@ function EditTopics({ topics }) {
         ))}
       </List>
 
+      {/* edit a topic */}
       <Dialog
         open={openEditPage}
         TransitionComponent={Transition}

@@ -109,7 +109,10 @@ function EditSubtopic({ subtopic }) {
         Content
       </Typography>
 
-      <div className={classes.editor}>
+      <div
+        className={classes.editor}
+        style={{ border: '1px solid black', padding: '5px' }}
+      >
         <Editor
           editorState={editorState}
           toolbarClassName='toolbarClassName'
