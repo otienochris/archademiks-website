@@ -159,9 +159,13 @@ function EditBasics({ course }) {
       />
 
       <Button
-        style={{ margin: '16px' }}
+        style={{
+          margin: '16px',
+          backgroundColor: '#ff8c00',
+          color: 'black',
+          fontWeight: 'bolder',
+        }}
         variant='contained'
-        color='secondary'
         disabled={saved}
         onClick={handleSubmit(onSubmit)}
       >

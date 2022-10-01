@@ -135,9 +135,13 @@ function AddNewTopic() {
         />
       </div>
       <Button
-        style={{ margin: '16px' }}
+        style={{
+          margin: '16px',
+          backgroundColor: '#ff8c00',
+          color: 'black',
+          fontWeight: 'bolder',
+        }}
         variant='contained'
-        color='secondary'
         onClick={handleSubmit(onSubmit)}
       >
         save
