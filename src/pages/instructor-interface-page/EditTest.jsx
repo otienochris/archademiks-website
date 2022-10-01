@@ -7,8 +7,10 @@ import {
   DialogTitle,
   Divider,
   FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
+  InputLabel,
   MenuItem,
   Select,
   Slide,
@@ -29,6 +31,8 @@ function EditTest({ test, addAnswerPayload }) {
   const [openEditPage, setOpenEditPage] = useState(false);
   const [answerType, setAnswerType] = useState('');
   const [editedQuestion, setEditedQuestion] = useState();
+  const [editedHint, setHint] = useState();
+  const [questionLevel, setQuestionLevel] = useState();
 
   addAnswerPayload.testId = test.testId;
 
@@ -124,27 +128,85 @@ function EditTest({ test, addAnswerPayload }) {
                   defaultValue={test.questions[currentIndex].question}
                   fullWidth
                   onChange={(event) => setEditedQuestion(event.target.value)}
+                  style={{ margin: '20px auto' }}
                 />
 
-                <Typography variant='h6' style={{ marginTop: '20px' }}>
-                  Answer Type:{' '}
-                </Typography>
-                <FormControl style={{ minWidth: '200px' }} fullWidth>
-                  <Select
-                    labelId='answer-type'
-                    id='something'
-                    value={answerType}
-                    label='Answer type'
-                    onChange={(event) => setAnswerType(event.target.value)}
+                <TextField
+                  minRows={5}
+                  multiline
+                  label='Hint Box'
+                  placeholder='Enter hints here'
+                  variant='outlined'
+                  defaultValue={test.questions[currentIndex].hint}
+                  fullWidth
+                  onChange={(event) => setHint(event.target.value)}
+                  style={{ margin: '20px auto' }}
+                />
+
+                <Grid container>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
-                    <MenuItem value=''>
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={'MULTI_CHOICE'}>MULTI_CHOICE</MenuItem>
-                    <MenuItem value={'OPEN_ENDED'}>OPEN_ENDED</MenuItem>
-                    <MenuItem value={'SINGLE_CHOICE'}>SINGLE_CHOICE</MenuItem>
-                  </Select>
-                </FormControl>
+                    <FormControl
+                      style={{ minWidth: '200px', margin: '20px auto' }}
+                    >
+                      <InputLabel id='question-level-label'>
+                        Question Level
+                      </InputLabel>
+                      <Select
+                        labelId='question-level-label'
+                        id='question-level'
+                        value={questionLevel}
+                        defaultValue={test.questions[currentIndex].level}
+                        label='Question Level'
+                        onChange={(event) =>
+                          setQuestionLevel(event.target.value)
+                        }
+                      >
+                        <MenuItem value=''>
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={'EASY'}>EASY</MenuItem>
+                        <MenuItem value={'MODERATE'}>MODERATE</MenuItem>
+                        <MenuItem value={'HARD'}>HARD</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <FormControl
+                      style={{ minWidth: '200px', margin: '20px auto' }}
+                    >
+                      <InputLabel id='answer-type-label'>
+                        Answer Type
+                      </InputLabel>
+                      <Select
+                        labelId='answer-type-label'
+                        id='answer-type'
+                        value={answerType}
+                        defaultValue={test.questions[currentIndex].answerType}
+                        label='Answer type'
+                        onChange={(event) => setAnswerType(event.target.value)}
+                      >
+                        <MenuItem value=''>
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={'MULTI_CHOICE'}>MULTI_CHOICE</MenuItem>
+                        <MenuItem value={'OPEN_ENDED'}>OPEN_ENDED</MenuItem>
+                        <MenuItem value={'SINGLE_CHOICE'}>
+                          SINGLE_CHOICE
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
                 <Divider
                   style={{
                     margin: '10px',

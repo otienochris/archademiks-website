@@ -71,7 +71,10 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
 
       setIsAnswerCorrect(true); // assume is correct
 
-      if (chosenAnswer.length > correctAnswers.lenth) {
+      if (
+        chosenAnswer.length == 0 ||
+        chosenAnswer.length > correctAnswers.lenth
+      ) {
         setIsAnswerCorrect(false);
       } else {
         chosenAnswer.map((choice) => {
@@ -110,7 +113,7 @@ function CompleteTestView({ questions, setQuestions, setCompleteTest }) {
           <Typography variant='subtitle1' style={{ margin: '20px' }}>
             {questions[currentIndex].question}
           </Typography>
-          {questions[currentIndex].answerType === 'MULTIPLE' ? (
+          {questions[currentIndex].answerType === 'MULTI_CHOICE' ? (
             <div>
               <Typography variant='h6'>Choose Multiple Answers: </Typography>
               <FormGroup style={{ margin: '20px' }}>
