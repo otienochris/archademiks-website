@@ -92,6 +92,7 @@ function EditBasics({ course }) {
           variant='filled'
           {...register('category')}
           error={errors.category ? true : false}
+          defaultValue={course.category}
         >
           <MenuItem value=''>
             <em>None</em>

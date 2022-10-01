@@ -17,19 +17,22 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { Add, ArrowBackIosOutlined, ExpandMore } from '@material-ui/icons';
+import { Add, ExpandMore } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
 import React, { useState } from 'react';
+import AddNewSubtopic from './AddNewSubtopic';
 import EditSubtopic from './EditSubtopic';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-function EditSubtopics({ topics }) {
+function EditSubtopics({ topics, courseId }) {
   const [openEditPage, setOpenEditPage] = useState(false);
   const [subtopicToBeEdited, setSubtopicToBeEdited] = useState();
   const [subtopicSelected, setSubtopicSeleted] = useState(false);
+  const [addNewSubtopic, setAddNewSubtopic] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState();
   return (
     <>
       {topics.map((topic) => (
@@ -50,6 +53,11 @@ function EditSubtopics({ topics }) {
                       color: 'white',
                       margin: 'auto 10px',
                       margin: '10px',
+                    }}
+                    onClick={() => {
+                      setAddNewSubtopic(true);
+                      setSelectedTopic(topic);
+                      console.log(topic);
                     }}
                   >
                     <Add />
@@ -83,6 +91,7 @@ function EditSubtopics({ topics }) {
         </Accordion>
       ))}
 
+      {/* edit subtopic */}
       <Dialog
         open={openEditPage}
         TransitionComponent={Transition}
@@ -114,6 +123,46 @@ function EditSubtopics({ topics }) {
               onClick={() => {
                 setSubtopicSeleted(false);
                 setOpenEditPage(false);
+              }}
+              style={{ backgroundColor: '#ff8c00' }}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Container>
+      </Dialog>
+
+      {/* add new sub topic */}
+      <Dialog
+        open={addNewSubtopic}
+        TransitionComponent={Transition}
+        keepMounted
+        // onClose={handleEditPageClose}
+        fullScreen
+      >
+        <Container>
+          <DialogTitle
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              textAlign: 'center',
+              margin: '10px',
+            }}
+          >
+            Add Sub-topic
+          </DialogTitle>
+          <DialogContent>
+            {addNewSubtopic && <AddNewSubtopic topicId={selectedTopic.id} />}
+          </DialogContent>
+          <DialogActions
+            style={{
+              margin: '10px',
+            }}
+          >
+            <Button
+              variant='contained'
+              onClick={() => {
+                setAddNewSubtopic(false);
               }}
               style={{ backgroundColor: '#ff8c00' }}
             >
