@@ -128,7 +128,12 @@ export default function Index() {
                 setEditCourse(false);
                 setCreateNewCourse(false);
               }}
-              style={{ margin: '30px auto' }}
+              style={{
+                margin: '30px auto',
+                backgroundColor: '#ff8c00',
+                color: 'black',
+                fontWeight: 'bolder',
+              }}
             >
               Back to my courses
             </Button>
@@ -146,7 +151,12 @@ export default function Index() {
                 setEditCourse(false);
                 setCreateNewCourse(false);
               }}
-              style={{ margin: '30px auto' }}
+              style={{
+                margin: '30px auto',
+                backgroundColor: '#ff8c00',
+                color: 'black',
+                fontWeight: 'bolder',
+              }}
             >
               Back to my courses
             </Button>
