@@ -28,51 +28,30 @@ function EditTopics({ topics }) {
   const [topicSelected, setTopicSeleted] = useState(false);
   return (
     <Grid container>
-      {topicSelected ? (
-        <div>
-          <Button
-            color='secondary'
-            variant='contained'
-            startIcon={<ArrowBackIosOutlined />}
-            style={{
-              margin: '20px',
-              backgroundColor: '#ff8c00',
-              color: 'black',
-              fontWeight: 'bolder',
-            }}
-            onClick={() => {
-              setTopicSeleted(false);
-              setTopicToBeEdited(null);
-            }}
-          >
-            Back To Topics
-          </Button>
-        </div>
-      ) : (
-        <List title='Click to edit' style={{ width: '100%' }}>
-          {topics.map((topic, idx) => (
-            <Grid item xs={12} key={idx}>
-              <ListItemButton
-                style={{ width: '100%' }}
-                onClick={() => {
-                  console.log(topic);
-                  setTopicToBeEdited(topic);
-                  setTopicSeleted(true);
-                  setOpenEditPage(true);
-                }}
-              >
-                <ListItemText>
-                  <Typography variant='h6'>
-                    <span style={{ margin: '10px' }}>{topic.id}.</span>
-                    {topic.title}
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-              <Divider />
-            </Grid>
-          ))}
-        </List>
-      )}
+      <List title='Click to edit' style={{ width: '100%' }}>
+        {topics.map((topic, idx) => (
+          <Grid item xs={12} key={idx}>
+            <ListItemButton
+              style={{ width: '100%' }}
+              onClick={() => {
+                console.log(topic);
+                setTopicToBeEdited(topic);
+                setTopicSeleted(true);
+                setOpenEditPage(true);
+              }}
+            >
+              <ListItemText>
+                <Typography variant='h6'>
+                  <span style={{ margin: '10px' }}>{topic.id}.</span>
+                  {topic.title}
+                </Typography>
+              </ListItemText>
+            </ListItemButton>
+            <Divider />
+          </Grid>
+        ))}
+      </List>
+
       <Dialog
         open={openEditPage}
         TransitionComponent={Transition}
@@ -99,13 +78,6 @@ function EditTopics({ topics }) {
               margin: '10px',
             }}
           >
-            {/* <Button
-              variant='outlined'
-              style={{ color: '#ff8c00', borderColor: 'ff8c00' }}
-              // onClick={handleSubmitQuestionChanges}
-            >
-              Save
-            </Button> */}
             <Button
               variant='contained'
               onClick={() => {
