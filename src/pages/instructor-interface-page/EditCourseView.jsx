@@ -1,11 +1,15 @@
 import {
   AppBar,
   Container,
+  Divider,
   Grid,
+  IconButton,
   Tab,
   Tabs,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import React, { useState } from 'react';
 import EditBasics from './EditBasics';
 import EditSubtopics from './EditSubtopics';
@@ -47,7 +51,21 @@ function EditCourseView({ course }) {
         {tab === 0 ? (
           <EditBasics course={course} />
         ) : tab === 1 ? (
-          <EditTopics topics={course.topics} />
+          <>
+            <Tooltip title='Add new topic'>
+              <IconButton
+                style={{
+                  backgroundColor: '#ff8c00',
+                  color: 'white',
+                  margin: '10px',
+                }}
+              >
+                <Add />
+              </IconButton>
+            </Tooltip>
+            <Divider />
+            <EditTopics topics={course.topics} />
+          </>
         ) : tab == 2 ? (
           <EditSubtopics topics={course.topics} />
         ) : (
