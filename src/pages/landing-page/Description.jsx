@@ -7,22 +7,22 @@ import CustomButton from '../../components/custom-controls/CustomButton';
 const items = [
   {
     image:
+      // 'https://leverageedublog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2020/03/24185535/Online-Learning.jpg',
+      'https://images.saymedia-content.com/.image/t_share/MTc4ODEwMzkyMzgxMTcxMjA3/6-things-to-check-before-you-pay-for-an-online-course.jpg',
+    title: 'Learn Online,',
+    description: 'Using a simple and effective tool!',
+  },
+  {
+    image:
       'https://media.istockphoto.com/photos/hand-with-marker-writing-skill-concept-picture-id637711198?k=20&m=637711198&s=612x612&w=0&h=bznzNhH923ckyX6LINoDPtH6z3wbB0yO6Gvk5fQR0ms=',
-    title: 'Become Skilled.',
-    description: 'We offer relevant Skills.',
+    title: 'Gain Relevant Skills..',
+    description: 'Skills that guarantee jobs.',
   },
   {
     image:
       'https://media.istockphoto.com/vectors/gold-shield-with-check-mark-icon-isolated-on-black-background-safety-vector-id1282180999?k=20&m=1282180999&s=170667a&w=0&h=2AGnXsi3T9rmL26RjGYUic_XMOrQGz12-tfF4f0llgc=',
-    title: 'Become Certified.',
-    description: '..and you get proof of competence.',
-  },
-
-  {
-    image:
-      'https://leverageedublog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2020/03/24185535/Online-Learning.jpg',
-    title: 'Learn Online.',
-    description: 'Join us today!',
+    title: 'And Get Certified.',
+    description: 'A required proof of competence.',
   },
 ];
 
