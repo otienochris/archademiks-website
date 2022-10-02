@@ -103,7 +103,7 @@ export default function CourseLearningView({ course, userId, userType }) {
       >
         <Container>
           <DialogTitle
-            id='subtopic'
+            id='topic'
             style={{
               backgroundColor: 'black',
               color: 'white',
@@ -137,6 +137,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                     }}
                     onClick={() => {
                       setSubtopicsOpened(true);
+                      document.getElementById('topic').scrollIntoView();
                     }}
                   >
                     Continue
@@ -162,7 +163,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                   <Button
                     onClick={() => {
                       setSubtopicIndex((state) => state - 1);
-                      document.getElementById('subtopic').scrollIntoView();
+                      document.getElementById('topic').scrollIntoView();
                     }}
                     disabled={subtopicIndex === 0}
                     style={
@@ -175,7 +176,6 @@ export default function CourseLearningView({ course, userId, userType }) {
                     }
                   >
                     <ArrowBackIos />
-                    {/* <Typography variant='h6'>Prev</Typography> */}
                   </Button>
                   <Typography>
                     subtopic {subtopicIndex + 1} of{' '}
@@ -206,7 +206,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                             }
                       }
                       onClick={() => {
-                        document.getElementById('subtopic').scrollIntoView();
+                        document.getElementById('topic').scrollIntoView();
                         setSubtopicIndex((state) => state + 1);
                       }}
                       disabled={
@@ -214,7 +214,6 @@ export default function CourseLearningView({ course, userId, userType }) {
                         subtopicIndex + 1 === selectedTopic.subTopics.length
                       }
                     >
-                      {/* <Typography variant='h6'>Next</Typography> */}
                       <ArrowForwardIos />
                     </Button>
                   )}
