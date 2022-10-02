@@ -21,6 +21,7 @@ export default function InstructorCourses({
               sx={{
                 '&:hover': {
                   transform: 'scale(1.05)',
+                  transition: '1s',
                 },
               }}
             >
