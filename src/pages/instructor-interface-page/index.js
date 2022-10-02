@@ -13,6 +13,11 @@ import {
   makeStyles,
   Button,
   Typography,
+  Slide,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -24,6 +29,10 @@ import { useSelector } from 'react-redux';
 import CourseLearningView from '../student-interface-page/CourseLearningView';
 import { ArrowLeftOutlined } from '@material-ui/icons';
 import EditCourseView from './EditCourseView';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -45,6 +54,7 @@ export default function Index() {
       instructor.courses.includes(course.id)
     )
   );
+  const [openCreateCourse, setOpenCreateCourse] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -119,26 +129,44 @@ export default function Index() {
         {/* <Grid item xs={12}> */}
         {createNewCourse ? (
           <div>
-            <Button
-              variant='contained'
-              color='secondary'
-              startIcon={<ArrowLeftOutlined />}
-              onClick={() => {
-                setViewCourse(false);
-                setEditCourse(false);
-                setCreateNewCourse(false);
-              }}
-              style={{
-                margin: '30px auto',
-                backgroundColor: '#ff8c00',
-                color: 'black',
-                fontWeight: 'bolder',
-              }}
+            <Dialog
+              fullScreen
+              open={createNewCourse}
+              // onClose={handleClose}
+              TransitionComponent={Transition}
             >
-              Back to my courses
-            </Button>
-            <Divider />
-            <CreateCourse setCreateNewCourse={setCreateNewCourse} />
+              <Container style={{ minHeight: '100vh' }}>
+                <DialogTitle
+                  style={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    margin: '20px',
+                  }}
+                >
+                  <Typography variant='h4' align='center'>
+                    Create Course
+                  </Typography>
+                </DialogTitle>
+
+                <DialogContent>
+                  <CreateCourse setCreateNewCourse={setCreateNewCourse} />
+                  <Divider />
+                </DialogContent>
+
+                <DialogActions>
+                  <Button
+                    onClick={() => setCreateNewCourse(false)}
+                    style={{
+                      backgroundColor: '#ff8c00',
+                      margin: 'auto',
+                      fontWeight: 'bolder',
+                    }}
+                  >
+                    Exit
+                  </Button>
+                </DialogActions>
+              </Container>
+            </Dialog>
           </div>
         ) : viewCourse ? (
           <div style={{ margin: '5px auto' }}>
