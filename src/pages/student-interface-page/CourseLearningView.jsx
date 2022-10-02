@@ -2,53 +2,48 @@ import {
   Divider,
   Grid,
   Typography,
-  makeStyles,
   Button,
+  List,
+  ListItem,
+  ListItemText,
+  Slide,
+  Dialog,
+  Container,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@material-ui/core';
 import {
-  ArrowBackRounded,
-  ArrowForward,
-  ArrowForwardIosRounded,
+  ArrowBackIos,
+  ArrowForwardIos,
   Check,
+  Close,
 } from '@material-ui/icons';
+import { ListItemButton } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import TopicDetails from './TopicDetails';
+import SubTopicView from './SubTopicView';
 
-const useStyles = makeStyles({
-  step: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyItems: 'center',
-  },
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 export default function CourseLearningView({ course, userId, userType }) {
   const [subtopicsOpened, setSubtopicsOpened] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState();
+  const [subtopicIndex, setSubtopicIndex] = useState(0);
+  const [completeTopic, setCompleteTopic] = useState(false);
   const enrollmentDetails = useSelector(
     (state) =>
       state.courseEnrollments.value.filter(
         (item) => item.studentId === userId && item.courseId === course.id
       )[0]
   );
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [completedTopics, setCompletedTopics] = useState(
     enrollmentDetails === undefined || userType === 'instructor'
       ? []
       : enrollmentDetails.completedTopics
   );
-
-  const handleNext = () => {
-    if (currentIndex < course.topics.length - 1) {
-      setCurrentIndex((current) => current + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((current) => current - 1);
-    }
-  };
 
   return (
     <Grid container justifyContent={'center'}>
@@ -56,108 +51,197 @@ export default function CourseLearningView({ course, userId, userType }) {
         <Typography variant='h4'>{course.title}</Typography>
         <Divider />
       </Grid>
-      {!subtopicsOpened && (
-        <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
-          <Button
-            startIcon={<ArrowBackRounded />}
-            variant='contained'
-            style={
-              currentIndex === 0
-                ? {}
-                : {
-                    backgroundColor: '#ff8c00',
-                    color: 'black',
-                    fontWeight: 'bolder',
-                  }
-            }
-            disabled={currentIndex === 0}
-            onClick={handlePrevious}
-          >
-            Topic {currentIndex}
-          </Button>
-          <div style={{ flexGrow: '1' }}></div>
+      <Grid item={12} style={{ width: '100%' }}>
+        <List>
+          {course.topics.map((topic, idx) => (
+            <>
+              <ListItem
+                style={
+                  completedTopics.includes(topic.id)
+                    ? {
+                        width: '100%',
+                      }
+                    : { width: '100%' }
+                }
+                key={idx}
+              >
+                <ListItemButton
+                  style={{ width: '100%', display: 'flex' }}
+                  onClick={() => {
+                    setCompleteTopic(true);
+                    setSelectedTopic(topic);
+                  }}
+                >
+                  <ListItemText>
+                    <Typography variant='subtitle1'>
+                      {idx + 1} - {topic.title}
+                    </Typography>
+                  </ListItemText>
+                  {completedTopics.includes(topic.id) && (
+                    <Check
+                      style={{
+                        color: 'white',
+                        backgroundColor: 'green',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  )}
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </>
+          ))}
+        </List>
+      </Grid>
 
-          <Typography
+      {/* Complet Topic view */}
+      <Dialog
+        open={completeTopic}
+        TransitionComponent={Transition}
+        keepMounted
+        fullScreen
+      >
+        <Container>
+          <DialogTitle
+            id='subtopic'
             style={{
-              padding: '7px',
-              borderRadius: '5px',
+              backgroundColor: 'black',
+              color: 'white',
+              textAlign: 'center',
+              margin: '10px',
             }}
           >
-            {currentIndex + 1} of {course.topics.length}
-          </Typography>
-
-          <div style={{ flexGrow: '1' }}></div>
-          <Button
-            endIcon={<ArrowForward />}
-            variant='contained'
-            color='secondary'
-            style={
-              currentIndex === course.topics.length - 1
-                ? {}
-                : {
-                    backgroundColor: '#ff8c00',
-                    color: 'black',
-                    fontWeight: 'bolder',
+            {completeTopic && selectedTopic.title}
+          </DialogTitle>
+          <DialogContent>
+            {!subtopicsOpened ? (
+              <>
+                {' '}
+                <div
+                  style={{
+                    margin: '20px',
+                    fontFamily: 'monospace',
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: `${completeTopic && selectedTopic.content}`,
+                  }}
+                />
+                <Grid item xs={12}>
+                  <Button
+                    endIcon={<ArrowForwardIos />}
+                    style={{
+                      backgroundColor: '#ff8c00',
+                      color: 'black',
+                      fontWeight: 'bolder',
+                      margin: '10px auto',
+                    }}
+                    onClick={() => {
+                      setSubtopicsOpened(true);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                  <Divider />
+                </Grid>
+              </>
+            ) : (
+              <>
+                <SubTopicView
+                  subTopic={
+                    completeTopic && selectedTopic.subTopics[subtopicIndex]
                   }
-            }
-            disabled={currentIndex === course.topics.length - 1}
-            onClick={handleNext}
+                  // key={index}
+                />
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Button
+                    onClick={() => {
+                      setSubtopicIndex((state) => state - 1);
+                      document.getElementById('subtopic').scrollIntoView();
+                    }}
+                    disabled={subtopicIndex === 0}
+                    style={
+                      subtopicIndex === 0
+                        ? {}
+                        : {
+                            color: '#ff8c00',
+                            fontWeight: 'bolder',
+                          }
+                    }
+                  >
+                    <ArrowBackIos />
+                    {/* <Typography variant='h6'>Prev</Typography> */}
+                  </Button>
+                  <Typography>
+                    subtopic {subtopicIndex + 1} of{' '}
+                    {completeTopic && selectedTopic.subTopics.length}
+                  </Typography>
+                  {completeTopic &&
+                  subtopicIndex + 1 === selectedTopic.subTopics.length ? (
+                    <Button
+                      onClick={() => {
+                        setCompleteTopic(false);
+                        setSubtopicsOpened(false);
+                        setSubtopicIndex(0);
+                      }}
+                      style={{ backgroundColor: '#ff8c00', margin: '10px' }}
+                      variant='contained'
+                    >
+                      Finish
+                    </Button>
+                  ) : (
+                    <Button
+                      style={
+                        completeTopic &&
+                        subtopicIndex + 1 === selectedTopic.subTopics.length
+                          ? {}
+                          : {
+                              color: '#ff8c00',
+                              fontWeight: 'bolder',
+                            }
+                      }
+                      onClick={() => {
+                        document.getElementById('subtopic').scrollIntoView();
+                        setSubtopicIndex((state) => state + 1);
+                      }}
+                      disabled={
+                        completeTopic &&
+                        subtopicIndex + 1 === selectedTopic.subTopics.length
+                      }
+                    >
+                      {/* <Typography variant='h6'>Next</Typography> */}
+                      <ArrowForwardIos />
+                    </Button>
+                  )}
+                </div>
+              </>
+            )}
+          </DialogContent>
+          <DialogActions
+            style={{
+              margin: 'auto',
+            }}
           >
-            Topic {currentIndex + 2}
-          </Button>
-        </Grid>
-      )}
-      <Grid item xs={12} style={{ minHeight: '60vh' }}>
-        <Divider />
-        <TopicDetails
-          completedTopics={completedTopics}
-          setCompletedTopics={setCompletedTopics}
-          isCompleted={completedTopics.includes(course.topics[currentIndex].id)}
-          topic={course.topics[currentIndex]}
-          courseId={course.id}
-          moveToNextTopic={handleNext}
-          setSubtopicsOpened={setSubtopicsOpened}
-        />
-      </Grid>
-      {!subtopicsOpened && (
-        <Grid item xs={12} style={{ display: 'flex', margin: '20px auto' }}>
-          <Button
-            startIcon={<ArrowBackRounded />}
-            variant='contained'
-            style={
-              currentIndex === 0
-                ? {}
-                : {
-                    backgroundColor: '#ff8c00',
-                    color: 'black',
-                    fontWeight: 'bolder',
-                  }
-            }
-            disabled={currentIndex === 0}
-            onClick={() => setCurrentIndex((current) => current - 1)}
-          >
-            Topic {currentIndex + 1}
-          </Button>
-          <div style={{ flexGrow: '1' }}></div>
-          <Button
-            endIcon={<ArrowForward />}
-            variant='contained'
-            style={
-              currentIndex === course.topics.length - 1
-                ? {}
-                : {
-                    backgroundColor: '#ff8c00',
-                    color: 'black',
-                    fontWeight: 'bolder',
-                  }
-            }
-            disabled={currentIndex === course.topics.length - 1}
-            onClick={() => setCurrentIndex((current) => current + 1)}
-          >
-            Topic {currentIndex + 2}
-          </Button>
-        </Grid>
-      )}
+            <Button
+              startIcon={<Close />}
+              variant='outlined'
+              onClick={() => {
+                setCompleteTopic(false);
+                setSubtopicsOpened(false);
+                setSubtopicIndex(0);
+              }}
+              style={{ margin: 'auto' }}
+            >
+              Exit
+            </Button>
+          </DialogActions>
+        </Container>
+      </Dialog>
     </Grid>
   );
 }

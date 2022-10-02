@@ -159,7 +159,7 @@ export default function Index() {
           )}
         </Container>
       ) : (
-        <Container style={{ minHeight: '87vh' }}>
+        <Container style={{ minHeight: '87vh', width: '100%' }}>
           <Button
             onClick={() => setContinueLearning(false)}
             variant='contained'
