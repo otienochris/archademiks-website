@@ -1,5 +1,6 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import { Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import React, { useState } from 'react';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
 
 const useStyles = makeStyles({
@@ -24,19 +25,22 @@ const useStyles = makeStyles({
 
 function SubTopicView({ subTopic }) {
   const classes = useStyles();
+  const [viewContent, setViewContent] = useState(
+    !subTopic.link === '' && subTopic.link === null
+  );
   return (
     <Grid container style={{ margin: '20px auto' }}>
       <Grid item xs='12'>
-        <Typography variant='h4' align='center'>
+        <Typography variant='h6' align='center'>
           {subTopic.title}
         </Typography>
-        <Typography variant='subtitle2' align='center' className={classes.tab}>
+        <Typography variant='body2' align='center' className={classes.tab}>
           Description
         </Typography>
         <Typography variant='body1' style={{ padding: '20px' }}>
           {subTopic.description}
         </Typography>
-        <Typography variant='subtitle2' align='center' className={classes.tab}>
+        <Typography variant='body2' align='center' className={classes.tab}>
           Video
         </Typography>
         <div style={{ margin: '20px' }}>
@@ -48,21 +52,27 @@ function SubTopicView({ subTopic }) {
             <YoutubeEmbed embedId={subTopic.link} />
           )}
         </div>
-        <Typography variant='subtitle2' className={classes.tab} align='center'>
-          Content
-        </Typography>
-        <div
-          style={{
-            margin: '16px auto',
-            // border: '2px solid grey',
-            padding: '20px',
-            // fontFamily: 'monospace',
-          }}
-          className={classes.videoResponsive}
-          dangerouslySetInnerHTML={{
-            __html: `${subTopic.content}`,
-          }}
-        />
+        <div>
+          <Typography variant='body2' className={classes.tab} align='center'>
+            Content
+          </Typography>
+          <IconButton onClick={() => setViewContent((state) => !state)}>
+            {viewContent ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </div>
+
+        {viewContent && (
+          <div
+            style={{
+              margin: '16px auto',
+              padding: '20px',
+            }}
+            className={classes.videoResponsive}
+            dangerouslySetInnerHTML={{
+              __html: `${subTopic.content}`,
+            }}
+          />
+        )}
       </Grid>
     </Grid>
   );
