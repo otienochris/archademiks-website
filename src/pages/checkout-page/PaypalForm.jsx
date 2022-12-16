@@ -30,8 +30,7 @@ function PaypalForm({ orderDetails, course }) {
     criteriaMode: 'all',
   });
 
-  const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
-  // const baseUrlForPayment = 'http://localhost:8080';
+  const baseUrlForPayment = 'http://localhost:8082/payment-service';
 
   const handlePaypal = async (data) => {
     localStorage.setItem('courseId', JSON.stringify(course.id));

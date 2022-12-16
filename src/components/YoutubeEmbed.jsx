@@ -3,15 +3,15 @@ import React from 'react';
 
 const useStyles = makeStyles({
   videoResponsive: {
-    paddingBottom: '10px',
-    position: 'relative',
+    // paddingBottom: '10px',
+    // position: 'relative',
   },
   iframe: {
-    left: 0,
-    top: 0,
-    height: '100%',
-    width: '100%',
-    position: 'absolute',
+    // left: 0,
+    // top: 0,
+    // height: '100%',
+    // width: '100%',
+    // position: 'absolute',
   },
 });
 
@@ -20,7 +20,7 @@ export default function YoutubeEmbed({ embedId }) {
   const iframe =
     '<iframe className={classes.iframe} src="https://www.youtube.com/embed/' +
     embedId +
-    '" maxHeight="480" width="100%" title="Youtube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />';
+    '" maxHeight="100%" width="100%" title="Youtube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />';
 
   return (
     <div

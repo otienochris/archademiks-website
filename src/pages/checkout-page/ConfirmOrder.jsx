@@ -63,8 +63,8 @@ function ConfirmOrder() {
   const courseId = localStorage.getItem('courseId');
   const user = localStorage.getItem('user');
 
-  const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
-  // const baseUrlForPayment = 'http://localhost:8080';
+  // const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
+  const baseUrlForPayment = 'http://localhost:8082/payment-service';
 
   const reviewPaymentUrl =
     baseUrlForPayment + '/paypal/payment/review/' + paymentId;

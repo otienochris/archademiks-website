@@ -31,15 +31,6 @@ function SubTopicView({ subTopic }) {
   return (
     <Grid container style={{ margin: '20px auto' }}>
       <Grid item xs='12'>
-        <Typography variant='h6' align='center'>
-          {subTopic.title}
-        </Typography>
-        <Typography variant='body2' align='center' className={classes.tab}>
-          Description
-        </Typography>
-        <Typography variant='body1' style={{ padding: '20px' }}>
-          {subTopic.description}
-        </Typography>
         <Typography variant='body2' align='center' className={classes.tab}>
           Video
         </Typography>
@@ -52,6 +43,17 @@ function SubTopicView({ subTopic }) {
             <YoutubeEmbed embedId={subTopic.link} />
           )}
         </div>
+
+        <Typography variant='h6' align='center'>
+          {subTopic.title}
+        </Typography>
+        <Typography variant='body2' align='center' className={classes.tab}>
+          Description
+        </Typography>
+        <Typography variant='body1' style={{ padding: '20px' }}>
+          {subTopic.description}
+        </Typography>
+
         <div>
           <Typography variant='body2' className={classes.tab} align='center'>
             Content
