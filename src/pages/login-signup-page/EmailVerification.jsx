@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { verifyEmail } from '../../state/reducers/allUsersReducer';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const schema = yup.object({
@@ -141,10 +141,9 @@ function EmailVerification({
       </Typography>
       <Divider className={classes.divider} />
       <Typography variant='body2' className={classes.instructions}>
-        We have sent a code to your email. Use it to verify your email to active
-        your account
+        Please access your email to get directions on how to activate your account. If you did not get the email, press resend to resend.
       </Typography>
-      <TextField
+      {/* <TextField
         variant='outlined'
         label='Email Verification Code'
         placeholder='Enter Code sent to your email'
@@ -152,7 +151,7 @@ function EmailVerification({
         {...register('code')}
         error={errors.code ? true : false}
         helperText={errors.code ? errors.code.message : ''}
-      />
+      /> */}
 
       {isLoading ? (
         <CircularProgress style={{ margin: 'auto' }} />
@@ -162,17 +161,17 @@ function EmailVerification({
           className={classes.btnGroup}
           disabled={isLoading}
         >
-          <Button
+          {/* <Button
             type='submit'
             variant='contained'
             className={classes.submitBtn}
           >
             Submit
-          </Button>
+          </Button> */}
           <Button
             fullWidth
-            variant='outlined'
-            className={classes.resendBtn}
+            variant='contained'
+            className={classes.submitBtn}
             onClick={onResend}
           >
             Resend

@@ -28,7 +28,11 @@ import EmailVerification from './EmailVerification';
  */
 
 const sendEmailUrl =
-  'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
+  'http://localhost:8081/notification-service/mail/send-simple-message';
+const baseUrl = "http://localhost:8083/lms/api/v1";
+const saveStudentUrl = baseUrl + "/students/signup";
+const saveInstructorUrl = baseUrl + "/instructors/signup";
+const saveParentUrl = baseUrl + "/parents/signup";
 
 const useStyles = makeStyles({
   textField: {
@@ -87,6 +91,7 @@ export default function SignUp({ setAction }) {
   const dispacth = useDispatch();
   const [email, setEmail] = useState('');
   const [emailSendSuccessfully, setEmailSentSuccessfuly] = useState(false);
+  const [userSaved, setUserSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
 
@@ -135,9 +140,9 @@ export default function SignUp({ setAction }) {
 
   const sendVerificationCode = async (email) => {
     const formData = new FormData();
-    formData.append('emailTo', email.toAddress);
+    formData.append('to', email.toAddress);
     formData.append('subject', email.subject);
-    formData.append('message', email.message);
+    formData.append('text', email.message);
 
     setIsLoading(true);
 
@@ -147,7 +152,7 @@ export default function SignUp({ setAction }) {
       body: formData,
     })
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status >= 200 && response.status < 300) {
           setEmailSentSuccessfuly(true);
         }
         return response.json();
@@ -158,20 +163,77 @@ export default function SignUp({ setAction }) {
     setIsLoading(false);
   };
 
+  const saveUser = async (url,body) => {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        // Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50MUBnbWFpbC5jb20iLCJleHAiOjE2NzEyMTExMjMsImlhdCI6MTY3MTE3NTEyM30.ibSZUEqyw4ut8-fh99Zes7h7D0V4EPPAuK9DiC-Ri9SBjRlJ-BI1Y9_b7Vv-GRhTLXw_vnWjl3akI1UP1vjZGA",
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setUserSaved(true);
+          alert("User saved successfully");
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  }
+
+  const saveUserInBackend = (data) => {
+    console.log(data);
+    const studentObj = {
+      firstName: data.firstName,
+      lastName: data.secondName,
+      email: data.email,
+      countryCode: data.country,
+      newPassword: data.password,
+      version: 0
+    }
+
+    switch (data.userType) {
+      case "STUDENT":
+        saveUser(saveStudentUrl, studentObj);
+        break;
+      case "INSTRUCTOR":
+        saveUser(saveInstructorUrl, studentObj);
+        break;
+      case "PARENT":
+        saveUser(saveParentUrl, studentObj);
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   const onSubmit = (data) => {
-    const verificationCode = uuid.slice(14, 18);
-    data.verificationCode = verificationCode;
 
-    dispacth(addUser(data));
+    // TODO save user
+    saveUserInBackend(data);
 
-    sendVerificationCode({
-      name: data.secondName,
-      toAddress: data.email,
-      subject: 'Email Verification',
-      message: '<p>' + uuid.slice(14, 18) + '</p>',
-    });
+    
+      // Send verification code
+      const verificationCode = uuid.slice(14, 18);
+      data.verificationCode = verificationCode;
 
-    setEmail(data.email);
+      dispacth(addUser(data));
+
+      sendVerificationCode({
+        name: data.secondName,
+        toAddress: data.email,
+        subject: 'Email Verification',
+        message: '<p>' + uuid.slice(14, 18) + '</p>',
+      });
+
+      setEmail(data.email);
+    
+    
 
     reset();
   };

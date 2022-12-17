@@ -18,6 +18,7 @@ import CertificateView from './components/CertificateView';
 import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
 import ProfilePage from './components/ProfilePage';
 import TestsPage from './pages/tests-page';
+import RedirectToEmailVerification from './pages/login-signup-page/RedirectToEmailVerification';
 
 export default function App() {
   return (
@@ -80,6 +81,7 @@ export default function App() {
           <Route path='/login-signup' element={<LoginSignupPage />} />
           <Route path='/help' element={<HelpPage />} />
           <Route path='/' element={<LandingPage />} />
+          <Route path='/verify-email/:token' element={<RedirectToEmailVerification />} />
           <Route
             path='/certificates/:certificateId'
             element={<CertificateView />}
