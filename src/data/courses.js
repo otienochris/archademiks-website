@@ -1,20 +1,23 @@
+import { CATEGORIES } from "../commons/courseCategories";
+
 export const courseCategories = [
-  'Tech Tools',
-  'Assignment',
-  'Agriculture',
-  'Programming',
-  'IT',
-  'Mathematics',
-  'Chemistry',
-  'Biology',
-  'Computer Hardware',
-  'AI',
-  'Music',
-  'UI/UX',
-  'Business',
-  'Content Creation',
-  'DevOps',
-];
+  CATEGORIES.AGRICULTURE,
+  CATEGORIES.ARTIFICIAL_INTELLIGENCE,
+  CATEGORIES.ASSIGNMENT,
+  CATEGORIES.BIOLOGY,
+  CATEGORIES.BUSINESS,
+  CATEGORIES.CHEMISTRY,
+  CATEGORIES.COMPUTER_HARDWARE,
+  CATEGORIES.CONTENT_CREATION,
+  CATEGORIES.DEVOPS,
+  CATEGORIES.IT,
+  CATEGORIES.MATHEMATICS,
+  CATEGORIES.MUSIC,
+  CATEGORIES.PROGRAMMING,
+  CATEGORIES.TECH_TOOLS,
+  CATEGORIES.UI_UX
+
+]
 
 const instructorsList = [
   {

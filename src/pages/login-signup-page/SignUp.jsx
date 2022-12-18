@@ -216,22 +216,9 @@ export default function SignUp({ setAction }) {
 
     // TODO save user
     saveUserInBackend(data);
+    dispacth(addUser(data));
 
-    
-      // Send verification code
-      const verificationCode = uuid.slice(14, 18);
-      data.verificationCode = verificationCode;
-
-      dispacth(addUser(data));
-
-      sendVerificationCode({
-        name: data.secondName,
-        toAddress: data.email,
-        subject: 'Email Verification',
-        message: '<p>' + uuid.slice(14, 18) + '</p>',
-      });
-
-      setEmail(data.email);
+    setEmail(data.email);
     
     
 

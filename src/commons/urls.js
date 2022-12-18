@@ -12,3 +12,4 @@ export const VERIFY_EMAIL = LMS_BASE_URL + API_VERSION1 + "/authentication/verif
 export const LMS_STUDENTS = LMS_BASE_URL_WITH_VERSION + "/students"
 export const LMS_INSTRUCTORS = LMS_BASE_URL_WITH_VERSION + "/instructors"
 export const LMS_RELATIVES = LMS_BASE_URL_WITH_VERSION + "/relatives"
+export const LMS_COURSES = LMS_BASE_URL_WITH_VERSION + "/courses"
