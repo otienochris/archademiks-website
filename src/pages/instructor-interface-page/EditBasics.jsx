@@ -41,6 +41,7 @@ const schema = yup.object({
 });
 
 function EditBasics({ course }) {
+  console.log(course);
   const classes = useStyles();
   const [saved, setSaved] = useState(false);
   const {
@@ -73,10 +74,10 @@ function EditBasics({ course }) {
       setValue('description', course.description, {
         shouldValidate: true,
       });
-    if (course.thumbnail)
-      setValue('thumbnail', course.thumbnail, { shouldValidate: true });
-    if (course.link)
-      setValue('link', 'https://youtu.be/' + course.link, {
+    if (course.thumbnailLink)
+      setValue('thumbnail', course.thumbnailLink, { shouldValidate: true });
+    if (course.introductionVideoLink)
+      setValue('link', 'https://youtu.be/' + course.introductionVideoLink, {
         shouldValidate: true,
       });
   }, [course, setValue]);

@@ -77,12 +77,12 @@ function EditCourseView({ course }) {
               </IconButton>
             </Tooltip>
             <Divider />
-            <EditTopics topics={course.topics} courseId={course.id} />
+            <EditTopics courseId={course.courseId} />
           </>
         ) : tab == 2 ? (
-          <EditSubtopics topics={course.topics} courseId={course.id} />
+          <EditSubtopics courseId={course.courseId} />
         ) : (
-          <EditTests topics={course.topics} />
+          <EditTests courseId={course.courseId} />
         )}
 
         {/* Add new topic */}

@@ -57,10 +57,10 @@ export default function CourseLearningView({ course, userId, userType }) {
             <>
               <ListItem
                 style={
-                  completedTopics.includes(topic.id)
+                  completedTopics.includes(topic.topicId)
                     ? {
-                        width: '100%',
-                      }
+                      width: '100%',
+                    }
                     : { width: '100%' }
                 }
                 key={idx}
@@ -77,7 +77,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                       {idx + 1} - {topic.title}
                     </Typography>
                   </ListItemText>
-                  {completedTopics.includes(topic.id) && (
+                  {completedTopics.includes(topic.topicId) && (
                     <Check
                       style={{
                         color: 'white',
@@ -151,7 +151,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                   subTopic={
                     completeTopic && selectedTopic.subTopics[subtopicIndex]
                   }
-                  // key={index}
+                // key={index}
                 />
                 <div
                   style={{
@@ -170,9 +170,9 @@ export default function CourseLearningView({ course, userId, userType }) {
                       subtopicIndex === 0
                         ? {}
                         : {
-                            color: '#ff8c00',
-                            fontWeight: 'bolder',
-                          }
+                          color: '#ff8c00',
+                          fontWeight: 'bolder',
+                        }
                     }
                   >
                     <ArrowBackIos />
@@ -182,7 +182,7 @@ export default function CourseLearningView({ course, userId, userType }) {
                     {completeTopic && selectedTopic.subTopics.length}
                   </Typography>
                   {completeTopic &&
-                  subtopicIndex + 1 === selectedTopic.subTopics.length ? (
+                    subtopicIndex + 1 === selectedTopic.subTopics.length ? (
                     <Button
                       onClick={() => {
                         setCompleteTopic(false);
@@ -198,12 +198,12 @@ export default function CourseLearningView({ course, userId, userType }) {
                     <Button
                       style={
                         completeTopic &&
-                        subtopicIndex + 1 === selectedTopic.subTopics.length
+                          subtopicIndex + 1 === selectedTopic.subTopics.length
                           ? {}
                           : {
-                              color: '#ff8c00',
-                              fontWeight: 'bolder',
-                            }
+                            color: '#ff8c00',
+                            fontWeight: 'bolder',
+                          }
                       }
                       onClick={() => {
                         document.getElementById('topic').scrollIntoView();

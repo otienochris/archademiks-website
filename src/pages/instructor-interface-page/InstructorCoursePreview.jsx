@@ -66,7 +66,7 @@ export default function InstructorCoursePreview({
         <CardMedia
           component={'img'}
           height='60'
-          image={course.thumbnail}
+          image={course.thumbnailLink}
           alt='course thumbnail'
         />
         <CardContent>

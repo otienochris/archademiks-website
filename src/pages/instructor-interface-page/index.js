@@ -223,7 +223,7 @@ export default function Index() {
             setCourseToViewOrEdit={setCourseToViewOrEdit}
             setViewCourse={setViewCourse}
             setEditCourse={setEditCourse}
-            courses={ownedCourses}
+            courses={instructor.courses}
           />
         )}
         {/* </Grid> */}
