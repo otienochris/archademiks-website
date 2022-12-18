@@ -17,6 +17,8 @@ import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import { TextField } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import { AUTHENTICATION, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
+import { ROLES } from '../../commons/roles';
 
 const sendEmailUrl =
   'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
@@ -75,38 +77,103 @@ export default function LogIn() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    let userLoggedIn = usersList.filter(
-      (user) => user.email === data.email && user.password === data.password
-    );
-
-    if (userLoggedIn.length == 0) {
-      setWrongCredentials(true);
-      alert('Wrong password');
-    } else {
-      const userDetails = userLoggedIn[0];
-      localStorage.setItem('user', JSON.stringify(userDetails));
-      localStorage.setItem('isLoggedIn', JSON.stringify(true));
-      switch (userDetails.type) {
-        case 'INSTRUCTOR':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/instructor');
-          break;
-        case 'STUDENT':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/students');
-          break;
-        case 'ADMIN':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/admin');
-          break;
-        default:
-          break;
+  const fetchLoggedInUserDetails = async (url, token, role) => {
+    console.log("url " + url)
+    await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
-    }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          // setUserSaved(true);
+          // alert("User saved successfully");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(setLoggedInUser({ user: data }));
+        if (!wrongCredentials) {
+          switch (role) {
+            case ROLES.INSTRUCTOR:
+              navigate('/instructor');
+              break;
+            case ROLES.STUDENT:
+              navigate('/students');
+              break;
+            case ROLES.ADMIN:
+              navigate('/admin');
+              break;
+            default:
+              break;
+          }
+        }
+
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  }
+
+  const authenticateUser = async (username, password) => {
+    await fetch(AUTHENTICATION, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({ username, password }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      if (response.status === 200) {
+        setWrongCredentials(false);
+      } if (response.status === 403) {
+        setWrongCredentials(true);
+      }
+      return response.json();
+    })
+      .then((data) => {
+
+        if (data.message != undefined) {
+          alert(data.message);
+          setWrongCredentials(true);
+        } else {
+          const role = data.role;
+          const token = data.token;
+          dispatch(loginAction({ isLoggedIn: true, token, role }));
+
+          switch (role) {
+            case ROLES.INSTRUCTOR:
+              console.log("Fetching instructor details")
+              fetchLoggedInUserDetails(LMS_INSTRUCTORS + "/username/" + username, token, role);
+              break;
+            case ROLES.STUDENT:
+              console.log("Fetching student details")
+              fetchLoggedInUserDetails(LMS_STUDENTS + "/username/" + username, token, role);
+              break;
+            case ROLES.ADMIN:
+              console.log("Fetching admin details")
+              // dispatch(setLoggedInUser({ user: userDetails }))            
+
+              break;
+            default:
+              break;
+          }
+          console.log(data)
+        }
+
+      })
+      .catch((error) => {
+        setWrongCredentials(true);
+        console.log(error)
+      });
+  }
+
+  const onSubmit = (data) => {
+    authenticateUser(data.email, data.password);
   };
 
   const sendChangePasswordCode = async (emailToSendCode) => {

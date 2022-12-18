@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const user = {
-  id: 4,
-  firstName: '',
-  lastName: '',
-  email: '',
-  courses: [],
-  type: '',
-  creationDate: '',
-  modificationDate: '',
-  password: '',
-  country: '',
+  // id: 4,
+  // firstName: '',
+  // lastName: '',
+  // email: '',
+  // courses: [],
+  // type: '',
+  // creationDate: '',
+  // modificationDate: '',
+  // password: '',
+  // country: '',
 };
 
 export const userSlice = createSlice({

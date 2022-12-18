@@ -20,14 +20,20 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../state/reducers/loginReducer';
 import { resetLoggedInUser } from '../state/reducers/userReducer';
+import { ROLES } from '../commons/roles';
 
 function CustomAppBar2() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const user = useSelector((state) => state.user.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
+  const role = useSelector((state) => state.login.value.role);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+  console.log(user);
+  console.log(role);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,14 +55,14 @@ function CustomAppBar2() {
   };
 
   const handleDashboard = () => {
-    switch (user.type) {
-      case 'INSTRUCTOR':
+    switch (role) {
+      case ROLES.INSTRUCTOR:
         navigate('/instructor');
         break;
-      case 'STUDENT':
+      case ROLES.STUDENT:
         navigate('/students');
         break;
-      case 'ADMIN':
+      case ROLES.ADMIN:
         navigate('/admin');
         break;
       default:
@@ -69,9 +75,9 @@ function CustomAppBar2() {
     navigate('/profile');
     setAnchorElUser(null);
   };
-  const handleReports = () => {};
+  const handleReports = () => { };
   const handleLogout = () => {
-    dispatch(loginAction({ isLoggedIn: false, token: '' }));
+    dispatch(loginAction({ isLoggedIn: false, token: '', role: '' }));
     dispatch(resetLoggedInUser());
     navigate('/');
     setAnchorElUser(null);
@@ -221,9 +227,9 @@ function CustomAppBar2() {
                 style={{ color: 'white' }}
                 endIcon={<AccountCircleIcon fontSize='medium' />}
               >
-                {isLoggedIn
-                  ? user.firstName[0] + '.' + user.lastName[0]
-                  : 'login'}
+                {isLoggedIn && user.firstName != undefined && user.lastName != undefined
+                  ? user.firstName[0] + '.' + user.lastName[0] : isLoggedIn ? ""
+                    : 'login'}
               </Button>
             </Tooltip>
             <Menu
