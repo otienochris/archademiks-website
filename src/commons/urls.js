@@ -15,3 +15,6 @@ export const LMS_RELATIVES = LMS_BASE_URL_WITH_VERSION + "/relatives"
 export const LMS_COURSES = LMS_BASE_URL_WITH_VERSION + "/courses"
 export const LMS_TOPICS = LMS_BASE_URL_WITH_VERSION + "/topics"
 export const LMS_SUB_TOPICS = LMS_BASE_URL_WITH_VERSION + "/subtopics"
+export const LMS_USERS = LMS_BASE_URL_WITH_VERSION + "/users"
+
+

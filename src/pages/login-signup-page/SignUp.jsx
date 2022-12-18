@@ -163,7 +163,7 @@ export default function SignUp({ setAction }) {
     setIsLoading(false);
   };
 
-  const saveUser = async (url,body) => {
+  const saveUser = async (url, body) => {
     await fetch(url, {
       method: 'POST',
       mode: 'cors',
@@ -187,7 +187,7 @@ export default function SignUp({ setAction }) {
 
   const saveUserInBackend = (data) => {
     console.log(data);
-    const studentObj = {
+    const userObj = {
       firstName: data.firstName,
       lastName: data.secondName,
       email: data.email,
@@ -198,15 +198,15 @@ export default function SignUp({ setAction }) {
 
     switch (data.userType) {
       case "STUDENT":
-        saveUser(saveStudentUrl, studentObj);
+        saveUser(saveStudentUrl, userObj);
         break;
       case "INSTRUCTOR":
-        saveUser(saveInstructorUrl, studentObj);
+        saveUser(saveInstructorUrl, userObj);
         break;
       case "PARENT":
-        saveUser(saveParentUrl, studentObj);
+        saveUser(saveParentUrl, userObj);
         break;
-    
+
       default:
         break;
     }
@@ -219,8 +219,8 @@ export default function SignUp({ setAction }) {
     dispacth(addUser(data));
 
     setEmail(data.email);
-    
-    
+
+
 
     reset();
   };
@@ -338,7 +338,7 @@ export default function SignUp({ setAction }) {
                   <Box
                     component='li'
                     sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                    // {...props}
+                  // {...props}
                   >
                     <img
                       loading='lazy'

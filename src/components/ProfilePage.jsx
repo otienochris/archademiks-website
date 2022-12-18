@@ -1,8 +1,9 @@
 import { AppBar, Container, Tab, Tabs, Typography } from '@material-ui/core';
 import { TabPanelUnstyled } from '@mui/base';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ROLES } from '../commons/roles';
 import ProfileDataSettings from './ProfileDataSettings';
 import ProfileNotificationSettings from './ProfileNotificationSettings';
 import ProfileSecuritySettings from './ProfileSecuritySettings';
@@ -17,11 +18,33 @@ const tabOptions = [
 
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const loginDetails = useSelector((state) => state.login.value);
   const handleTabSelection = (event, newValue) => {
     setSelectedTab(newValue);
   };
   const user = useSelector((state) => state.user.value);
+  var id;
   console.log(user);
+  var currentUser = {}
+  useEffect(() => {
+    const role = loginDetails.role;
+    switch (role) {
+      case ROLES.ADMIN:
+        // TODO
+        id = user.id;
+        break;
+      case ROLES.INSTRUCTOR:
+        id = user.instructorId;
+        break;
+      case ROLES.STUDENT:
+        id = user.studentId;
+        break;
+
+      default:
+        break;
+    }
+  }, [])
+
   return (
     <Container style={{ minHeight: '93.5vh' }}>
       <AppBar
@@ -63,17 +86,7 @@ function ProfilePage() {
         }}
       >
         {selectedTab === 0 ? (
-          <ProfileDataSettings
-            userId={user.id}
-            dateJoined={user.creationDate}
-            dateModified={user.modificationDate}
-            firstName={user.firstName}
-            lastName={user.lastName}
-            nationality={user.countryCode}
-            userDescription={user.description}
-            userTitle={user.title}
-            userType={user.type}
-          />
+          <ProfileDataSettings user={user} />
         ) : selectedTab === 1 ? (
           <ProfileSecuritySettings email={user.email} />
         ) : (

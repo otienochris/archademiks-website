@@ -31,10 +31,6 @@ function CustomAppBar2() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
-  console.log(user);
-  console.log(role);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
