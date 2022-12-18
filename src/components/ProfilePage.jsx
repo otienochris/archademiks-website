@@ -21,6 +21,7 @@ function ProfilePage() {
     setSelectedTab(newValue);
   };
   const user = useSelector((state) => state.user.value);
+  console.log(user);
   return (
     <Container style={{ minHeight: '93.5vh' }}>
       <AppBar
@@ -68,7 +69,7 @@ function ProfilePage() {
             dateModified={user.modificationDate}
             firstName={user.firstName}
             lastName={user.lastName}
-            nationality={user.country}
+            nationality={user.countryCode}
             userDescription={user.description}
             userTitle={user.title}
             userType={user.type}
