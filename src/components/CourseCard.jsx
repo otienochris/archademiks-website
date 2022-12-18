@@ -46,13 +46,13 @@ const useStyles = makeStyles({
 export default function CourseCard({ course }) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { id, title, category, thumbnail, description, rating, price } = course;
+  const { courseId, title, category, thumbnailLink, description, rating, price } = course;
   return (
     <Card sx={{ width: 350 }} className={classes.course}>
       <CardMedia
         className={classes.image}
         component='img'
-        image={thumbnail}
+        image={thumbnailLink}
         alt={title}
       />
       <CardContent className={classes.cardContent}>
@@ -130,7 +130,7 @@ export default function CourseCard({ course }) {
             fullWidth
             variant='contained'
             endIcon={<ReadMoreIcon fontSize='large' />}
-            onClick={() => navigate('/courses/' + id)}
+            onClick={() => navigate('/courses/' + courseId)}
             className={classes.openBtn}
             style={{ backgroundColor: '#F18805' }}
           >

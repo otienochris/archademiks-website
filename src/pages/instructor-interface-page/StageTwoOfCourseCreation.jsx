@@ -150,6 +150,8 @@ export default function StageTwoOfCourseCreation({
         label='Topic Description'
         placeholder='Provide a brief description of the goals and contents of the topic'
         autoComplete='off'
+        multiline
+        minRows={6}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}

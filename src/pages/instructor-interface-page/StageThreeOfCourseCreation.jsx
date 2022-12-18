@@ -16,6 +16,8 @@ import { EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftjsToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
+import { LMS_SUB_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   topicId: yup.number().required(),
@@ -23,7 +25,7 @@ const schema = yup.object({
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   link: yup
     .string()
@@ -39,9 +41,12 @@ export default function StageThreeOfCourseCreation({
   setNewCourse,
   setIsStageSubmited,
 }) {
+  const token = useSelector((state) => state.login.value.token);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [chosenTopicId, setChosenTopicId] = useState();
+
 
   const {
     register,
@@ -54,6 +59,68 @@ export default function StageThreeOfCourseCreation({
     criteriaMode: 'all',
   });
 
+  const saveNewSubTopic = async (topicId, title, description, link, content) => {
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: 0
+    }
+    await fetch(LMS_SUB_TOPICS + "?topicId=" + topicId, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          alert("Sub-topic saved successfully");
+        } else {
+          alert("Error saving sub-topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+
+        const subtopic = {
+          id: data.subTopicId,
+          title: data.title,
+          description: data.description,
+          content: data.content,
+          link: data.link
+        };
+
+        // console.log(newCourse);
+        console.log(chosenTopicId);
+        newCourse.topics.map(topic => console.log("[" + topic.id + " : " + chosenTopicId + "]"));
+        var topics = newCourse.topics.filter(topic => (parseInt(topic.id) === parseInt(chosenTopicId)));
+        console.log(topics);
+        topics[0].subTopics.push(subtopic);
+
+        setNewCourse(newCourse);
+        setIsStageSubmited(true);
+
+        // clear inputs
+        reset();
+        setEditorState(EditorState.createEmpty());
+        var topicId = document.getElementById('select-for-topic');
+        var title = document.getElementById('sutopicTitle');
+        var desc = document.getElementById('subtopicDescription');
+        var link = document.getElementById('subtopicLink');
+
+        topicId.value = '';
+        title.value = '';
+        desc.value = '';
+        link.value = '';
+      })
+      .catch((error) => console.log(error));
+  }
+
   const onSubmit = (data) => {
     // extract embedid
     const splitLink = data.link.split('/');
@@ -65,34 +132,10 @@ export default function StageThreeOfCourseCreation({
       convertToRaw(editorState.getCurrentContent())
     );
 
-    const subTopic = {
-      title: data.title,
-      description: data.description,
-      content: contentInHtml,
-      link: embedId,
-    };
+    setChosenTopicId(data.topicId);
+    console.log(data.topicId);
 
-    newCourse.topics[data.topicId].subTopics.push(subTopic);
-
-    // set completed topics
-
-    console.log(newCourse);
-    setNewCourse(newCourse);
-    setIsStageSubmited(true);
-
-    // clear inputs
-    reset();
-    setEditorState(EditorState.createEmpty());
-    var topicId = document.getElementById('select-for-topic');
-    var title = document.getElementById('sutopicTitle');
-    var desc = document.getElementById('subtopicDescription');
-    var link = document.getElementById('subtopicLink');
-
-    topicId.value = '';
-    title.value = '';
-    desc.value = '';
-    link.value = '';
-    console.log(topicId.value);
+    saveNewSubTopic(data.topicId, data.title, data.description, embedId, contentInHtml);
   };
 
   return (
@@ -110,7 +153,7 @@ export default function StageThreeOfCourseCreation({
             <em>None</em>
           </MenuItem>
           {newCourse.topics.map((topic, index) => (
-            <MenuItem key={index} value={index}>
+            <MenuItem key={index} value={topic.id}>
               {topic.title}
             </MenuItem>
           ))}
@@ -134,6 +177,8 @@ export default function StageThreeOfCourseCreation({
         label='Sub-topic Description'
         placeholder='Provide a brief description of the goals and contents of the sub-topic'
         autoComplete='on'
+        multiline
+        minRows={6}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}

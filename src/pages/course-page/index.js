@@ -156,7 +156,7 @@ export default function Index({ courseId2 }) {
 
   useEffect(() => {
     const filteredCourses = allCourses.filter(
-      (course) => course.id == courseId || course.id == courseId2
+      (course) => course.courseId == courseId || course.courseId == courseId2
     );
     const filteredReviews = reviews.filter(
       (review) => review.typeId == courseId && review.type === 'Course'
@@ -242,7 +242,7 @@ export default function Index({ courseId2 }) {
         </Grid>
         <Grid item className={classes.imageGrid} xs={12} sm={6} md={5}>
           <img
-            src={course.thumbnail}
+            src={course.thumbnailLink}
             alt='course thumbnail'
             className={classes.img}
           />
@@ -283,12 +283,12 @@ export default function Index({ courseId2 }) {
               {course.topics.length > 1
                 ? `${course.topics.length} topics`
                 : `${course.topics.length} topic`}
-              {}
+              { }
             </Typography>
           </section>
           {user.type === 'STUDENT' ||
-          user.type === undefined ||
-          user.type === '' ? (
+            user.type === undefined ||
+            user.type === '' ? (
             <Button
               style={{
                 margin: '20px auto',
