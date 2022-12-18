@@ -32,6 +32,8 @@ function EditTopics({ courseId }) {
   const [allTopics, setAllTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
+
   const getTopics = async () => {
     await fetch(LMS_COURSES + "/" + courseId + "/topics", {
       method: 'GET',
@@ -61,7 +63,7 @@ function EditTopics({ courseId }) {
 
   useEffect(() => {
     getTopics();
-  }, [courseId])
+  }, [courseId, isLoading])
 
 
   return (
@@ -80,7 +82,7 @@ function EditTopics({ courseId }) {
             >
               <ListItemText>
                 <Typography variant='h6'>
-                  <span style={{ margin: '10px' }}>{topic.id}.</span>
+                  <span style={{ margin: '10px' }}>{idx + 1}.</span>
                   {topic.title}
                 </Typography>
               </ListItemText>
@@ -111,7 +113,7 @@ function EditTopics({ courseId }) {
             Edit Topic
           </DialogTitle>
           <DialogContent>
-            {topicSelected && <EditTopic topic={topicToBeEdited} />}
+            {topicSelected && <EditTopic setOpenEditPage={setOpenEditPage} setIsLoading={setIsLoading} topic={topicToBeEdited} />}
           </DialogContent>
           <DialogActions
             style={{

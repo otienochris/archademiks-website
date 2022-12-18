@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  CircularProgress,
   Container,
   Dialog,
   DialogActions,
@@ -38,8 +39,10 @@ function EditSubtopics({ courseId }) {
   const [selectedTopic, setSelectedTopic] = useState();
   const [allTopics, setAllTopics] = useState([])
   const [isLoading, setIsLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const getTopics = async () => {
+    setIsLoading(true);
     await fetch(LMS_COURSES + "/" + courseId + "/topics", {
       method: 'GET',
       mode: 'cors',
@@ -67,13 +70,13 @@ function EditSubtopics({ courseId }) {
 
   useEffect(() => {
     getTopics();
-  }, [courseId])
+  }, [courseId, addNewSubtopic, refresh])
 
 
 
   return (
     <>
-      {allTopics.map((topic, index) => (
+      {isLoading ? <CircularProgress /> : allTopics.map((topic, index) => (
         <Accordion style={{ margin: '5px auto' }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant='h6'>
@@ -149,7 +152,7 @@ function EditSubtopics({ courseId }) {
             Edit Sub-topic
           </DialogTitle>
           <DialogContent>
-            {subtopicSelected && <EditSubtopic subtopic={subtopicToBeEdited} />}
+            {subtopicSelected && <EditSubtopic setRefresh={setRefresh} setOpenEditPage={setOpenEditPage} subtopic={subtopicToBeEdited} />}
           </DialogContent>
           <DialogActions
             style={{
@@ -190,7 +193,7 @@ function EditSubtopics({ courseId }) {
             Add Sub-topic
           </DialogTitle>
           <DialogContent>
-            {addNewSubtopic && <AddNewSubtopic topicId={selectedTopic.id} />}
+            {addNewSubtopic && <AddNewSubtopic setAddNewSubtopic={setAddNewSubtopic} topicId={selectedTopic.topicId} />}
           </DialogContent>
           <DialogActions
             style={{

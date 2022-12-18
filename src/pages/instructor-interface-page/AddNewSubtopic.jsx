@@ -9,6 +9,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftjsToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
+import { LMS_SUB_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   // topicId: yup.number().required(),
@@ -26,8 +28,9 @@ const schema = yup.object({
     ),
 });
 
-function AddNewSubtopic({ topicId }) {
+function AddNewSubtopic({ setAddNewSubtopic, topicId }) {
   const classes = useStyles();
+  const token = useSelector((state) => state.login.value.token);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -43,48 +46,73 @@ function AddNewSubtopic({ topicId }) {
     criteriaMode: 'all',
   });
 
+  const saveNewSubTopic = async (topicId, title, description, link, content) => {
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: 0
+    }
+    await fetch(LMS_SUB_TOPICS + "?topicId=" + topicId, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          alert("Sub-topic saved successfully");
+          setAddNewSubtopic(false);
+        } else {
+          alert("Error saving sub-topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+
+        const subtopic = {
+          id: data.subTopicId,
+          title: data.title,
+          description: data.description,
+          content: data.content,
+          link: data.link
+        };
+
+
+        // clear inputs
+        reset();
+        setEditorState(EditorState.createEmpty());
+        // var topicId = document.getElementById('select-for-topic');
+        // var title = document.getElementById('sutopicTitle');
+        // var desc = document.getElementById('subtopicDescription');
+        // var link = document.getElementById('subtopicLink');
+
+        // topicId.value = '';
+        // title.value = '';
+        // desc.value = '';
+        // link.value = '';
+      })
+      .catch((error) => console.log(error));
+  }
+
   const onSubmit = (data) => {
     // extract embedid
     const splitLink = data.link.split('/');
     const embedId = splitLink[splitLink.length - 1];
-    // newCourse.link = embedId;
 
     // extract content from editor
     const contentInHtml = draftjsToHtml(
       convertToRaw(editorState.getCurrentContent())
     );
 
-    const subTopic = {
-      title: data.title,
-      description: data.description,
-      content: contentInHtml,
-      link: embedId,
-    };
-
-    console.log(subTopic);
-
-    // newCourse.topics[data.topicId].subTopics.push(subTopic);
-
-    // // set completed topics
-
-    // console.log(newCourse);
-    // setNewCourse(newCourse);
-    // setIsStageSubmited(true);
-
-    // // clear inputs
-    // reset();
-    // setEditorState(EditorState.createEmpty());
-    // var topicId = document.getElementById('select-for-topic');
-    // var title = document.getElementById('sutopicTitle');
-    // var desc = document.getElementById('subtopicDescription');
-    // var link = document.getElementById('subtopicLink');
-
-    // topicId.value = '';
-    // title.value = '';
-    // desc.value = '';
-    // link.value = '';
-    // console.log(topicId.value);
+    saveNewSubTopic(topicId, data.title, data.description, embedId, contentInHtml);
   };
+
 
   console.log(topicId);
   return (

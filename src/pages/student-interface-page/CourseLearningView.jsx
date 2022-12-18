@@ -20,8 +20,9 @@ import {
   Close,
 } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { LMS_COURSES } from '../../commons/urls';
 import SubTopicView from './SubTopicView';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -45,6 +46,41 @@ export default function CourseLearningView({ course, userId, userType }) {
       : enrollmentDetails.completedTopics
   );
 
+  const token = useSelector((state) => state.login.value.token);
+  const [allTopics, setAllTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getTopics = async () => {
+    await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        setIsLoading(false);
+        if (response.status >= 200 && response.status < 300) {
+
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setAllTopics(data._embedded.topicDtoList)
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+      });
+  }
+
+  useEffect(() => {
+    getTopics();
+  }, [course])
+
   return (
     <Grid container justifyContent={'center'}>
       <Grid item xs={12}>
@@ -53,7 +89,7 @@ export default function CourseLearningView({ course, userId, userType }) {
       </Grid>
       <Grid item={12} style={{ width: '100%' }}>
         <List>
-          {course.topics.map((topic, idx) => (
+          {allTopics.map((topic, idx) => (
             <>
               <ListItem
                 style={

@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
+import { convertToRaw, EditorState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button, TextField, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
@@ -13,6 +13,8 @@ import {
   convertFromHTML,
 } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
+import { LMS_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   title: yup.string().min(10).max(50).required('Course Title is required.'),
@@ -29,9 +31,11 @@ const schema = yup.object({
     ),
 });
 
-function EditTopic({ topic }) {
+function EditTopic({ setOpenEditPage, setIsLoading, topic }) {
   const classes = useStyles();
   const blocksFromHTML = convertFromHTML(topic.content);
+  const [currentTopic, setCurrentTopic] = useState(topic);
+  const token = useSelector((state) => state.login.value.token);
   const state = ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
     blocksFromHTML.entityMap
@@ -52,17 +56,74 @@ function EditTopic({ topic }) {
     criteriaMode: 'all',
   });
 
+
+
+
+  const saveChanges = async (title, description, link, content) => {
+    setIsLoading(true);
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: currentTopic.version
+    }
+    console.log(body)
+    await fetch(LMS_TOPICS + "/" + currentTopic.topicId, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+
+        if (response.status >= 200 && response.status < 300) {
+          alert("Topic saved successfully");
+          setIsLoading(false)
+          setOpenEditPage(false)
+        } else {
+          alert("Error saving topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+
+        setCurrentTopic(data);
+        console.log(data)
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+      });
+
+  }
+
+  const onSubmit = (data) => {
+    // extract embedid
+    const splitLink = data.link.split('/');
+    const embedId = splitLink[splitLink.length - 1];
+
+    // extract content from editor
+    const contentInHtml = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    saveChanges(data.title, data.description, embedId, contentInHtml);
+  };
+
   useEffect(() => {
-    setValue('title', topic.title, { shouldValidate: true });
-    setValue('description', topic.description, { shouldValidate: true });
+    setValue('title', currentTopic.title, { shouldValidate: true });
+    setValue('description', currentTopic.description, { shouldValidate: true });
     if (topic.link) {
-      setValue('link', 'https://youtu.be/' + topic.link, {
+      setValue('link', 'https://youtu.be/' + currentTopic.link, {
         shouldValidate: true,
       });
     }
-  }, [topic]);
-
-  const onSubmit = (data) => {};
+  }, [currentTopic]);
 
   return (
     <form className={classes.form}>
