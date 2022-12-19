@@ -193,6 +193,10 @@ export default function SignUp({ setAction }) {
       email: data.email,
       countryCode: data.country,
       newPassword: data.password,
+      organizations: null,
+      reviews: null,
+      addresses: null,
+      relatives: null,
       version: 0
     }
 
