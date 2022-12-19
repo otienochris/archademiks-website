@@ -87,8 +87,7 @@ function CustomMaterialTable({
             onRowDelete: (oldData) =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  console.log(oldData);
-                  handleDelete(oldData.id);
+                  handleDelete(oldData);
                   resolve();
                 }, 1000);
               }),
