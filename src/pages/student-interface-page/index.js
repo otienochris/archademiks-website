@@ -21,6 +21,7 @@ import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSelector } from 'react-redux';
+import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 
 export default function Index() {
   // const date = new Date();
@@ -30,14 +31,39 @@ export default function Index() {
   const [value, setValue] = useState(0);
   const user = useSelector((state) => state.user.value);
   const courses = useSelector((state) => state.courses.value);
-  const enrollmentDetails = useSelector((state) =>
-    state.courseEnrollments.value.filter((item) => item.studentId === user.id)
-  );
-  const [listOfCoursesEnrolledOn] = useState(
-    courses.filter((course) =>
-      enrollmentDetails.flatMap((item) => item.courseId).includes(course.id)
-    )
-  );
+  const token = useSelector((state) => state.login.value.token);
+  // const enrollmentDetails = useSelector((state) =>
+  //   state.courseEnrollments.value.filter((item) => item.studentId === user.id)
+  // );
+  // const [listOfCoursesEnrolledOn] = useState(
+  //   courses.filter((course) =>
+  //     enrollmentDetails.flatMap((item) => item.courseId).includes(course.id)
+  //   )
+  // );
+  const [coursesEnrolledOn, setCourseEnrolledOn] = useState([]);
+
+  const fetchCourseEnrollments = async () => {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status >= 200 && response < 300) {
+
+        }
+        return response.json();
+      })
+      .then(data => {
+        setCourseEnrolledOn(data);
+        console.log(data)
+      })
+      .catch(error => console.log(error))
+  }
 
   // const courses
   const [continueLearning, setContinueLearning] = useState(false);
@@ -86,7 +112,8 @@ export default function Index() {
 
   useEffect(() => {
     setFirstDay(new Date(year, month, 1).getDay());
-  }, [user.courses, month, year, firstDay]);
+    fetchCourseEnrollments();
+  }, [user, month, year, firstDay]);
 
   return (
     <>
@@ -152,7 +179,7 @@ export default function Index() {
             </Grid>
           ) : (
             <MyCourses
-              courses={listOfCoursesEnrolledOn}
+              courseEnrollments={coursesEnrolledOn}
               setContinueLearning={setContinueLearning}
               setCourseToContinue={setCourseToContinue}
             />

@@ -30,6 +30,7 @@ import InstructorPreview from '../../components/InstructorPreview';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
+import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -149,6 +150,7 @@ export default function Index({ courseId2 }) {
   const allCourses = useSelector((state) => state.courses.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const user = useSelector((state) => state.user.value);
+  const token = useSelector((state) => state.login.value.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -169,24 +171,31 @@ export default function Index({ courseId2 }) {
     setValue(newValue);
   };
 
+  const enrollToCourse = async () => {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId + "/course/" + courseId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status >= 200 && response < 300) {
+          navigate('/students', { replace: true });
+        }
+        return response.json
+      })
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
+  }
+
   const handleGetForFree = () => {
     if (!isLoggedIn) {
       navigate('/login-signup', { replace: true });
     } else {
-      dispatch(
-        enrollUserToCourse({
-          id: Math.floor(Math.random() * 100 + 1),
-          studentId: user.id,
-          courseId: course.id,
-          status: 'Pending',
-          amount: course.price,
-          completionDate: null,
-          creationDate: '2022-02-02',
-          modificationDate: null,
-          completedTopics: [],
-        })
-      );
-      navigate('/students', { replace: true });
+      enrollToCourse();
     }
   };
 

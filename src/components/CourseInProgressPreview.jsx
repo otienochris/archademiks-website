@@ -12,10 +12,12 @@ import {
   Grid,
   Divider,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CourseProgress from '../pages/student-interface-page/CourseProgress';
 import { useNavigate } from 'react-router-dom';
+import { LMS_COURSES } from '../commons/urls';
+import { useSelector } from 'react-redux';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -29,17 +31,22 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function CourseInProgressPreview({
-  course,
   setContinueLearning,
   setCourseToContinue,
   enrollmentDetails,
 }) {
   const navigate = useNavigate();
+  const token = useSelector((state) => state.login.value.token);
+  const [course, setCourse] = useState(enrollmentDetails.course);
+  const [topics, setTopics] = useState([])
+  // const [completedTopics, setCompletedTopics] = useState(enrollmentDetails.course.completedTopics.length);
+
   const [expanded, setExpanded] = useState(false);
-  const [certificateId] = useState(enrollmentDetails[0].certificateId);
-  const [courseCompletionPercentage] = useState(
+  // const [certificateId] = useState(enrollmentDetails[0].certificateId);
+  const [courseCompletionPercentage] = useState(enrollmentDetails.completedTopics.length == 0 ? 0 :
     Math.floor(
-      (enrollmentDetails[0].completedTopics.length / course.topics.length) * 100
+      (enrollmentDetails.completedTopics.length / topics.length) * 100
+      // (enrollmentDetails.completedTopics.length / 5) * 100
     )
   );
   const handleExpandClick = () => {
@@ -50,12 +57,44 @@ export default function CourseInProgressPreview({
     setContinueLearning(true);
   };
 
+  const getTopics = async () => {
+    await fetch(LMS_COURSES + "/" + enrollmentDetails.course.courseId + "/topics", {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        // setIsLoading(false);
+        if (response.status >= 200 && response.status < 300) {
+
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setTopics(data._embedded.topicDtoList)
+      })
+      .catch((error) => {
+        // setIsLoading(false);
+        console.log(error)
+      });
+  }
+
+  useEffect(() => {
+    getTopics();
+  }, [])
+
+
   return (
     <Card style={{ margin: '20px', maxWidth: '300px' }}>
       <CardMedia
         component={'img'}
         height='194'
-        image={course.thumbnail}
+        image={course.thumbnailLink}
         alt='course thumbnail'
         style={{ height: '80px' }}
       />
@@ -97,12 +136,12 @@ export default function CourseInProgressPreview({
               color: '#230C0F',
             }}
           >
-            {enrollmentDetails[0].completedTopics.length == 0
+            {enrollmentDetails.completedTopics.length == 0
               ? 'Start Course'
-              : enrollmentDetails[0].completedTopics.length <
-                course.topics.length
-              ? 'Continue Learning'
-              : 'Revisit'}
+              : enrollmentDetails.completedTopics.length <
+                topics.length
+                ? 'Continue Learning'
+                : 'Revisit'}
           </Typography>
         </Button>
         <ExpandMore
@@ -125,17 +164,18 @@ export default function CourseInProgressPreview({
               }}
               align='center'
             >
-              {enrollmentDetails[0].completedTopics.length}/
-              {course.topics.length} modules done
+              {enrollmentDetails.completedTopics.length}/
+              {topics.length} modules done
             </Typography>
             <Divider style={{ marginBottom: '20px' }} />
           </Grid>
           <Grid item xs={6}>
             <Button
               onClick={() =>
-                navigate('/certificates/' + certificateId, {
-                  replace: true,
-                })
+                // navigate('/certificates/' + certificateId, {
+                //   replace: true,
+                // })
+                alert("Pending")
               }
               variant='outlined'
               color='primary'

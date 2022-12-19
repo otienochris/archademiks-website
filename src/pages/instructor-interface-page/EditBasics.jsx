@@ -25,7 +25,7 @@ const schema = yup.object({
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   thumbnail: yup
     .string()
