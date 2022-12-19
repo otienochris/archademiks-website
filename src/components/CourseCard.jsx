@@ -44,7 +44,6 @@ const useStyles = makeStyles({
 });
 
 export default function CourseCard({ course }) {
-  console.log(course)
   const classes = useStyles();
   const navigate = useNavigate();
   const { courseId, title, category, thumbnailLink, description, rating, price } = course;

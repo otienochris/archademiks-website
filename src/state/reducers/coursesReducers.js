@@ -631,7 +631,6 @@ export const coursesSlice = createSlice({
       state.value.push(action.payload);
     },
     setCourses: (state, action) => {
-      console.log(action.payload)
       state.value = action.payload;
     }
   },

@@ -4,6 +4,7 @@ import { Container, Grid } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
 import { useDispatch } from 'react-redux';
 import { deleteUser } from '../../state/reducers/allUsersReducer';
+import { ROLES } from '../../commons/roles';
 
 const cellStyle = {
   borderRight: '1px solid #716969',
@@ -12,7 +13,7 @@ const cellStyle = {
 
 const usersColumns = [
   {
-    title: 'National ID',
+    title: 'Serial NO.',
     field: 'id',
     editable: 'never',
     cellStyle: cellStyle,
@@ -22,19 +23,19 @@ const usersColumns = [
   { title: 'Email', field: 'email', editable: 'onAdd', cellStyle: cellStyle },
   {
     title: 'Role',
-    field: 'type',
-    lookup: { student: 'student', instructor: 'instructor' },
+    field: 'role',
+    lookup: { 'ROLE_STUDENT': ROLES.STUDENT.substring(5), 'ROLE_INSTRUCTOR': ROLES.INSTRUCTOR.substring(5) },
     cellStyle: cellStyle,
   },
   {
     title: 'Date Joined',
-    field: 'creationDate',
+    field: 'dateJoined',
     editable: 'never',
     cellStyle: cellStyle,
   },
   {
     title: 'Date Modified',
-    field: 'modificationDate',
+    field: 'dataModified',
     editable: 'never',
     cellStyle: cellStyle,
   },
