@@ -11,8 +11,10 @@ import { Start } from '@mui/icons-material';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 import {
   enrollUserToCourse,
   setCourseEnrollments,
@@ -62,8 +64,8 @@ function ConfirmOrder() {
   const [totalAmount, setTotalAmount] = useState(0.0);
   const courseId = localStorage.getItem('courseId');
   const user = localStorage.getItem('user');
+  const token = useSelector((state) => state.login.value.token);
 
-  // const baseUrlForPayment = 'https://demo-paypal-payment-service.herokuapp.com';
   const baseUrlForPayment = 'http://localhost:8082/payment-service';
 
   const reviewPaymentUrl =
@@ -74,6 +76,26 @@ function ConfirmOrder() {
     paymentId +
     '/' +
     payerId;
+
+  const enrollToCourse = async () => {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId + "/course/" + courseId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status >= 200 && response < 300) {
+          navigate('/students', { replace: true });
+        }
+        return response.json
+      })
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
+  }
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -101,6 +123,7 @@ function ConfirmOrder() {
               completedTopics: [],
             })
           );
+          enrollToCourse();
         }
         return data;
       })

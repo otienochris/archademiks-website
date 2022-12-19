@@ -68,31 +68,31 @@ function CustomMaterialTable({
       editable={
         allowActions
           ? {
-              onRowAdd: (newData) =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    console.log(newData);
+            onRowAdd: (newData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  console.log(newData);
 
-                    resolve();
-                  }, 1000);
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    console.log(oldData);
-
-                    resolve();
-                  }, 1000);
-                }),
-              onRowDelete: (oldData) =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    console.log(oldData);
-                    handleDelete(oldData.id);
-                    resolve();
-                  }, 1000);
-                }),
-            }
+                  resolve();
+                }, 1000);
+              }),
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  console.log(oldData);
+                  handleEdit(newData, oldData);
+                  resolve();
+                }, 1000);
+              }),
+            onRowDelete: (oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  console.log(oldData);
+                  handleDelete(oldData.id);
+                  resolve();
+                }, 1000);
+              }),
+          }
           : undefined
       }
     />

@@ -44,6 +44,7 @@ const useStyles = makeStyles({
 });
 
 export default function CourseCard({ course }) {
+  console.log(course)
   const classes = useStyles();
   const navigate = useNavigate();
   const { courseId, title, category, thumbnailLink, description, rating, price } = course;
@@ -67,14 +68,14 @@ export default function CourseCard({ course }) {
               {title}
             </Typography>
             <Typography variant='body2'>
-              {description.length < 150
+              {description && description.length < 150
                 ? description
-                : description.substr(1, 150) + '...'}
+                : description ? description.substr(1, 150) + '...' : ''}
             </Typography>
           </Grid>
           <Grid container style={{ marginTop: '10px' }}>
             <Grid item xs={6}>
-              <FiveStarRating rating={rating} />
+              {rating ? <FiveStarRating rating={rating} /> : <FiveStarRating rating={0} />}
             </Grid>
             <Grid item xs={6}>
               {price <= 0 ? (
