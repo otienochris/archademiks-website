@@ -59,6 +59,7 @@ function CustomAppBar2() {
         navigate('/students');
         break;
       case ROLES.ADMIN:
+      case ROLES.SUPER_ADMIN:
         navigate('/admin');
         break;
       default:

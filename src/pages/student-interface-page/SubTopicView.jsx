@@ -24,58 +24,60 @@ const useStyles = makeStyles({
 });
 
 function SubTopicView({ subTopic }) {
+  console.log(subTopic)
   const classes = useStyles();
   const [viewContent, setViewContent] = useState(
-    !subTopic.link === '' && subTopic.link === null
+    subTopic != null && !subTopic.link === '' && subTopic.link === null
   );
   return (
     <Grid container style={{ margin: '20px auto' }}>
-      <Grid item xs='12'>
-        <Typography variant='body2' align='center' className={classes.tab}>
-          Video
-        </Typography>
-        <div style={{ margin: '20px' }}>
-          {subTopic.link === '' || subTopic.link === null ? (
-            <Typography variant='body1' align='center'>
-              Video Not Available
-            </Typography>
-          ) : (
-            <YoutubeEmbed embedId={subTopic.link} />
-          )}
-        </div>
-
-        <Typography variant='h6' align='center'>
-          {subTopic.title}
-        </Typography>
-        <Typography variant='body2' align='center' className={classes.tab}>
-          Description
-        </Typography>
-        <Typography variant='body1' style={{ padding: '20px' }}>
-          {subTopic.description}
-        </Typography>
-
-        <div>
-          <Typography variant='body2' className={classes.tab} align='center'>
-            Content
+      {subTopic &&
+        <Grid item xs='12'>
+          <Typography variant='body2' align='center' className={classes.tab}>
+            Video
           </Typography>
-          <IconButton onClick={() => setViewContent((state) => !state)}>
-            {viewContent ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </div>
+          <div style={{ margin: '20px' }}>
+            {subTopic.link === '' || subTopic.link === null ? (
+              <Typography variant='body1' align='center'>
+                Video Not Available
+              </Typography>
+            ) : (
+              <YoutubeEmbed embedId={subTopic.link} />
+            )}
+          </div>
 
-        {viewContent && (
-          <div
-            style={{
-              margin: '16px auto',
-              padding: '20px',
-            }}
-            className={classes.videoResponsive}
-            dangerouslySetInnerHTML={{
-              __html: `${subTopic.content}`,
-            }}
-          />
-        )}
-      </Grid>
+          <Typography variant='h6' align='center'>
+            {subTopic.title}
+          </Typography>
+          <Typography variant='body2' align='center' className={classes.tab}>
+            Description
+          </Typography>
+          <Typography variant='body1' style={{ padding: '20px' }}>
+            {subTopic.description}
+          </Typography>
+
+          <div>
+            <Typography variant='body2' className={classes.tab} align='center'>
+              Content
+            </Typography>
+            <IconButton onClick={() => setViewContent((state) => !state)}>
+              {viewContent ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </div>
+
+          {!viewContent && (
+            <div
+              style={{
+                margin: '16px auto',
+                padding: '20px',
+              }}
+              className={classes.videoResponsive}
+              dangerouslySetInnerHTML={{
+                __html: `${subTopic.content}`,
+              }}
+            />
+          )}
+        </Grid>}
     </Grid>
   );
 }

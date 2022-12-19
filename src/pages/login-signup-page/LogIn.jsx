@@ -105,6 +105,9 @@ export default function LogIn() {
             case ROLES.STUDENT:
               navigate('/students');
               break;
+            case ROLES.SUPER_ADMIN:
+              navigate('/admin');
+              break;
             case ROLES.ADMIN:
               navigate('/admin');
               break;
@@ -155,9 +158,11 @@ export default function LogIn() {
               fetchLoggedInUserDetails(LMS_STUDENTS + "/username/" + username, token, role);
               break;
             case ROLES.ADMIN:
+            case ROLES.SUPER_ADMIN:
               console.log("Fetching admin details")
               // dispatch(setLoggedInUser({ user: userDetails }))            
-
+              dispatch(setLoggedInUser({ user: { firstName: "SUPER", lastName: "ADMIN" } }));
+              navigate('/admin');
               break;
             default:
               break;

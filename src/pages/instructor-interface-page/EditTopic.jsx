@@ -21,7 +21,7 @@ const schema = yup.object({
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   link: yup
     .string()
@@ -145,6 +145,7 @@ function EditTopic({ setOpenEditPage, setIsLoading, topic }) {
         label='Topic Description'
         placeholder='Provide a brief description of the goals and contents of the topic'
         autoComplete='off'
+        minRows={5}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}

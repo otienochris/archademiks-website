@@ -9,13 +9,15 @@ import { Button, TextField, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
+import { LMS_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   title: yup.string().min(10).max(50).required('Course Title is required.'),
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   link: yup
     .string()
@@ -25,10 +27,48 @@ const schema = yup.object({
     ),
 });
 
-function AddNewTopic() {
+function AddNewTopic({ setAddNewTopic, courseId }) {
+  const token = useSelector((state) => state.login.value.token);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+
+
+  const saveNewTopic = async (title, description, link, content) => {
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: 0
+    }
+    console.log(body)
+    await fetch(LMS_TOPICS + "?courseId=" + courseId, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+
+        if (response.status >= 200 && response.status < 300) {
+          alert("Topic saved successfully");
+          setAddNewTopic(state => !state);
+        } else {
+          alert("Error saving topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  }
 
   const classes = useStyles();
 
@@ -54,30 +94,8 @@ function AddNewTopic() {
       convertToRaw(editorState.getCurrentContent())
     );
 
-    const topic = {
-      title: data.title,
-      description: data.description,
-      content: contentInHtml,
-      link: embedId,
-      subTopics: [],
-    };
 
-    console.log(topic);
-
-    //   newCourse.topics.push(topic);
-    //   setNewCourse(newCourse);
-
-    //   setIsStageSubmited(true);
-
-    // resetting the fields
-    //   reset();
-    //   setEditorState(EditorState.createEmpty());
-    //   var title = document.getElementById('title');
-    //   var description = document.getElementById('description');
-    //   var link = document.getElementById('link');
-    //   title.value = '';
-    //   description.value = '';
-    //   link.value = '';
+    saveNewTopic(data.title, data.description, embedId, contentInHtml);
   };
 
   return (
@@ -100,6 +118,8 @@ function AddNewTopic() {
         label='Topic Description'
         placeholder='Provide a brief description of the goals and contents of the topic'
         autoComplete='off'
+        multiline
+        minRows={5}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}

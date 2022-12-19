@@ -16,7 +16,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddNewTopic from './AddNewTopic';
 import EditBasics from './EditBasics';
 import EditSubtopics from './EditSubtopics';
@@ -33,6 +33,12 @@ function EditCourseView({ course }) {
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
+
+  useEffect(() => {
+
+  }, [addNewTopic])
+
+
   return (
     <Grid container>
       <Grid item xs='12'>
@@ -105,7 +111,7 @@ function EditCourseView({ course }) {
               Add New Topic
             </DialogTitle>
             <DialogContent>
-              {addNewTopic && <AddNewTopic courseId={course.id} />}
+              {addNewTopic && <AddNewTopic setAddNewTopic={setAddNewTopic} courseId={course.courseId} />}
             </DialogContent>
             <DialogActions
               style={{
