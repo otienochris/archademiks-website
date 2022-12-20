@@ -74,11 +74,12 @@ export default function Index() {
           email: student.email,
           role: ROLES.STUDENT,
           dateJoined: student.creationDate,
-          dataModified: student.modificationDate
+          dataModified: student.modificationDate,
+          country: student.countryCode,
+          version: student.version
         }))
 
         studentList.map(student => users.push(student));
-        console.log(users);
       })
       .catch(error => console.log(error));
   }
@@ -103,11 +104,12 @@ export default function Index() {
           email: instructor.email,
           role: ROLES.INSTRUCTOR,
           dateJoined: instructor.creationDate,
-          dataModified: instructor.modificationDate
+          dataModified: instructor.modificationDate,
+          country: instructor.countryCode,
+          version: instructor.version
         }))
 
         instructorsList.map(instructor => users.push(instructor));
-        console.log(users);
       })
       .catch(error => console.log(error));
   }

@@ -198,6 +198,7 @@ export default function SignUp({ setAction }) {
       reviews: null,
       addresses: null,
       relatives: null,
+      certificates: null,
       version: 0
     }
 

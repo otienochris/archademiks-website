@@ -50,13 +50,15 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const token = useSelector(state => state.login.value.token);
   const [allCourses, setAllCourses] = useState(courses);
   const [userDeleted, setUserDeleted] = useState(false);
+  const [userUpdated, setUserUpdated] = useState(false);
   const [enrollementDetails, setEnrollementDetails] = useState(
     courseEnrollmentDetails
   );
 
   const options = {
-    method: "DELETE",
+    method: "",
     mode: 'cors',
+    body: "",
     headers: {
       Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json'
@@ -65,10 +67,14 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
 
   useEffect(() => {
 
-  }, [userDeleted])
+  }, [userDeleted, userUpdated])
 
 
   const deleteUserFromBackend = async (url, userId) => {
+
+    options.method = "DELETE";
+    options.body = "";
+
     await fetch(url + "/" + userId, options)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
@@ -78,7 +84,7 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
         return response.json()
       })
       .then(data => {
-        if (data.message == undefined || data) {
+        if (data == true) {
           console.log(data);
           alert("User deleted successfully");
         } else {
@@ -91,8 +97,34 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
       })
   }
 
+  const editUser = async (url, userId, body, updatedUser) => {
+    options.method = "PUT";
+    options.body = JSON.stringify(body);
+
+    await fetch(url + "/" + userId, options)
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+
+          const newList = allUsers.filter(item => item.id != userId);
+          newList.push(updatedUser);
+
+          setAllUsers(newList);
+          setUserUpdated(true);
+          alert("User updated successfully");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .finally(() => {
+        options.method = "";
+        options.body = "";
+        setUserUpdated(false)
+      });
+  }
+
   const handleDeleteUser = (oldData) => {
-    console.log(oldData);
     switch (oldData.role) {
       case ROLES.STUDENT:
         deleteUserFromBackend(LMS_STUDENTS, oldData.id);
@@ -104,6 +136,34 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
         break;
     }
   };
+
+  const handleEdit = (newData, oldData) => {
+
+    const body = {
+      firstName: newData.firstName,
+      lastName: newData.lastName,
+      email: newData.email,
+      countryCode: newData.country,
+      version: newData.version,
+      addresses: null,
+      certificates: null,
+      organizations: null,
+      relatives: null,
+      reviews: null
+    }
+
+    switch (oldData.role) {
+      case ROLES.INSTRUCTOR:
+        editUser(LMS_INSTRUCTORS, newData.id, body, newData);
+        break;
+      case ROLES.STUDENT:
+        editUser(LMS_STUDENTS, newData.id, body, newData);
+        break;
+      default:
+        break;
+    }
+
+  }
 
   const handleAdd = () => {
     console.log('adding user');
@@ -172,6 +232,7 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
       allowAdd={true}
       allowDelete={true}
       allowEdit={true}
+      handleEdit={handleEdit}
       handleDelete={handleDeleteUser}
       handleAdd={handleAdd}
       allowActions={true}
