@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { ROLES } from '../../commons/roles';
 import { LMS_COURSE_ENROLLMENTS, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
 import { useSelector } from 'react-redux';
+import { ArrowBack } from '@material-ui/icons';
 
 const cellStyle = {
   borderRight: '1px solid #716969',
@@ -62,10 +63,11 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const [allCourses, setAllCourses] = useState(courses);
   const [userDeleted, setUserDeleted] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
-  const [enrollments, setEnrollments] = useState([]);
+  const [enrollmentsForTable, setEnrollmentsForTable] = useState([]);
+  const [enrollmentsFromBackend, setEnrollmentsFromBackend] = useState([]);
   const [selectedRowId, setSelectedRowId] = useState();
-  const [dataFetched, setDataFetched] = useState(false);
   const [viewCourseEnrollment, setViewCourseEnrollment] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const options = {
     method: "",
@@ -79,17 +81,19 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
 
 
   const fetchEnrollments = async (userId) => {
-
+    setIsLoading(true);
     options.method = "GET";
     delete options.body;
     await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + userId, options)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
-          setDataFetched(true);
         }
         return response.json();
       }).then(data => {
+
         console.log(data);
+        setEnrollmentsFromBackend(data);
+
         const currentEnrollmentLists = [];
         data.map(enrollment => currentEnrollmentLists.push({
           id: enrollment.courseEnrollmentId,
@@ -100,25 +104,19 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
           completionDate: enrollment.completionDate,
           modificationDate: enrollment.modificationDate
         }))
-
-        setEnrollments(currentEnrollmentLists);
+        setEnrollmentsForTable(currentEnrollmentLists);
       }).catch(error => console.log(error))
       .finally(() => {
+        setIsLoading(false);
         options.method = "";
         options.body = "";
       })
   }
 
-  useEffect(() => {
-    if (selectedRowId) {
-      fetchEnrollments(selectedRowId);
-    }
-  }, [selectedRowId])
-
 
   useEffect(() => {
 
-  }, [userDeleted, userUpdated, selectedRowId])
+  }, [userDeleted, userUpdated])
 
 
   const deleteUserFromBackend = async (url, userId) => {
@@ -224,6 +222,8 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
     {
       tooltip: 'Course Details',
       render: (rowData) => {
+        const course = enrollmentsFromBackend.filter((item) => item.course.courseId === rowData.courseId)[0].course;
+
         return (
           <Container
             style={{
@@ -234,7 +234,7 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
             }}
           >
             <CourseCard
-              course={allCourses.filter((item) => item.id === rowData.id)[0]}
+              course={course}
             />
           </Container>
         );
@@ -245,12 +245,22 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const enrolledCoursesdetailPanel = [
     {
       tooltip: 'More Details',
+      onclick: () => { },
       render: (rowData) => {
-        setSelectedRowId(rowData.id);
+
+        // setSelectedRowId(rowData.id);
+        // fetchEnrollments(rowData.id);
         return (
           <Container style={{ width: '80%', margin: '20px auto' }}>
             <Grid container alignContent='center'>
-              <Button onClick={() => setViewCourseEnrollment(state => !state)} variant='contained' color='secondary'>View Course Enrollments</Button>
+
+              {rowData.role == ROLES.STUDENT && <Button onClick={() => {
+
+                setViewCourseEnrollment(true)
+                fetchEnrollments(rowData.id);
+              }}
+                variant='contained'
+                color='secondary'>View Course Enrollments</Button>}
             </Grid>
           </Container>
         );
@@ -260,7 +270,7 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
 
   return (
     <>
-      <CustomMaterialTable
+      {!viewCourseEnrollment ? <CustomMaterialTable
         title={''}
         data={allUsers}
         columns={usersColumns}
@@ -272,50 +282,62 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
         handleAdd={handleAdd}
         allowActions={true}
         detailPanel={enrolledCoursesdetailPanel}
-      />
-      <Dialog
-        fullScreen
-        open={viewCourseEnrollment}
-        // onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <Container style={{ minHeight: '100vh' }}>
-          <DialogTitle
-            style={{
-              backgroundColor: 'black',
-              color: 'white',
-              margin: '20px',
-            }}
-          >
-            <Typography variant='h4' align='center'>
-              Course Enrollments
-            </Typography>
-          </DialogTitle>
-
-          <DialogContent>
-            <CustomMaterialTable
-              title={'Enrolled Courses'}
-              data={enrollments}
-              columns={courseEnrollmentsColumns}
-              allowActions={false}
-              detailPanel={courseDetailPanel}
-            />
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={() => setViewCourseEnrollment(false)}
+      /> :
+        <Dialog
+          fullScreen
+          open={viewCourseEnrollment}
+          // onClose={handleClose}
+          TransitionComponent={Transition}
+        >
+          <Container style={{ minHeight: '100vh', flexDirection: 'column', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DialogTitle
               style={{
-                backgroundColor: '#ff8c00',
-                margin: 'auto',
-                fontWeight: 'bolder',
+                backgroundColor: 'black',
+                color: 'white',
+                margin: '20px',
+                width: '100%'
               }}
             >
-              Exit
-            </Button>
-          </DialogActions>
-        </Container>
-      </Dialog>
+              <Button
+                onClick={() => setViewCourseEnrollment(false)}
+                style={{
+                  backgroundColor: '#ff8c00',
+                  margin: 'auto',
+                  fontWeight: 'bolder',
+                }}
+                startIcon={<ArrowBack />}
+              >
+                Back
+              </Button>
+              <Typography variant='h4' align='center' style={{ width: '100%' }}>
+                Course Enrollments
+              </Typography>
+            </DialogTitle>
+
+            <DialogContent style={{}}>
+              {isLoading ? <CircularProgress style={{ margin: '50px' }} /> : <CustomMaterialTable
+                title={'Enrolled Courses'}
+                data={enrollmentsForTable}
+                columns={courseEnrollmentsColumns}
+                allowActions={false}
+                detailPanel={courseDetailPanel}
+              />}
+            </DialogContent>
+
+            <DialogActions>
+              <Button
+                onClick={() => setViewCourseEnrollment(false)}
+                style={{
+                  backgroundColor: '#ff8c00',
+                  margin: 'auto',
+                  fontWeight: 'bolder',
+                }}
+              >
+                Exit
+              </Button>
+            </DialogActions>
+          </Container>
+        </Dialog>}
 
     </>
   );

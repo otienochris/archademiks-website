@@ -1,50 +1,52 @@
+import { CATEGORIES } from "../commons/courseCategories";
+
 export const getColorForCategoryBanner = (category) => {
   let colorCode = '';
 
   switch (category) {
-    case 'Tech Tools':
+    case CATEGORIES.TECH_TOOLS:
       colorCode = '#EEEBD0';
       break;
-    case 'Assignment':
+    case CATEGORIES.ASSIGNMENT:
       colorCode = '#56CBF9';
       break;
-    case 'Agriculture':
+    case CATEGORIES.AGRICULTURE:
       colorCode = '#FFFFFF';
       break;
-    case 'Programming':
+    case CATEGORIES.PROGRAMMING:
       colorCode = '#ECA400';
       break;
-    case 'IT':
+    case CATEGORIES.IT:
       colorCode = '#EE2677';
       break;
-    case 'Mathematics':
+    case CATEGORIES.MATHEMATICS:
       colorCode = '#5DB7DE';
       break;
-    case 'Chemistry':
+    case CATEGORIES.CHEMISTRY:
       colorCode = '#F1E9DB';
       break;
-    case 'Biology':
+    case CATEGORIES.BIOLOGY:
       colorCode = '#A39B8B';
       break;
-    case 'Computer Hardware':
+    case CATEGORIES.COMPUTER_HARDWARE:
       colorCode = '#716A5C';
       break;
-    case 'AI':
+    case CATEGORIES.ARTIFICIAL_INTELLIGENCE:
       colorCode = '#FEEA00';
       break;
-    case 'Music':
+    case CATEGORIES.MUSIC:
       colorCode = '#FEFADC';
       break;
-    case 'UI/UX':
+    case CATEGORIES.UI_UX:
       colorCode = '#F6D4BA';
       break;
-    case 'Business':
+    case CATEGORIES.BUSINESS:
       colorCode = '#F3B391';
       break;
-    case 'Content Creation':
+    case CATEGORIES.CONTENT_CREATION:
       colorCode = '#D5E68D';
       break;
-    case 'DevOps':
+    case CATEGORIES.DEVOPS:
       colorCode = '#89FC00';
       break;
     default:

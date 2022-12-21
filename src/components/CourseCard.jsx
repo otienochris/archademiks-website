@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   course: {
     margin: '20px',
     position: 'relative',
-    // minHeight: '430px',
+    maxWidth: '400px'
   },
   image: {
     height: '150px',
@@ -53,7 +53,7 @@ export default function CourseCard({ course }) {
         className={classes.image}
         component='img'
         image={thumbnailLink}
-        alt={title}
+        alt={"Image for: " + title}
       />
       <CardContent className={classes.cardContent}>
         <Grid container justifyContent='center'>
