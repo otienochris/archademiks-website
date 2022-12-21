@@ -24,7 +24,6 @@ const useStyles = makeStyles({
 });
 
 function SubTopicView({ subTopic }) {
-  console.log(subTopic)
   const classes = useStyles();
   const [viewContent, setViewContent] = useState(
     subTopic != null && !subTopic.link === '' && subTopic.link === null
@@ -33,8 +32,8 @@ function SubTopicView({ subTopic }) {
     <Grid container style={{ margin: '20px auto' }}>
       {subTopic &&
         <Grid item xs='12'>
-          <Typography variant='body2' align='center' className={classes.tab}>
-            Video
+          <Typography style={{ border: '2px solid maroon', color: 'maroon', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' }} variant='h6' align='center'>
+            Subtopic: {subTopic.title}
           </Typography>
           <div style={{ margin: '20px' }}>
             {subTopic.link === '' || subTopic.link === null ? (
@@ -46,9 +45,7 @@ function SubTopicView({ subTopic }) {
             )}
           </div>
 
-          <Typography variant='h6' align='center'>
-            {subTopic.title}
-          </Typography>
+
           <Typography variant='body2' align='center' className={classes.tab}>
             Description
           </Typography>
@@ -56,12 +53,15 @@ function SubTopicView({ subTopic }) {
             {subTopic.description}
           </Typography>
 
-          <div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row'
+          }}>
             <Typography variant='body2' className={classes.tab} align='center'>
               Content
             </Typography>
-            <IconButton onClick={() => setViewContent((state) => !state)}>
-              {viewContent ? <VisibilityOff /> : <Visibility />}
+            <IconButton onClick={() => setViewContent((state) => !state)} style={{ borderRadius: '0px' }} >
+              {viewContent ? <> <Visibility style={{ color: 'ff8c00' }} /> Show content </> : <><VisibilityOff style={{ color: 'black' }} /> Hide content</>}
             </IconButton>
           </div>
 
@@ -70,6 +70,9 @@ function SubTopicView({ subTopic }) {
               style={{
                 margin: '16px auto',
                 padding: '20px',
+                border: '2px solid grey',
+                margin: '10px',
+                borderRadius: '5px'
               }}
               className={classes.videoResponsive}
               dangerouslySetInnerHTML={{

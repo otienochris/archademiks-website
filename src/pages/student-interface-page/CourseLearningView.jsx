@@ -12,8 +12,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  CircularProgress,
 } from '@material-ui/core';
 import {
+  ArrowBack,
   ArrowBackIos,
   ArrowForwardIos,
   Check,
@@ -61,7 +63,6 @@ export default function CourseLearningView({ course, userId, userType }) {
       }
     })
       .then((response) => {
-        setIsLoading(false);
         if (response.status >= 200 && response.status < 300) {
 
         }
@@ -72,9 +73,11 @@ export default function CourseLearningView({ course, userId, userType }) {
         setAllTopics(data._embedded.topicDtoList)
       })
       .catch((error) => {
-        setIsLoading(false);
         console.log(error)
-      });
+      }).finally(() => {
+        setIsLoading(false);
+      })
+
   }
 
   useEffect(() => {
@@ -88,7 +91,7 @@ export default function CourseLearningView({ course, userId, userType }) {
         <Divider />
       </Grid>
       <Grid item={12} style={{ width: '100%' }}>
-        <List>
+        {isLoading ? <CircularProgress /> : <List>
           {allTopics.map((topic, idx) => (
             <>
               <ListItem
@@ -127,7 +130,7 @@ export default function CourseLearningView({ course, userId, userType }) {
               <Divider />
             </>
           ))}
-        </List>
+        </List>}
       </Grid>
 
       {/* Complet Topic view */}
@@ -141,13 +144,37 @@ export default function CourseLearningView({ course, userId, userType }) {
           <DialogTitle
             id='topic'
             style={{
-              backgroundColor: 'black',
-              color: 'white',
-              textAlign: 'center',
               margin: '10px',
+              width: '100%',
             }}
           >
-            {completeTopic && selectedTopic.title}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row'
+            }}>
+
+              <Button
+                startIcon={<ArrowBack />}
+                variant='contained'
+                style={{
+                  backgroundColor: '#ff8c00',
+                  color: 'black',
+                  fontWeight: 'bolder',
+                  margin: '10px auto',
+                  padding: '10px',
+                  width: '120px'
+                }}
+                onClick={() => {
+                  setCompleteTopic(false);
+                  setSubtopicsOpened(false);
+                  setSubtopicIndex(0);
+                }}
+              >
+                Back
+              </Button>
+              <Typography variant='h4' style={{ flexGrow: 1, backgroundColor: 'black', color: 'white', padding: '20px', marginLeft: '5px' }} align='center'>{completeTopic && selectedTopic.title}</Typography>
+
+            </div>
           </DialogTitle>
           <DialogContent>
             {!subtopicsOpened ? (
@@ -170,6 +197,8 @@ export default function CourseLearningView({ course, userId, userType }) {
                       color: 'black',
                       fontWeight: 'bolder',
                       margin: '10px auto',
+                      padding: '10px',
+                      width: '120px'
                     }}
                     onClick={() => {
                       setSubtopicsOpened(true);
