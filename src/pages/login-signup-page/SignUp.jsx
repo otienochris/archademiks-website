@@ -22,17 +22,11 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../../state/reducers/allUsersReducer';
 import { useState } from 'react';
 import EmailVerification from './EmailVerification';
+import { LMS_INSTRUCTORS_SIGNUP, LMS_RELATIVES_SIGNUP, LMS_STUDENTS_SIGNUP } from '../../commons/urls';
 
 /**
  * The send email url accepts an email object as form data made using POST
  */
-
-const sendEmailUrl =
-  'http://localhost:8081/notification-service/mail/send-simple-message';
-const baseUrl = "http://localhost:8083/lms/api/v1";
-const saveStudentUrl = baseUrl + "/students/signup";
-const saveInstructorUrl = baseUrl + "/instructors/signup";
-const saveParentUrl = baseUrl + "/parents/signup";
 
 const useStyles = makeStyles({
   textField: {
@@ -138,38 +132,12 @@ export default function SignUp({ setAction }) {
     criteriaMode: 'all',
   });
 
-  const sendVerificationCode = async (email) => {
-    const formData = new FormData();
-    formData.append('to', email.toAddress);
-    formData.append('subject', email.subject);
-    formData.append('text', email.message);
-
-    setIsLoading(true);
-
-    await fetch(sendEmailUrl, {
-      method: 'POST',
-      mode: 'cors',
-      body: formData,
-    })
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          setEmailSentSuccessfuly(true);
-        }
-        return response.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-
-    setIsLoading(false);
-  };
-
   const saveUser = async (url, body) => {
     await fetch(url, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(body),
       headers: {
-        // Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHVkZW50MUBnbWFpbC5jb20iLCJleHAiOjE2NzEyMTExMjMsImlhdCI6MTY3MTE3NTEyM30.ibSZUEqyw4ut8-fh99Zes7h7D0V4EPPAuK9DiC-Ri9SBjRlJ-BI1Y9_b7Vv-GRhTLXw_vnWjl3akI1UP1vjZGA",
         Accept: 'application/json',
         'Content-Type': 'application/json'
       }
@@ -204,13 +172,13 @@ export default function SignUp({ setAction }) {
 
     switch (data.userType) {
       case "STUDENT":
-        saveUser(saveStudentUrl, userObj);
+        saveUser(LMS_STUDENTS_SIGNUP, userObj);
         break;
       case "INSTRUCTOR":
-        saveUser(saveInstructorUrl, userObj);
+        saveUser(LMS_INSTRUCTORS_SIGNUP, userObj);
         break;
       case "PARENT":
-        saveUser(saveParentUrl, userObj);
+        saveUser(LMS_RELATIVES_SIGNUP, userObj);
         break;
 
       default:
@@ -225,8 +193,6 @@ export default function SignUp({ setAction }) {
     dispacth(addUser(data));
 
     setEmail(data.email);
-
-
 
     reset();
   };

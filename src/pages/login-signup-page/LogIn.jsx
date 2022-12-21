@@ -17,11 +17,9 @@ import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import { TextField } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import { AUTHENTICATION, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
+import { LMS_AUTHENTICATION, LMS_INSTRUCTORS, LMS_STUDENTS, NOTIFICATION_SEND_SIMPLE_MAIL } from '../../commons/urls';
 import { ROLES } from '../../commons/roles';
 
-const sendEmailUrl =
-  'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
 const useStyles = makeStyles({
   textField: {
     width: '300px',
@@ -122,7 +120,7 @@ export default function LogIn() {
   }
 
   const authenticateUser = async (username, password) => {
-    await fetch(AUTHENTICATION, {
+    await fetch(LMS_AUTHENTICATION, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({ username, password }),
@@ -191,7 +189,7 @@ export default function LogIn() {
 
     setIsLoading(true);
 
-    await fetch(sendEmailUrl, {
+    await fetch(NOTIFICATION_SEND_SIMPLE_MAIL, {
       method: 'POST',
       mode: 'cors',
       body: formData,

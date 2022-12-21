@@ -1,12 +1,7 @@
 import { CircularProgress, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-
-
-const verifyEmailUrl = "http://localhost:8083/lms/api/v1/authentication/verifyEmail/"
-
-
-
+import { LMS_VERIFY_EMAIL } from '../../commons/urls';
 
 function RedirectToEmailVerification() {
   const { token } = useParams();
@@ -16,7 +11,7 @@ function RedirectToEmailVerification() {
 
   const verifyEmailUsingToken = async (token) => {
     setIsLoading(true);
-    await fetch(verifyEmailUrl + token, {
+    await fetch(LMS_VERIFY_EMAIL + token, {
       method: 'GET',
       mode: 'cors',
     })
@@ -39,8 +34,6 @@ function RedirectToEmailVerification() {
   useEffect(() => {
     verifyEmailUsingToken(token);
   }, [])
-
-  console.log(token);
   return (
     <Container style={{ minHeight: '92vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 

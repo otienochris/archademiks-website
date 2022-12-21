@@ -70,7 +70,11 @@ export default function StageOneOfCourseCreation({
       price: 0,
       category,
       introductionVideoLink,
-      version: 0
+      version: 0,
+      topics: null,
+      reviews: null,
+      instructors: null,
+      courseEnrollments: null
     }
     await fetch(LMS_COURSES + "?instructorId=" + loggedInInstructor.instructorId, {
       method: 'POST',
