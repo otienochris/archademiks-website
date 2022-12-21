@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
-import { Container, Grid } from '@material-ui/core';
+import { CircularProgress, Container, Grid } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
 import { useDispatch } from 'react-redux';
 import { deleteUser } from '../../state/reducers/allUsersReducer';
 import { ROLES } from '../../commons/roles';
-import { LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
+import { LMS_COURSE_ENROLLMENTS, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
 import { useSelect } from '@mui/base';
 import { useSelector } from 'react-redux';
 
@@ -51,9 +51,9 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const [allCourses, setAllCourses] = useState(courses);
   const [userDeleted, setUserDeleted] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
-  const [enrollementDetails, setEnrollementDetails] = useState(
-    courseEnrollmentDetails
-  );
+  const [enrollments, setEnrollments] = useState([]);
+  const [selectedRowId, setSelectedRowId] = useState();
+  const [dataFetched, setDataFetched] = useState(false);
 
   const options = {
     method: "",
@@ -65,9 +65,48 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
     }
   }
 
+
+  const fetchEnrollments = async (userId) => {
+
+    options.method = "GET";
+    delete options.body;
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + userId, options)
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          setDataFetched(true);
+        }
+        return response.json();
+      }).then(data => {
+        console.log(data);
+        const currentEnrollmentLists = [];
+        data.map(enrollment => currentEnrollmentLists.push({
+          id: enrollment.courseEnrollmentId,
+          courseId: enrollment.course.courseId,
+          status: enrollment.status,
+          amount: enrollment.amount,
+          creationDate: enrollment.creationDate,
+          completionDate: enrollment.completionDate,
+          modificationDate: enrollment.modificationDate
+        }))
+
+        setEnrollments(currentEnrollmentLists);
+      }).catch(error => console.log(error))
+      .finally(() => {
+        options.method = "";
+        options.body = "";
+      })
+  }
+
+  useEffect(() => {
+    if (selectedRowId) {
+      fetchEnrollments(selectedRowId);
+    }
+  }, [selectedRowId])
+
+
   useEffect(() => {
 
-  }, [userDeleted, userUpdated])
+  }, [userDeleted, userUpdated, selectedRowId])
 
 
   const deleteUserFromBackend = async (url, userId) => {
@@ -204,19 +243,19 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
           { title: 'Completed on', field: 'completionDate' },
           { title: 'Modified on', field: 'modificationDate' },
         ];
-        const coursesEnrolledList = enrollementDetails.filter(
-          (item) => item.studentId === rowData.id
-        );
+
+        setSelectedRowId(rowData.id);
+
         return (
           <Container style={{ width: '80%', margin: '20px auto' }}>
             <Grid container alignContent='center'>
-              <CustomMaterialTable
+              {dataFetched == true && <CustomMaterialTable
                 title={'Enrolled Courses'}
-                data={coursesEnrolledList}
+                data={enrollments}
                 columns={columns}
                 allowActions={false}
                 detailPanel={courseDetailPanel}
-              />
+              />}
             </Grid>
           </Container>
         );
