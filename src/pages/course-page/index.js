@@ -184,8 +184,10 @@ export default function Index({ courseId2 }) {
       .then(response => {
         if (response.status >= 200 && response < 300) {
           navigate('/students', { replace: true });
+        } else if (response.status == 400) {
+
         }
-        return response.json
+        return response.json()
       })
       .then(data => console.log(data))
       .catch(error => console.log(error))

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import CustomMaterialTable from '../../components/CustomMaterialTable';
-import { CircularProgress, Container, Grid } from '@material-ui/core';
+import { Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Slide, Typography } from '@material-ui/core';
 import CourseCard from '../../components/CourseCard';
 import { useDispatch } from 'react-redux';
-import { deleteUser } from '../../state/reducers/allUsersReducer';
 import { ROLES } from '../../commons/roles';
 import { LMS_COURSE_ENROLLMENTS, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
-import { useSelect } from '@mui/base';
 import { useSelector } from 'react-redux';
 
 const cellStyle = {
@@ -43,6 +41,19 @@ const usersColumns = [
     cellStyle: cellStyle,
   },
 ];
+const courseEnrollmentsColumns = [
+  { title: 'Serial No', field: 'id' },
+  { title: 'Course Id', field: 'courseId' },
+  { title: 'Status', field: 'status' },
+  { title: 'Selling Price', field: 'amount' },
+  { title: 'Enrolled on', field: 'creationDate' },
+  { title: 'Completed on', field: 'completionDate' },
+  { title: 'Modified on', field: 'modificationDate' },
+];
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const dispatch = useDispatch();
@@ -54,6 +65,7 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const [enrollments, setEnrollments] = useState([]);
   const [selectedRowId, setSelectedRowId] = useState();
   const [dataFetched, setDataFetched] = useState(false);
+  const [viewCourseEnrollment, setViewCourseEnrollment] = useState(false);
 
   const options = {
     method: "",
@@ -234,28 +246,11 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
     {
       tooltip: 'More Details',
       render: (rowData) => {
-        const columns = [
-          { title: 'Serial No', field: 'id' },
-          { title: 'Course Id', field: 'courseId' },
-          { title: 'Status', field: 'status' },
-          { title: 'Selling Price', field: 'amount' },
-          { title: 'Enrolled on', field: 'creationDate' },
-          { title: 'Completed on', field: 'completionDate' },
-          { title: 'Modified on', field: 'modificationDate' },
-        ];
-
         setSelectedRowId(rowData.id);
-
         return (
           <Container style={{ width: '80%', margin: '20px auto' }}>
             <Grid container alignContent='center'>
-              {dataFetched == true && <CustomMaterialTable
-                title={'Enrolled Courses'}
-                data={enrollments}
-                columns={columns}
-                allowActions={false}
-                detailPanel={courseDetailPanel}
-              />}
+              <Button onClick={() => setViewCourseEnrollment(state => !state)} variant='contained' color='secondary'>View Course Enrollments</Button>
             </Grid>
           </Container>
         );
@@ -264,19 +259,65 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
   ];
 
   return (
-    <CustomMaterialTable
-      title={''}
-      data={allUsers}
-      columns={usersColumns}
-      allowAdd={true}
-      allowDelete={true}
-      allowEdit={true}
-      handleEdit={handleEdit}
-      handleDelete={handleDeleteUser}
-      handleAdd={handleAdd}
-      allowActions={true}
-      detailPanel={enrolledCoursesdetailPanel}
-    />
+    <>
+      <CustomMaterialTable
+        title={''}
+        data={allUsers}
+        columns={usersColumns}
+        allowAdd={true}
+        allowDelete={true}
+        allowEdit={true}
+        handleEdit={handleEdit}
+        handleDelete={handleDeleteUser}
+        handleAdd={handleAdd}
+        allowActions={true}
+        detailPanel={enrolledCoursesdetailPanel}
+      />
+      <Dialog
+        fullScreen
+        open={viewCourseEnrollment}
+        // onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <Container style={{ minHeight: '100vh' }}>
+          <DialogTitle
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              margin: '20px',
+            }}
+          >
+            <Typography variant='h4' align='center'>
+              Course Enrollments
+            </Typography>
+          </DialogTitle>
+
+          <DialogContent>
+            <CustomMaterialTable
+              title={'Enrolled Courses'}
+              data={enrollments}
+              columns={courseEnrollmentsColumns}
+              allowActions={false}
+              detailPanel={courseDetailPanel}
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={() => setViewCourseEnrollment(false)}
+              style={{
+                backgroundColor: '#ff8c00',
+                margin: 'auto',
+                fontWeight: 'bolder',
+              }}
+            >
+              Exit
+            </Button>
+          </DialogActions>
+        </Container>
+      </Dialog>
+
+    </>
   );
 }
 
