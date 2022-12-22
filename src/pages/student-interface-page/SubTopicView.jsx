@@ -68,7 +68,7 @@ function SubTopicView({ subTopic }) {
           {!viewContent && (
             <div
               style={{
-                margin: '16px auto',
+                // margin: '16px auto',
                 padding: '20px',
                 border: '2px solid grey',
                 margin: '10px',

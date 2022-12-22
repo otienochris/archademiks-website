@@ -34,16 +34,18 @@ export default function CourseInProgressPreview({
   setContinueLearning,
   setCourseToContinue,
   enrollmentDetails,
+  setCurrentCourseEnrollmentId
 }) {
   const navigate = useNavigate();
   const token = useSelector((state) => state.login.value.token);
-  const [course, setCourse] = useState(enrollmentDetails.course);
+  const [course] = useState(enrollmentDetails.course);
   const [topics, setTopics] = useState([])
+  setCurrentCourseEnrollmentId(enrollmentDetails.courseEnrollmentId);
   // const [completedTopics, setCompletedTopics] = useState(enrollmentDetails.course.completedTopics.length);
 
   const [expanded, setExpanded] = useState(false);
   // const [certificateId] = useState(enrollmentDetails[0].certificateId);
-  const [courseCompletionPercentage] = useState(enrollmentDetails.completedTopics.length == 0 ? 0 :
+  const [courseCompletionPercentage] = useState(Object.keys(enrollmentDetails.completedTopics).length === 0 ? 0 :
     Math.floor(
       (enrollmentDetails.completedTopics.length / topics.length) * 100
       // (enrollmentDetails.completedTopics.length / 5) * 100
@@ -156,19 +158,6 @@ export default function CourseInProgressPreview({
 
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <Grid container justifyContent='center' style={{ margin: '10px auto' }}>
-          <Grid item xs='12'>
-            <Typography
-              variant='subtitle1'
-              style={{
-                fontFamily: 'monospace',
-              }}
-              align='center'
-            >
-              {enrollmentDetails.completedTopics.length}/
-              {topics.length} modules done
-            </Typography>
-            <Divider style={{ marginBottom: '20px' }} />
-          </Grid>
           <Grid item xs={6}>
             <Button
               onClick={() =>

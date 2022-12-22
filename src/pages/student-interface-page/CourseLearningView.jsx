@@ -24,14 +24,15 @@ import {
 import { ListItemButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { LMS_COURSES } from '../../commons/urls';
+import { LMS_COURSES, LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 import SubTopicView from './SubTopicView';
+import { ROLES } from '../../commons/roles';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function CourseLearningView({ course, userId, userType }) {
+export default function CourseLearningView({ course, userId, userType, currentCourseEnrollmentId }) {
   const [subtopicsOpened, setSubtopicsOpened] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState();
   const [subtopicIndex, setSubtopicIndex] = useState(0);
@@ -51,6 +52,40 @@ export default function CourseLearningView({ course, userId, userType }) {
   const token = useSelector((state) => state.login.value.token);
   const [allTopics, setAllTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const role = useSelector(state => state.login.value.role);
+
+  const completeSubtopic = async () => {
+    console.log(currentCourseEnrollmentId);
+    console.log(selectedTopic.subTopics[subtopicIndex])
+
+    const subTopicId = selectedTopic.subTopics[subtopicIndex].subTopicId;
+
+    await fetch(LMS_COURSE_ENROLLMENTS + "/" + currentCourseEnrollmentId + "/complete-subtopic/" + subTopicId, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          alert("Subtopic completed successfully");
+        } else {
+          alert("Error completing a subtopic")
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error)
+      }).finally(() => {
+        // setIsLoading(false);
+      })
+  }
 
   const getTopics = async () => {
     await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
@@ -253,6 +288,9 @@ export default function CourseLearningView({ course, userId, userType }) {
                         setCompleteTopic(false);
                         setSubtopicsOpened(false);
                         setSubtopicIndex(0);
+                        if (role == ROLES.STUDENT) {
+                          completeSubtopic();
+                        }
                       }}
                       style={{ backgroundColor: '#ff8c00', margin: '10px' }}
                       variant='contained'
@@ -273,6 +311,9 @@ export default function CourseLearningView({ course, userId, userType }) {
                       onClick={() => {
                         document.getElementById('topic').scrollIntoView();
                         setSubtopicIndex((state) => state + 1);
+                        if (role == ROLES.STUDENT) {
+                          completeSubtopic();
+                        }
                       }}
                       disabled={
                         completeTopic &&

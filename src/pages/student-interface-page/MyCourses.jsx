@@ -7,9 +7,9 @@ export default function MyCourses({
   courseEnrollments,
   setContinueLearning,
   setCourseToContinue,
+  setCurrentCourseEnrollmentId
 }) {
 
-  console.log(courseEnrollments);
 
   const [courses, setCourses] = useState(courseEnrollments.flatMap(courseEnrollment => courseEnrollment.course));
 
@@ -17,8 +17,6 @@ export default function MyCourses({
     setCourses(courseEnrollments.flatMap(courseEnrollment => courseEnrollment.course))
   }, [])
 
-
-  console.log(courses);
 
   return (
     <>
@@ -38,6 +36,7 @@ export default function MyCourses({
                 setContinueLearning={setContinueLearning}
                 setCourseToContinue={setCourseToContinue}
                 enrollmentDetails={courseEnrollment}
+                setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
               />
             </Box>
           </Grid>

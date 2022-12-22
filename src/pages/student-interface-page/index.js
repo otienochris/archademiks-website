@@ -30,17 +30,9 @@ export default function Index() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
   const user = useSelector((state) => state.user.value);
-  const courses = useSelector((state) => state.courses.value);
   const token = useSelector((state) => state.login.value.token);
-  // const enrollmentDetails = useSelector((state) =>
-  //   state.courseEnrollments.value.filter((item) => item.studentId === user.id)
-  // );
-  // const [listOfCoursesEnrolledOn] = useState(
-  //   courses.filter((course) =>
-  //     enrollmentDetails.flatMap((item) => item.courseId).includes(course.id)
-  //   )
-  // );
   const [coursesEnrolledOn, setCourseEnrolledOn] = useState([]);
+  const [currentCourseEnrollmentId, setCurrentCourseEnrollmentId] = useState();
 
   const fetchCourseEnrollments = async () => {
     await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId, {
@@ -182,6 +174,7 @@ export default function Index() {
               courseEnrollments={coursesEnrolledOn}
               setContinueLearning={setContinueLearning}
               setCourseToContinue={setCourseToContinue}
+              setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
             />
           )}
         </Container>
@@ -201,7 +194,7 @@ export default function Index() {
           >
             Back to My Courses
           </Button>
-          <CourseLearningView userId={user.id} course={courseToContinue} />
+          <CourseLearningView currentCourseEnrollmentId={currentCourseEnrollmentId} userId={user.id} course={courseToContinue} />
         </Container>
       )}
     </>

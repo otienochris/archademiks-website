@@ -1,5 +1,6 @@
 export const API_VERSION1 = "/api/v1";
-export const SECOND_MACHINE = "http://192.168.0.102"
+// export const SECOND_MACHINE = "http://192.168.0.102"
+export const SECOND_MACHINE = "http://localhost"
 
 // Notification urls
 export const NOTIFICATION_BASE_URL = SECOND_MACHINE + ":8081/notification-service";
