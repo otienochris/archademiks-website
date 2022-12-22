@@ -25,9 +25,7 @@ const useStyles = makeStyles({
 
 function SubTopicView({ subTopic, isCompleted }) {
   const classes = useStyles();
-  const [viewContent, setViewContent] = useState(
-    subTopic != null && !subTopic.link === '' && subTopic.link === null
-  );
+  const [viewContent, setViewContent] = useState(!isCompleted);
   return (
     <Grid container style={{ margin: '20px auto' }}>
       {subTopic &&
@@ -39,16 +37,21 @@ function SubTopicView({ subTopic, isCompleted }) {
                 { flexGrow: '1', backgroundColor: 'darkgreen', color: 'white', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' } :
                 { flexGrow: '1', border: '4px solid grey', color: 'black', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' }} variant='h6' align='center'>
               Subtopic: {subTopic.title}
+
+              {isCompleted ? (
+                <Check
+                  style={{
+                    color: 'green',
+                    backgroundColor: 'white',
+                    borderRadius: '50%',
+                    margin: 'auto 10px',
+                    fontWeight: 'bolder',
+                    // padding: '1px',
+                    fontSize: '1em'
+                  }}
+                />
+              ) : ''}
             </Typography>
-            {isCompleted ? (
-              <Check
-                style={{
-                  color: 'white',
-                  backgroundColor: 'green',
-                  borderRadius: '50%',
-                }}
-              />
-            ) : ''}
           </div>
           <div style={{ margin: '20px' }}>
             {subTopic.link === '' || subTopic.link === null ? (
@@ -76,11 +79,11 @@ function SubTopicView({ subTopic, isCompleted }) {
               Content
             </Typography>
             <IconButton onClick={() => setViewContent((state) => !state)} style={{ borderRadius: '0px' }} >
-              {viewContent ? <> <Visibility style={{ color: 'ff8c00' }} /> Show content </> : <><VisibilityOff style={{ color: 'black' }} /> Hide content</>}
+              {!viewContent ? <> <Visibility style={{ color: 'ff8c00' }} /> Show content </> : <><VisibilityOff style={{ color: 'black' }} /> Hide content</>}
             </IconButton>
           </div>
 
-          {!viewContent && (
+          {viewContent && (
             <div
               style={{
                 // margin: '16px auto',

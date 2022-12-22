@@ -32,22 +32,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function CourseLearningView({ course, currentCourseEnrollmentId, currentCourseEnrollment }) {
+export default function CourseLearningView({ course, currentCourseEnrollmentId, currentCourseEnrollment, setRefresh }) {
   const [subtopicsOpened, setSubtopicsOpened] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState();
   const [subtopicIndex, setSubtopicIndex] = useState(0);
   const [completeTopic, setCompleteTopic] = useState(false);
-
-  console.log(Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id))
-
+  const [courseEnrollments, setCourseEnrollment] = useState(currentCourseEnrollment);
   const token = useSelector((state) => state.login.value.token);
   const [allTopics, setAllTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const role = useSelector(state => state.login.value.role);
 
+  useEffect(() => { }, [courseEnrollments])
+
   const completeSubtopic = async () => {
-    console.log(currentCourseEnrollmentId);
-    console.log(selectedTopic.subTopics[subtopicIndex])
 
     const subTopicId = selectedTopic.subTopics[subtopicIndex].subTopicId;
 
@@ -62,20 +60,16 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
     })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-          alert("Subtopic completed successfully");
+          setRefresh(state => !state)
+          console.log("Subtopic completed successfully");
+          response.json()
+            .then(data => setCourseEnrollment(data))
         } else {
-          alert("Error completing a subtopic")
+          response.json()
+            .then(data => console.log(data.message))
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error)
-      }).finally(() => {
-        // setIsLoading(false);
-      })
+      }).catch(error => console.log(error))
+      .finally(() => setRefresh(state => !state));
   }
 
   const getTopics = async () => {
@@ -90,15 +84,17 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
     })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-
+          response.json()
+            .then((data) => {
+              setAllTopics(data._embedded.topicDtoList)
+            })
+        } else {
+          response.json()
+            .then((data) => {
+              alert(data.message)
+            })
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setAllTopics(data._embedded.topicDtoList)
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.log(error)
       }).finally(() => {
         setIsLoading(false);
@@ -226,6 +222,7 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
             ) : (
               <>
                 <SubTopicView
+
                   isCompleted={Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
                   subTopic={
                     completeTopic && selectedTopic.subTopics[subtopicIndex]

@@ -70,20 +70,25 @@ export default function CourseInProgressPreview({
       }
     })
       .then((response) => {
-        // setIsLoading(false);
         if (response.status >= 200 && response.status < 300) {
-
+          response.json()
+            .then((data) => {
+              setTopics(data._embedded.topicDtoList)
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+        } else {
+          response.json()
+            .then((data) => {
+              alert(data.message)
+            })
+            .catch((error) => {
+              console.log(error)
+            });
         }
-        return response.json();
       })
-      .then((data) => {
-        console.log(data);
-        setTopics(data._embedded.topicDtoList)
-      })
-      .catch((error) => {
-        // setIsLoading(false);
-        console.log(error)
-      });
+
   }
 
   useEffect(() => {

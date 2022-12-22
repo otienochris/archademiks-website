@@ -22,6 +22,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSelector } from 'react-redux';
 import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
+import { Refresh } from '@material-ui/icons';
 
 export default function Index() {
   // const date = new Date();
@@ -33,6 +34,7 @@ export default function Index() {
   const token = useSelector((state) => state.login.value.token);
   const [coursesEnrollments, setCourseEnrollments] = useState([]);
   const [currentCourseEnrollmentId, setCurrentCourseEnrollmentId] = useState();
+  const [refresh, setRefresh] = useState(false);
 
   const fetchCourseEnrollments = async () => {
     await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId, {
@@ -105,7 +107,7 @@ export default function Index() {
   useEffect(() => {
     setFirstDay(new Date(year, month, 1).getDay());
     fetchCourseEnrollments();
-  }, [user, month, year, firstDay]);
+  }, [user, month, year, firstDay, refresh]);
 
   return (
     <>
@@ -195,6 +197,7 @@ export default function Index() {
             Back to My Courses
           </Button>
           <CourseLearningView
+            setRefresh={setRefresh}
             currentCourseEnrollment={coursesEnrollments
               .filter(item => item.courseEnrollmentId == currentCourseEnrollmentId)[0]}
             currentCourseEnrollmentId={currentCourseEnrollmentId} course={courseToContinue} />
