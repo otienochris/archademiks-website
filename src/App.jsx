@@ -19,6 +19,9 @@ import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
 import ProfilePage from './components/ProfilePage';
 import TestsPage from './pages/tests-page';
 import RedirectToEmailVerification from './pages/login-signup-page/RedirectToEmailVerification';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 export default function App() {
   return (

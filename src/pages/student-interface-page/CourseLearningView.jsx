@@ -27,6 +27,12 @@ import { useSelector } from 'react-redux';
 import { LMS_COURSES, LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 import SubTopicView from './SubTopicView';
 import { ROLES } from '../../commons/roles';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure()
+
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -42,6 +48,7 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
   const [allTopics, setAllTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const role = useSelector(state => state.login.value.role);
+
 
   useEffect(() => { }, [courseEnrollments])
 
@@ -59,14 +66,24 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
       }
     })
       .then((response) => {
+
         if (response.status >= 200 && response.status < 300) {
           setRefresh(state => !state)
-          console.log("Subtopic completed successfully");
+          // toast("Subtopic completed successfully")
+
+          toast.success("Subtopic completed successfully", {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
           response.json()
             .then(data => setCourseEnrollment(data))
         } else {
           response.json()
-            .then(data => console.log(data.message))
+            .then(data => {
+              toast.error(data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT
+              });
+              console.log(data)
+            })
         }
       }).catch(error => console.log(error))
       .finally(() => setRefresh(state => !state));
@@ -107,222 +124,225 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
   }, [course])
 
   return (
-    <Grid container justifyContent={'center'}>
-      <Grid item xs={12}>
-        <Typography variant='h4'>{course.title}</Typography>
-        <Divider />
-      </Grid>
-      <Grid item={12} style={{ width: '100%' }}>
-        {isLoading ? <CircularProgress /> : <List>
-          {allTopics.map((topic, idx) => (
-            <>
-              <ListItem
-                style={
-                  { width: '100%' }
-                }
-                key={idx}
-              >
-                <ListItemButton
-                  style={{ width: '100%', display: 'flex' }}
-                  onClick={() => {
-                    setCompleteTopic(true);
-                    setSelectedTopic(topic);
-                  }}
-                >
-                  <ListItemText>
-                    <Typography variant='subtitle1'>
-                      {idx + 1} - {topic.title}
-                    </Typography>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-            </>
-          ))}
-        </List>}
-      </Grid>
-
-      {/* Complet Topic view */}
-      <Dialog
-        open={completeTopic}
-        TransitionComponent={Transition}
-        keepMounted
-        fullScreen
-      >
-        <Container>
-          <DialogTitle
-            id='topic'
-            style={{
-              margin: '10px',
-              width: '100%',
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row'
-            }}>
-
-              <Button
-                startIcon={<ArrowBack />}
-                variant='contained'
-                style={{
-                  backgroundColor: '#ff8c00',
-                  color: 'black',
-                  fontWeight: 'bolder',
-                  margin: '10px auto',
-                  padding: '10px',
-                  width: '120px'
-                }}
-                onClick={() => {
-                  setCompleteTopic(false);
-                  setSubtopicsOpened(false);
-                  setSubtopicIndex(0);
-                }}
-              >
-                Back
-              </Button>
-              <Typography variant='h4' style={{ flexGrow: 1, backgroundColor: 'black', color: 'white', padding: '20px', marginLeft: '5px' }} align='center'>{completeTopic && selectedTopic.title}</Typography>
-
-            </div>
-          </DialogTitle>
-          <DialogContent>
-            {!subtopicsOpened ? (
+    <>
+      <Grid container justifyContent={'center'}>
+        <Grid item xs={12}>
+          <Typography variant='h4'>{course.title}</Typography>
+          <Divider />
+        </Grid>
+        <Grid item={12} style={{ width: '100%' }}>
+          {isLoading ? <CircularProgress /> : <List>
+            {allTopics.map((topic, idx) => (
               <>
-                {' '}
-                <div
-                  style={{
-                    margin: '20px',
-                    fontFamily: 'monospace',
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: `${completeTopic && selectedTopic.content}`,
-                  }}
-                />
-                <Grid item xs={12}>
-                  <Button
-                    endIcon={<ArrowForwardIos />}
-                    style={{
-                      backgroundColor: '#ff8c00',
-                      color: 'black',
-                      fontWeight: 'bolder',
-                      margin: '10px auto',
-                      padding: '10px',
-                      width: '120px'
-                    }}
-                    onClick={() => {
-                      setSubtopicsOpened(true);
-                      document.getElementById('topic').scrollIntoView();
-                    }}
-                  >
-                    Continue
-                  </Button>
-                  <Divider />
-                </Grid>
-              </>
-            ) : (
-              <>
-                <SubTopicView
-
-                  isCompleted={Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
-                  subTopic={
-                    completeTopic && selectedTopic.subTopics[subtopicIndex]
+                <ListItem
+                  style={
+                    { width: '100%' }
                   }
-                // key={index}
-                />
-                <div
+                  key={idx}
+                >
+                  <ListItemButton
+                    style={{ width: '100%', display: 'flex' }}
+                    onClick={() => {
+                      setCompleteTopic(true);
+                      setSelectedTopic(topic);
+                    }}
+                  >
+                    <ListItemText>
+                      <Typography variant='subtitle1'>
+                        {idx + 1} - {topic.title}
+                      </Typography>
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            ))}
+          </List>}
+        </Grid>
+
+        {/* Complet Topic view */}
+        <Dialog
+          open={completeTopic}
+          TransitionComponent={Transition}
+          keepMounted
+          fullScreen
+        >
+          <Container>
+            <DialogTitle
+              id='topic'
+              style={{
+                margin: '10px',
+                width: '100%',
+              }}
+            >
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}>
+
+                <Button
+                  startIcon={<ArrowBack />}
+                  variant='contained'
                   style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    backgroundColor: '#ff8c00',
+                    color: 'black',
+                    fontWeight: 'bolder',
+                    margin: '10px auto',
+                    padding: '10px',
+                    width: '120px'
+                  }}
+                  onClick={() => {
+                    setCompleteTopic(false);
+                    setSubtopicsOpened(false);
+                    setSubtopicIndex(0);
                   }}
                 >
-                  <Button
-                    onClick={() => {
-                      setSubtopicIndex((state) => state - 1);
-                      document.getElementById('topic').scrollIntoView();
+                  Back
+                </Button>
+                <Typography variant='h4' style={{ flexGrow: 1, backgroundColor: 'black', color: 'white', padding: '20px', marginLeft: '5px' }} align='center'>{completeTopic && selectedTopic.title}</Typography>
+
+              </div>
+            </DialogTitle>
+            <DialogContent>
+              {!subtopicsOpened ? (
+                <>
+                  {' '}
+                  <div
+                    style={{
+                      margin: '20px',
+                      fontFamily: 'monospace',
                     }}
-                    disabled={subtopicIndex === 0}
-                    style={
-                      subtopicIndex === 0
-                        ? {}
-                        : {
-                          color: '#ff8c00',
-                          fontWeight: 'bolder',
-                        }
+                    dangerouslySetInnerHTML={{
+                      __html: `${completeTopic && selectedTopic.content}`,
+                    }}
+                  />
+                  <Grid item xs={12}>
+                    <Button
+                      endIcon={<ArrowForwardIos />}
+                      style={{
+                        backgroundColor: '#ff8c00',
+                        color: 'black',
+                        fontWeight: 'bolder',
+                        margin: '10px auto',
+                        padding: '10px',
+                        width: '120px'
+                      }}
+                      onClick={() => {
+                        setSubtopicsOpened(true);
+                        document.getElementById('topic').scrollIntoView();
+                      }}
+                    >
+                      Continue
+                    </Button>
+                    <Divider />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <SubTopicView
+
+                    isCompleted={Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
+                    subTopic={
+                      completeTopic && selectedTopic.subTopics[subtopicIndex]
                     }
+                  // key={index}
+                  />
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
                   >
-                    <ArrowBackIos />
-                  </Button>
-                  <Typography>
-                    subtopic {subtopicIndex + 1} of{' '}
-                    {completeTopic && selectedTopic.subTopics.length}
-                  </Typography>
-                  {completeTopic &&
-                    subtopicIndex + 1 === selectedTopic.subTopics.length ? (
                     <Button
                       onClick={() => {
-                        setCompleteTopic(false);
-                        setSubtopicsOpened(false);
-                        setSubtopicIndex(0);
-                        if (role == ROLES.STUDENT) {
-                          completeSubtopic();
-                        }
+                        setSubtopicIndex((state) => state - 1);
+                        document.getElementById('topic').scrollIntoView();
                       }}
-                      style={{ backgroundColor: '#ff8c00', margin: '10px' }}
-                      variant='contained'
-                    >
-                      Finish
-                    </Button>
-                  ) : (
-                    <Button
+                      disabled={subtopicIndex === 0}
                       style={
-                        completeTopic &&
-                          subtopicIndex + 1 === selectedTopic.subTopics.length
+                        subtopicIndex === 0
                           ? {}
                           : {
                             color: '#ff8c00',
                             fontWeight: 'bolder',
                           }
                       }
-                      onClick={() => {
-                        document.getElementById('topic').scrollIntoView();
-                        setSubtopicIndex((state) => state + 1);
-                        if (role == ROLES.STUDENT) {
-                          completeSubtopic();
-                        }
-                      }}
-                      disabled={
-                        completeTopic &&
-                        subtopicIndex + 1 === selectedTopic.subTopics.length
-                      }
                     >
-                      <ArrowForwardIos />
+                      <ArrowBackIos />
                     </Button>
-                  )}
-                </div>
-              </>
-            )}
-          </DialogContent>
-          <DialogActions
-            style={{
-              margin: 'auto',
-            }}
-          >
-            <Button
-              startIcon={<Close />}
-              variant='outlined'
-              onClick={() => {
-                setCompleteTopic(false);
-                setSubtopicsOpened(false);
-                setSubtopicIndex(0);
+                    <Typography>
+                      subtopic {subtopicIndex + 1} of{' '}
+                      {completeTopic && selectedTopic.subTopics.length}
+                    </Typography>
+                    {completeTopic &&
+                      subtopicIndex + 1 === selectedTopic.subTopics.length ? (
+                      <Button
+                        onClick={() => {
+                          setCompleteTopic(false);
+                          setSubtopicsOpened(false);
+                          setSubtopicIndex(0);
+                          if (role == ROLES.STUDENT) {
+                            completeSubtopic();
+                          }
+                        }}
+                        style={{ backgroundColor: '#ff8c00', margin: '10px' }}
+                        variant='contained'
+                      >
+                        Finish
+                      </Button>
+                    ) : (
+                      <Button
+                        style={
+                          completeTopic &&
+                            subtopicIndex + 1 === selectedTopic.subTopics.length
+                            ? {}
+                            : {
+                              color: '#ff8c00',
+                              fontWeight: 'bolder',
+                            }
+                        }
+                        onClick={() => {
+                          document.getElementById('topic').scrollIntoView();
+                          setSubtopicIndex((state) => state + 1);
+                          if (role == ROLES.STUDENT) {
+                            completeSubtopic();
+                          }
+                        }}
+                        disabled={
+                          completeTopic &&
+                          subtopicIndex + 1 === selectedTopic.subTopics.length
+                        }
+                      >
+                        <ArrowForwardIos />
+                      </Button>
+                    )}
+                  </div>
+                </>
+              )}
+            </DialogContent>
+            <DialogActions
+              style={{
+                margin: 'auto',
               }}
-              style={{ margin: 'auto' }}
             >
-              Exit
-            </Button>
-          </DialogActions>
-        </Container>
-      </Dialog>
-    </Grid>
+              <Button
+                startIcon={<Close />}
+                variant='outlined'
+                onClick={() => {
+                  setCompleteTopic(false);
+                  setSubtopicsOpened(false);
+                  setSubtopicIndex(0);
+                }}
+                style={{ margin: 'auto' }}
+              >
+                Exit
+              </Button>
+            </DialogActions>
+          </Container>
+        </Dialog>
+      </Grid>
+
+    </>
   );
 }
