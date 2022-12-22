@@ -31,7 +31,7 @@ export default function Index() {
   const [value, setValue] = useState(0);
   const user = useSelector((state) => state.user.value);
   const token = useSelector((state) => state.login.value.token);
-  const [coursesEnrolledOn, setCourseEnrolledOn] = useState([]);
+  const [coursesEnrollments, setCourseEnrollments] = useState([]);
   const [currentCourseEnrollmentId, setCurrentCourseEnrollmentId] = useState();
 
   const fetchCourseEnrollments = async () => {
@@ -51,7 +51,7 @@ export default function Index() {
         return response.json();
       })
       .then(data => {
-        setCourseEnrolledOn(data);
+        setCourseEnrollments(data);
         console.log(data)
       })
       .catch(error => console.log(error))
@@ -171,7 +171,7 @@ export default function Index() {
             </Grid>
           ) : (
             <MyCourses
-              courseEnrollments={coursesEnrolledOn}
+              courseEnrollments={coursesEnrollments}
               setContinueLearning={setContinueLearning}
               setCourseToContinue={setCourseToContinue}
               setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
@@ -194,7 +194,10 @@ export default function Index() {
           >
             Back to My Courses
           </Button>
-          <CourseLearningView currentCourseEnrollmentId={currentCourseEnrollmentId} userId={user.id} course={courseToContinue} />
+          <CourseLearningView
+            currentCourseEnrollment={coursesEnrollments
+              .filter(item => item.courseEnrollmentId == currentCourseEnrollmentId)[0]}
+            currentCourseEnrollmentId={currentCourseEnrollmentId} course={courseToContinue} />
         </Container>
       )}
     </>

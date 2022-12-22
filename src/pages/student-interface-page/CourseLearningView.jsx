@@ -32,22 +32,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function CourseLearningView({ course, userId, userType, currentCourseEnrollmentId }) {
+export default function CourseLearningView({ course, currentCourseEnrollmentId, currentCourseEnrollment }) {
   const [subtopicsOpened, setSubtopicsOpened] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState();
   const [subtopicIndex, setSubtopicIndex] = useState(0);
   const [completeTopic, setCompleteTopic] = useState(false);
-  const enrollmentDetails = useSelector(
-    (state) =>
-      state.courseEnrollments.value.filter(
-        (item) => item.studentId === userId && item.courseId === course.id
-      )[0]
-  );
-  const [completedTopics, setCompletedTopics] = useState(
-    enrollmentDetails === undefined || userType === 'instructor'
-      ? []
-      : enrollmentDetails.completedTopics
-  );
+
+  console.log(Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id))
 
   const token = useSelector((state) => state.login.value.token);
   const [allTopics, setAllTopics] = useState([]);
@@ -131,11 +122,7 @@ export default function CourseLearningView({ course, userId, userType, currentCo
             <>
               <ListItem
                 style={
-                  completedTopics.includes(topic.topicId)
-                    ? {
-                      width: '100%',
-                    }
-                    : { width: '100%' }
+                  { width: '100%' }
                 }
                 key={idx}
               >
@@ -151,15 +138,6 @@ export default function CourseLearningView({ course, userId, userType, currentCo
                       {idx + 1} - {topic.title}
                     </Typography>
                   </ListItemText>
-                  {completedTopics.includes(topic.topicId) && (
-                    <Check
-                      style={{
-                        color: 'white',
-                        backgroundColor: 'green',
-                        borderRadius: '50%',
-                      }}
-                    />
-                  )}
                 </ListItemButton>
               </ListItem>
               <Divider />
@@ -248,6 +226,7 @@ export default function CourseLearningView({ course, userId, userType, currentCo
             ) : (
               <>
                 <SubTopicView
+                  isCompleted={Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
                   subTopic={
                     completeTopic && selectedTopic.subTopics[subtopicIndex]
                   }

@@ -1,5 +1,5 @@
 import { Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { Check, Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useState } from 'react';
 import YoutubeEmbed from '../../components/YoutubeEmbed';
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-function SubTopicView({ subTopic }) {
+function SubTopicView({ subTopic, isCompleted }) {
   const classes = useStyles();
   const [viewContent, setViewContent] = useState(
     subTopic != null && !subTopic.link === '' && subTopic.link === null
@@ -32,9 +32,24 @@ function SubTopicView({ subTopic }) {
     <Grid container style={{ margin: '20px auto' }}>
       {subTopic &&
         <Grid item xs='12'>
-          <Typography style={{ border: '2px solid maroon', color: 'maroon', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' }} variant='h6' align='center'>
-            Subtopic: {subTopic.title}
-          </Typography>
+          <div style={{ display: 'flex' }}>
+
+            <Typography
+              style={isCompleted ?
+                { flexGrow: '1', backgroundColor: 'darkgreen', color: 'white', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' } :
+                { flexGrow: '1', border: '4px solid grey', color: 'black', padding: '20px', margin: '5px 20px', borderRadius: '10px 10px 0px 0px', fontWeight: 'bolder' }} variant='h6' align='center'>
+              Subtopic: {subTopic.title}
+            </Typography>
+            {isCompleted ? (
+              <Check
+                style={{
+                  color: 'white',
+                  backgroundColor: 'green',
+                  borderRadius: '50%',
+                }}
+              />
+            ) : ''}
+          </div>
           <div style={{ margin: '20px' }}>
             {subTopic.link === '' || subTopic.link === null ? (
               <Typography variant='body1' align='center'>
