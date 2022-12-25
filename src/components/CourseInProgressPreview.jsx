@@ -31,36 +31,35 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function CourseInProgressPreview({
+  course,
+  courseEnrollmentId,
   setContinueLearning,
   setCourseToContinue,
-  enrollmentDetails,
-  setCurrentCourseEnrollmentId
+  setCurrentCourseEnrollmentId,
+  completedTopics
 }) {
   const navigate = useNavigate();
   const token = useSelector((state) => state.login.value.token);
-  const [course] = useState(enrollmentDetails.course);
+  const [currentCourse] = useState(course);
   const [topics, setTopics] = useState([])
-  setCurrentCourseEnrollmentId(enrollmentDetails.courseEnrollmentId);
-  // const [completedTopics, setCompletedTopics] = useState(enrollmentDetails.course.completedTopics.length);
-
+  const [currentCompletedTopics, setCurrentCompletedTopics] = useState(completedTopics)
   const [expanded, setExpanded] = useState(false);
-  // const [certificateId] = useState(enrollmentDetails[0].certificateId);
-  const [courseCompletionPercentage] = useState(Object.keys(enrollmentDetails.completedTopics).length === 0 ? 0 :
-    Math.floor(
-      (enrollmentDetails.completedTopics.length / topics.length) * 100
-      // (enrollmentDetails.completedTopics.length / 5) * 100
-    )
+  const [courseCompletionPercentage] = useState(Object.keys(currentCompletedTopics).length === 0 ? 0 : 60
+    // Math.floor(
+    //   (enrollmentDetails.completedTopics.length / topics.length) * 100
+    // )
   );
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const handleContinueLearnig = () => {
-    setCourseToContinue(course);
+    setCourseToContinue(currentCourse);
+    setCurrentCourseEnrollmentId(courseEnrollmentId);
     setContinueLearning(true);
   };
 
   const getTopics = async () => {
-    await fetch(LMS_COURSES + "/" + enrollmentDetails.course.courseId + "/topics", {
+    await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -101,7 +100,7 @@ export default function CourseInProgressPreview({
       <CardMedia
         component={'img'}
         height='194'
-        image={course.thumbnailLink}
+        image={currentCourse.thumbnailLink}
         alt='course thumbnail'
         style={{ height: '80px' }}
       />
@@ -113,7 +112,7 @@ export default function CourseInProgressPreview({
           }}
           variant='subtitle2'
         >
-          {course.title}
+          {currentCourse.title}
         </Typography>
       </CardContent>
 
@@ -143,9 +142,9 @@ export default function CourseInProgressPreview({
               color: '#230C0F',
             }}
           >
-            {enrollmentDetails.completedTopics.length == 0
+            {Object.keys(currentCompletedTopics).length == 0
               ? 'Start Course'
-              : enrollmentDetails.completedTopics.length <
+              : Object.keys(currentCompletedTopics).length <
                 topics.length
                 ? 'Continue Learning'
                 : 'Revisit'}

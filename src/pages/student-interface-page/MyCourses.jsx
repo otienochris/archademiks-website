@@ -1,6 +1,5 @@
 import { Typography, Box, Grid, Divider } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import CourseInProgressPreview from '../../components/CourseInProgressPreview';
 
 export default function MyCourses({
@@ -9,14 +8,6 @@ export default function MyCourses({
   setCourseToContinue,
   setCurrentCourseEnrollmentId
 }) {
-
-
-  const [courses, setCourses] = useState(courseEnrollments.flatMap(courseEnrollment => courseEnrollment.course));
-
-  useEffect(() => {
-    setCourses(courseEnrollments.flatMap(courseEnrollment => courseEnrollment.course))
-  }, [])
-
 
   return (
     <>
@@ -33,9 +24,11 @@ export default function MyCourses({
               }}
             >
               <CourseInProgressPreview
+                course={courseEnrollment.course}
+                courseEnrollmentId={courseEnrollment.courseEnrollmentId}
+                completedTopics={courseEnrollment.completedTopics}
                 setContinueLearning={setContinueLearning}
                 setCourseToContinue={setCourseToContinue}
-                enrollmentDetails={courseEnrollment}
                 setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
               />
             </Box>

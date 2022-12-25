@@ -22,7 +22,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSelector } from 'react-redux';
 import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
-import { Refresh } from '@material-ui/icons';
 
 export default function Index() {
   // const date = new Date();
@@ -54,7 +53,6 @@ export default function Index() {
       })
       .then(data => {
         setCourseEnrollments(data);
-        console.log(data)
       })
       .catch(error => console.log(error))
   }
@@ -200,7 +198,7 @@ export default function Index() {
             setRefresh={setRefresh}
             currentCourseEnrollment={coursesEnrollments
               .filter(item => item.courseEnrollmentId == currentCourseEnrollmentId)[0]}
-            currentCourseEnrollmentId={currentCourseEnrollmentId} course={courseToContinue} />
+            course={courseToContinue} />
         </Container>
       )}
     </>

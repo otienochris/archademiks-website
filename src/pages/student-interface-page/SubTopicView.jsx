@@ -29,7 +29,7 @@ function SubTopicView({ subTopic, isCompleted }) {
   return (
     <Grid container style={{ margin: '20px auto' }}>
       {subTopic &&
-        <Grid item xs='12'>
+        <Grid item xs={12}>
           <div style={{ display: 'flex' }}>
 
             <Typography

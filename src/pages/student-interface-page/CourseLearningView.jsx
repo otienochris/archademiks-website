@@ -28,9 +28,6 @@ import { LMS_COURSES, LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 import SubTopicView from './SubTopicView';
 import { ROLES } from '../../commons/roles';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-toast.configure()
 
 
 
@@ -38,25 +35,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function CourseLearningView({ course, currentCourseEnrollmentId, currentCourseEnrollment, setRefresh }) {
+export default function CourseLearningView({ course, currentCourseEnrollment, setRefresh }) {
   const [subtopicsOpened, setSubtopicsOpened] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState();
   const [subtopicIndex, setSubtopicIndex] = useState(0);
   const [completeTopic, setCompleteTopic] = useState(false);
-  const [courseEnrollments, setCourseEnrollment] = useState(currentCourseEnrollment);
+  const [courseEnrollment, setCourseEnrollment] = useState(currentCourseEnrollment);
   const token = useSelector((state) => state.login.value.token);
   const [allTopics, setAllTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const role = useSelector(state => state.login.value.role);
+  const [currentCourse] = useState(course);
 
 
-  useEffect(() => { }, [courseEnrollments])
+  useEffect(() => { }, [courseEnrollment])
 
   const completeSubtopic = async () => {
 
     const subTopicId = selectedTopic.subTopics[subtopicIndex].subTopicId;
 
-    await fetch(LMS_COURSE_ENROLLMENTS + "/" + currentCourseEnrollmentId + "/complete-subtopic/" + subTopicId, {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/" + courseEnrollment.courseEnrollmentId + "/complete-subtopic/" + subTopicId, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -69,13 +67,15 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
 
         if (response.status >= 200 && response.status < 300) {
           setRefresh(state => !state)
-          // toast("Subtopic completed successfully")
 
           toast.success("Subtopic completed successfully", {
             position: toast.POSITION.BOTTOM_RIGHT
           });
           response.json()
-            .then(data => setCourseEnrollment(data))
+            .then(data => {
+              setCourseEnrollment(data)
+              console.log(data);
+            })
         } else {
           response.json()
             .then(data => {
@@ -90,7 +90,7 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
   }
 
   const getTopics = async () => {
-    await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
+    await fetch(LMS_COURSES + "/" + currentCourse.courseId + "/topics", {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -121,19 +121,19 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
 
   useEffect(() => {
     getTopics();
-  }, [course])
+  }, [currentCourse])
 
   return (
     <>
       <Grid container justifyContent={'center'}>
         <Grid item xs={12}>
-          <Typography variant='h4'>{course.title}</Typography>
+          <Typography variant='h4'>{currentCourse.title}</Typography>
           <Divider />
         </Grid>
         <Grid item={12} style={{ width: '100%' }}>
           {isLoading ? <CircularProgress /> : <List>
             {allTopics.map((topic, idx) => (
-              <>
+              <div key={idx}>
                 <ListItem
                   style={
                     { width: '100%' }
@@ -155,7 +155,7 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
                   </ListItemButton>
                 </ListItem>
                 <Divider />
-              </>
+              </div>
             ))}
           </List>}
         </Grid>
@@ -241,7 +241,7 @@ export default function CourseLearningView({ course, currentCourseEnrollmentId, 
                 <>
                   <SubTopicView
 
-                    isCompleted={Object.values(currentCourseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
+                    isCompleted={Object.values(courseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
                     subTopic={
                       completeTopic && selectedTopic.subTopics[subtopicIndex]
                     }

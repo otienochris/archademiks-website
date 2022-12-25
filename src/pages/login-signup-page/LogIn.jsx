@@ -19,6 +19,7 @@ import { TextField } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { LMS_AUTHENTICATION, LMS_INSTRUCTORS, LMS_STUDENTS, NOTIFICATION_SEND_SIMPLE_MAIL } from '../../commons/urls';
 import { ROLES } from '../../commons/roles';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles({
   textField: {
@@ -88,35 +89,44 @@ export default function LogIn() {
     })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-          // setUserSaved(true);
-          // alert("User saved successfully");
+          response.json().then((data) => {
+            dispatch(setLoggedInUser({ user: data }));
+            if (!wrongCredentials) {
+              switch (role) {
+                case ROLES.INSTRUCTOR:
+                  navigate('/instructor');
+                  break;
+                case ROLES.STUDENT:
+                  navigate('/students');
+                  break;
+                case ROLES.SUPER_ADMIN:
+                  navigate('/admin');
+                  break;
+                case ROLES.ADMIN:
+                  navigate('/admin');
+                  break;
+                default:
+                  break;
+              }
+            }
+            toast.success("Fetching your details", {
+              position: toast.POSITION.BOTTOM_RIGHT
+            });
+          })
+        } else if (response.status == 400) {
+          response.body(data => {
+            toast.error(data.message, {
+              position: toast.POSITION.BOTTOM_RIGHT
+            });
+          })
         }
-        return response.json();
       })
-      .then((data) => {
-        dispatch(setLoggedInUser({ user: data }));
-        if (!wrongCredentials) {
-          switch (role) {
-            case ROLES.INSTRUCTOR:
-              navigate('/instructor');
-              break;
-            case ROLES.STUDENT:
-              navigate('/students');
-              break;
-            case ROLES.SUPER_ADMIN:
-              navigate('/admin');
-              break;
-            case ROLES.ADMIN:
-              navigate('/admin');
-              break;
-            default:
-              break;
-          }
-        }
-
-        console.log(data)
-      })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        toast.error("Error occurred while ", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
+        console.log(error)
+      });
   }
 
   const authenticateUser = async (username, password) => {
@@ -129,35 +139,23 @@ export default function LogIn() {
         'Content-Type': 'application/json'
       }
     }).then((response) => {
-      if (response.status === 200) {
-        setWrongCredentials(false);
-      } if (response.status === 403) {
-        setWrongCredentials(true);
-      }
-      return response.json();
-    })
-      .then((data) => {
-
-        if (data.message != undefined) {
-          alert(data.message);
-          setWrongCredentials(true);
-        } else {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then(data => {
           const role = data.role;
           const token = data.token;
           dispatch(loginAction({ isLoggedIn: true, token, role }));
-
+          toast.success("Welcome Back", {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
           switch (role) {
             case ROLES.INSTRUCTOR:
-              console.log("Fetching instructor details")
               fetchLoggedInUserDetails(LMS_INSTRUCTORS + "/username/" + username, token, role);
               break;
             case ROLES.STUDENT:
-              console.log("Fetching student details")
               fetchLoggedInUserDetails(LMS_STUDENTS + "/username/" + username, token, role);
               break;
             case ROLES.ADMIN:
             case ROLES.SUPER_ADMIN:
-              console.log("Fetching admin details")
               // dispatch(setLoggedInUser({ user: userDetails }))            
               dispatch(setLoggedInUser({ user: { firstName: "SUPER", lastName: "ADMIN" } }));
               navigate('/admin');
@@ -165,12 +163,14 @@ export default function LogIn() {
             default:
               break;
           }
-          console.log(data)
-        }
-
-      })
+        })
+      } else if (response.status >= 400 && response.status < 500) {
+        response.json().then(data => {
+          toast.error(data.message, { position: toast.POSITION.TOP_CENTER });
+        })
+      }
+    })
       .catch((error) => {
-        setWrongCredentials(true);
         console.log(error)
       });
   }
