@@ -79,9 +79,9 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
         } else {
           response.json()
             .then(data => {
-              toast.error(data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT
-              });
+              // toast.error(data.message, {
+              //   position: toast.POSITION.BOTTOM_RIGHT
+              // });
               console.log(data)
             })
         }

@@ -8,12 +8,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import CustomButton from './custom-controls/CustomButton';
+import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { ROLES } from '../commons/roles';
-import { LMS_INSTRUCTORS, LMS_STUDENTS } from '../commons/urls';
+import { ROLES } from '../../commons/roles';
+import { LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
 import { useSelector } from 'react-redux';
 
 const schema = yup.object({

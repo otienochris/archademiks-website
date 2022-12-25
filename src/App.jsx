@@ -16,7 +16,7 @@ import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
 import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 import CertificateView from './components/CertificateView';
 import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
-import ProfilePage from './components/ProfilePage';
+import ProfilePage from '../src/pages/login-signup-page';
 import TestsPage from './pages/tests-page';
 import RedirectToEmailVerification from './pages/login-signup-page/RedirectToEmailVerification';
 import { toast } from 'react-toastify';
