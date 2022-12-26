@@ -1,9 +1,8 @@
 import { AppBar, Container, Tab, Tabs, Typography } from '@material-ui/core';
-import { TabPanelUnstyled } from '@mui/base';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ROLES } from '../commons/roles';
+import { ROLES } from '../../commons/roles';
 import ProfileDataSettings from './ProfileDataSettings';
 import ProfileNotificationSettings from './ProfileNotificationSettings';
 import ProfileSecuritySettings from './ProfileSecuritySettings';
@@ -18,14 +17,15 @@ const tabOptions = [
 
 function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const userFromState = useSelector(state => state.user.value);
+  const [user, setUser] = useState(userFromState);
   const loginDetails = useSelector((state) => state.login.value);
   const handleTabSelection = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  const user = useSelector((state) => state.user.value);
+
+
   var id;
-  console.log(user);
-  var currentUser = {}
   useEffect(() => {
     const role = loginDetails.role;
     switch (role) {
@@ -43,7 +43,7 @@ function ProfilePage() {
       default:
         break;
     }
-  }, [])
+  }, [user])
 
   return (
     <Container style={{ minHeight: '93.5vh' }}>
@@ -86,7 +86,7 @@ function ProfilePage() {
         }}
       >
         {selectedTab === 0 ? (
-          <ProfileDataSettings user={user} />
+          <ProfileDataSettings setUser={setUser} user={user} />
         ) : selectedTab === 1 ? (
           <ProfileSecuritySettings email={user.email} />
         ) : (

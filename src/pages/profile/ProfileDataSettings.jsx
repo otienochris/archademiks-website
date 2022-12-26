@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   Grid,
   makeStyles,
@@ -8,13 +9,16 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import CustomButton from '../../components/custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { ROLES } from '../../commons/roles';
 import { LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../../state/reducers/userReducer';
 
 const schema = yup.object({
   firstName: yup
@@ -55,9 +59,10 @@ const useStyles = makeStyles({
   },
 });
 
-function ProfileDataSettings({ user }) {
-  console.log(user)
+function ProfileDataSettings({ user, setUser }) {
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
   const loginDetails = useSelector((state) => state.login.value);
   const {
     register,
@@ -82,6 +87,7 @@ function ProfileDataSettings({ user }) {
   }, [user]);
 
   const saveChanges = async (url, body) => {
+    setIsLoading(true);
     await fetch(url, {
       method: 'PUT',
       mode: 'cors',
@@ -92,9 +98,27 @@ function ProfileDataSettings({ user }) {
         'Content-Type': 'application/json'
       }
 
-    }).then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+    }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+
+        response.json().then(data => {
+          dispatch(setLoggedInUser({ user: data }));
+          setUser(data);
+          toast.success("Changes saved successfully", { position: toast.POSITION.BOTTOM_RIGHT })
+        })
+      } else {
+        response.json().then(data => {
+          toast.error(data.message, { position: toast.POSITION.BOTTOM_RIGHT })
+        })
+      }
+    }).catch(error => {
+      if (error.message === 'Failed to fetch') {
+        toast.error("Error connecting to the backend", { position: toast.POSITION.BOTTOM_RIGHT })
+      }
+
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }
 
 
@@ -114,7 +138,9 @@ function ProfileDataSettings({ user }) {
           reviews: null,
           organizations: null,
           addresses: null,
-          courses: null
+          courses: null,
+          certificates: null,
+          relatives: null
         }
         saveChanges(url1, instructorObj);
         break;
@@ -126,7 +152,13 @@ function ProfileDataSettings({ user }) {
           lastName: data.lastName,
           email: user.email,
           countryCode: user.countryCode,
-          version: user.version
+          version: user.version,
+          reviews: null,
+          organizations: null,
+          addresses: null,
+          courses: null,
+          certificates: null,
+          relatives: null
         }
         console.log(studentObj);
         saveChanges(url2, studentObj);
@@ -252,7 +284,7 @@ function ProfileDataSettings({ user }) {
             />
           </Box>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {isLoading ? <CircularProgress /> : <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label='First Name'
             placeholder='Enter Your First Name'
@@ -308,7 +340,7 @@ function ProfileDataSettings({ user }) {
           >
             Save Changes
           </Button>
-        </form>
+        </form>}
       </Grid>
     </Grid>
   );

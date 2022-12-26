@@ -11,8 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { Email } from '@material-ui/icons';
-import { LMS_USERS } from '../commons/urls';
 import { useSelector } from 'react-redux';
+import { LMS_USERS } from '../../commons/urls';
 
 const schema = yup.object({
   oldPassword: yup.string().required('Old Password is required.'),

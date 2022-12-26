@@ -109,9 +109,6 @@ export default function LogIn() {
                   break;
               }
             }
-            toast.success("Fetching your details", {
-              position: toast.POSITION.BOTTOM_RIGHT
-            });
           })
         } else if (response.status == 400) {
           response.body(data => {
