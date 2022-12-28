@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import { Email } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import { LMS_USERS } from '../../commons/urls';
+import { toast } from 'react-toastify';
 
 const schema = yup.object({
   oldPassword: yup.string().required('Old Password is required.'),
@@ -33,7 +34,6 @@ const useStyles = makeStyles({
 function ProfileSecuritySettings({ email }) {
   const classes = useStyles();
   const token = useSelector((state) => state.login.value.token);
-  const [passChanged, setPassChanged] = useState(false);
 
   const {
     reset,
@@ -57,20 +57,22 @@ function ProfileSecuritySettings({ email }) {
       }
 
     }).then(response => {
-      if (response.status >= 200 || response.status < 300) {
-        setPassChanged(true);
-        alert("Password changed successfully")
-      } else {
-        alert("Error occured when changing password")
-      }
-      response.json()
-    })
-      .then(data => {
-        if (passChanged) {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then(data => {
+          toast.success("Password Changed successfully", { position: toast.POSITION.BOTTOM_RIGHT })
+        })
+
+        reset();
+      } else if (response.status == 403) {
+        response.json().then(data => {
+          toast.error("Incorrect Old Password", { position: toast.POSITION.BOTTOM_RIGHT })
           console.log(data);
-        }
-      })
-      .catch(error => console.log(error));
+        })
+      }
+    })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   const onSubmit = (data) => {
@@ -78,8 +80,6 @@ function ProfileSecuritySettings({ email }) {
     console.log(data);
     const api = LMS_USERS + "/changePassword?email=" + email + "&oldPassword=" + data.oldPassword + "&newPassword=" + data.password;
     changePassword(api)
-
-    reset();
   };
 
   return (

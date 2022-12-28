@@ -19,6 +19,8 @@ import {
   ArrowBackIos,
   ArrowForwardIos,
   Check,
+  CheckBox,
+  CheckBoxOutlineBlank,
   Close,
 } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
@@ -46,7 +48,8 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
   const [isLoading, setIsLoading] = useState(true);
   const role = useSelector(state => state.login.value.role);
   const [currentCourse] = useState(course);
-
+  const [completedTopics, setCompletedTopics] = useState(currentCourseEnrollment.completedTopicsIds == null || currentCourseEnrollment.completedTopicsIds == undefined ? [] : currentCourseEnrollment.completedTopicsIds)
+  const [completedSubTopics, setCompletedSubTopics] = useState(currentCourseEnrollment.completedSubTopicsIds == null || currentCourseEnrollment.completedSubTopicsIds == undefined ? {} : currentCourseEnrollment.completedSubTopicsIds)
 
   useEffect(() => { }, [courseEnrollment])
 
@@ -147,11 +150,13 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                       setSelectedTopic(topic);
                     }}
                   >
+                    {completedTopics.includes(topic.topicId) ? <CheckBox style={{ color: 'green', margin: 'auto 15px auto 0px' }} /> : <CheckBoxOutlineBlank style={{ color: 'grey', margin: 'auto 15px auto 0px' }} />}
                     <ListItemText>
                       <Typography variant='subtitle1'>
                         {idx + 1} - {topic.title}
                       </Typography>
                     </ListItemText>
+
                   </ListItemButton>
                 </ListItem>
                 <Divider />
@@ -241,7 +246,7 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                 <>
                   <SubTopicView
 
-                    isCompleted={Object.values(courseEnrollment.completedTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
+                    isCompleted={Object.keys(completedSubTopics).length == 0 ? false : Object.values(completedSubTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId)}
                     subTopic={
                       completeTopic && selectedTopic.subTopics[subtopicIndex]
                     }
@@ -282,8 +287,10 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                           setCompleteTopic(false);
                           setSubtopicsOpened(false);
                           setSubtopicIndex(0);
-                          if (role == ROLES.STUDENT) {
-                            completeSubtopic();
+                          if (role == ROLES.STUDENT && !(Object.keys(completedSubTopics).length == 0 ? false : Object.values(completedSubTopics).flatMap(id => id).includes(selectedTopic.subTopics[subtopicIndex].subTopicId))) {
+                            {
+                              completeSubtopic();
+                            }
                           }
                         }}
                         style={{ backgroundColor: '#ff8c00', margin: '10px' }}

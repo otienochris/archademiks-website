@@ -46,15 +46,17 @@ export default function Index() {
       }
     })
       .then(response => {
-        if (response.status >= 200 && response < 300) {
-
+        if (response.status >= 200 && response.status < 300) {
+          response.json()
+            .then(data => {
+              setCourseEnrollments(data);
+              console.log(data);
+            })
+        } else {
+          response.json()
+            .then(data => console.log(data))
         }
-        return response.json();
-      })
-      .then(data => {
-        setCourseEnrollments(data);
-      })
-      .catch(error => console.log(error))
+      }).catch(error => console.log(error))
   }
 
   // const courses
@@ -169,7 +171,7 @@ export default function Index() {
                 <Calendar firstDay={firstDay} year={year} month={month} />
               </Grid>
             </Grid>
-          ) : (
+          ) : coursesEnrollments.length === 0 ? <Typography align='center' variant='h4'>Oops! It's Emtpty here</Typography> : (
             <MyCourses
               courseEnrollments={coursesEnrollments}
               setContinueLearning={setContinueLearning}

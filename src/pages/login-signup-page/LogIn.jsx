@@ -153,7 +153,6 @@ export default function LogIn() {
               break;
             case ROLES.ADMIN:
             case ROLES.SUPER_ADMIN:
-              // dispatch(setLoggedInUser({ user: userDetails }))            
               dispatch(setLoggedInUser({ user: { firstName: "SUPER", lastName: "ADMIN" } }));
               navigate('/admin');
               break;

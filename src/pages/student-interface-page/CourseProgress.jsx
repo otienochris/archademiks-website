@@ -12,12 +12,12 @@ function CircularProgressWithLabel(props) {
         style={
           isValue100
             ? {
-                color: 'green',
-                backgroundColor: 'green',
-                width: '35px',
-                height: '35px',
-                borderRadius: '50%',
-              }
+              color: 'green',
+              backgroundColor: 'green',
+              width: '35px',
+              height: '35px',
+              borderRadius: '50%',
+            }
             : { color: 'white' }
         }
         variant='determinate'
@@ -61,11 +61,12 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CourseProgress({ currentProgress }) {
-  const [progress, setProgress] = React.useState(currentProgress);
+  // console.log(currentProgress)
+  // const [progress, setProgress] = React.useState(currentProgress);
 
   React.useEffect(() => {
-    setProgress(currentProgress);
-  }, [progress]);
+    // setProgress(currentProgress);
+  }, [currentProgress]);
 
-  return <CircularProgressWithLabel value={progress} />;
+  return <CircularProgressWithLabel value={currentProgress} />;
 }

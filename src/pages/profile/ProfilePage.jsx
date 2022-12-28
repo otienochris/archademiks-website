@@ -30,7 +30,6 @@ function ProfilePage() {
     const role = loginDetails.role;
     switch (role) {
       case ROLES.ADMIN:
-        // TODO
         id = user.id;
         break;
       case ROLES.INSTRUCTOR:

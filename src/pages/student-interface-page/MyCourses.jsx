@@ -8,7 +8,6 @@ export default function MyCourses({
   setCourseToContinue,
   setCurrentCourseEnrollmentId
 }) {
-
   return (
     <>
       <Typography variant='h6'>My Courses</Typography>
@@ -26,7 +25,7 @@ export default function MyCourses({
               <CourseInProgressPreview
                 course={courseEnrollment.course}
                 courseEnrollmentId={courseEnrollment.courseEnrollmentId}
-                completedTopics={courseEnrollment.completedTopics}
+                completedTopics={courseEnrollment.completedTopicsIds}
                 setContinueLearning={setContinueLearning}
                 setCourseToContinue={setCourseToContinue}
                 setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}

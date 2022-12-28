@@ -36,19 +36,15 @@ export default function CourseInProgressPreview({
   setContinueLearning,
   setCourseToContinue,
   setCurrentCourseEnrollmentId,
-  completedTopics
+  completedTopics,
 }) {
   const navigate = useNavigate();
   const token = useSelector((state) => state.login.value.token);
   const [currentCourse] = useState(course);
   const [topics, setTopics] = useState([])
-  const [currentCompletedTopics, setCurrentCompletedTopics] = useState(completedTopics)
+  const [currentCompletedTopics, setCurrentCompletedTopics] = useState(completedTopics == null || completedTopics == undefined ? [] : completedTopics)
   const [expanded, setExpanded] = useState(false);
-  const [courseCompletionPercentage] = useState(Object.keys(currentCompletedTopics).length === 0 ? 0 : 60
-    // Math.floor(
-    //   (enrollmentDetails.completedTopics.length / topics.length) * 100
-    // )
-  );
+  const [courseCompletionPercentage] = useState(currentCompletedTopics.length === 0 ? 0 : Math.floor((currentCompletedTopics.length / topics.length) * 100));
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -57,7 +53,6 @@ export default function CourseInProgressPreview({
     setCurrentCourseEnrollmentId(courseEnrollmentId);
     setContinueLearning(true);
   };
-
   const getTopics = async () => {
     await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
       method: 'GET',
@@ -125,7 +120,7 @@ export default function CourseInProgressPreview({
           alignItems: '',
         }}
       >
-        <CourseProgress currentProgress={courseCompletionPercentage} />
+        <CourseProgress currentProgress={Math.floor((currentCompletedTopics.length / topics.length) * 100)} />
         <Button
           variant='contained'
           onClick={handleContinueLearnig}
@@ -142,9 +137,9 @@ export default function CourseInProgressPreview({
               color: '#230C0F',
             }}
           >
-            {Object.keys(currentCompletedTopics).length == 0
+            {currentCompletedTopics.length == 0
               ? 'Start Course'
-              : Object.keys(currentCompletedTopics).length <
+              : currentCompletedTopics.length <
                 topics.length
                 ? 'Continue Learning'
                 : 'Revisit'}
