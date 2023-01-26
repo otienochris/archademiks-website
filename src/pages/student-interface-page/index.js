@@ -21,6 +21,7 @@ import CourseLearningView from './CourseLearningView';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSelector } from 'react-redux';
+import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 
 export default function Index() {
   // const date = new Date();
@@ -29,15 +30,34 @@ export default function Index() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(0);
   const user = useSelector((state) => state.user.value);
-  const courses = useSelector((state) => state.courses.value);
-  const enrollmentDetails = useSelector((state) =>
-    state.courseEnrollments.value.filter((item) => item.studentId === user.id)
-  );
-  const [listOfCoursesEnrolledOn] = useState(
-    courses.filter((course) =>
-      enrollmentDetails.flatMap((item) => item.courseId).includes(course.id)
-    )
-  );
+  const token = useSelector((state) => state.login.value.token);
+  const [coursesEnrollments, setCourseEnrollments] = useState([]);
+  const [currentCourseEnrollmentId, setCurrentCourseEnrollmentId] = useState();
+  const [refresh, setRefresh] = useState(false);
+
+  const fetchCourseEnrollments = async () => {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          response.json()
+            .then(data => {
+              setCourseEnrollments(data);
+              console.log(data);
+            })
+        } else {
+          response.json()
+            .then(data => console.log(data))
+        }
+      }).catch(error => console.log(error))
+  }
 
   // const courses
   const [continueLearning, setContinueLearning] = useState(false);
@@ -86,7 +106,8 @@ export default function Index() {
 
   useEffect(() => {
     setFirstDay(new Date(year, month, 1).getDay());
-  }, [user.courses, month, year, firstDay]);
+    fetchCourseEnrollments();
+  }, [user, month, year, firstDay, refresh]);
 
   return (
     <>
@@ -150,11 +171,12 @@ export default function Index() {
                 <Calendar firstDay={firstDay} year={year} month={month} />
               </Grid>
             </Grid>
-          ) : (
+          ) : coursesEnrollments.length === 0 ? <Typography align='center' variant='h4'>Oops! It's Emtpty here</Typography> : (
             <MyCourses
-              courses={listOfCoursesEnrolledOn}
+              courseEnrollments={coursesEnrollments}
               setContinueLearning={setContinueLearning}
               setCourseToContinue={setCourseToContinue}
+              setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
             />
           )}
         </Container>
@@ -174,7 +196,11 @@ export default function Index() {
           >
             Back to My Courses
           </Button>
-          <CourseLearningView userId={user.id} course={courseToContinue} />
+          <CourseLearningView
+            setRefresh={setRefresh}
+            currentCourseEnrollment={coursesEnrollments
+              .filter(item => item.courseEnrollmentId == currentCourseEnrollmentId)[0]}
+            course={courseToContinue} />
         </Container>
       )}
     </>

@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  CircularProgress,
   Divider,
   Grid,
   IconButton,
@@ -17,11 +18,12 @@ import {
   ExpandMore,
 } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { LMS_COURSES } from '../../commons/urls';
 import EditTest from './EditTest';
 
-function EditTests({ topics }) {
+function EditTests({ courseId }) {
   const [testToBeEdited, setTestToBeEdited] = useState();
   const [isTestSelected, setIsTestSeleted] = useState(false);
   const tests = useSelector((state) => state.tests.value);
@@ -30,16 +32,52 @@ function EditTests({ topics }) {
     questionId: 0,
     answer: {},
   });
+  const token = useSelector((state) => state.login.value.token);
+  const [allTopics, setAllTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getTopics = async () => {
+    await fetch(LMS_COURSES + "/" + courseId + "/topics", {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        setIsLoading(false);
+        if (response.status >= 200 && response.status < 300) {
+
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setAllTopics(data._embedded.topicDtoList)
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+      });
+  }
+
+  useEffect(() => {
+    getTopics();
+  }, [courseId])
+
+
 
   return (
     <>
-      {!isTestSelected ? (
+      {isLoading ? <CircularProgress /> : !isTestSelected ? (
         <div>
-          {topics.map((topic, idx) => (
+          {allTopics.map((topic, idx) => (
             <Accordion key={idx} style={{ margin: '5px auto' }}>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant='h6'>
-                  <span style={{ margin: '10px' }}>{topic.id}.</span>
+                  <span style={{ margin: '10px' }}>{idx + 1}.</span>
                   {topic.title}
                 </Typography>
               </AccordionSummary>

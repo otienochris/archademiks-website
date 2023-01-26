@@ -12,10 +12,12 @@ import {
   Grid,
   Divider,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CourseProgress from '../pages/student-interface-page/CourseProgress';
 import { useNavigate } from 'react-router-dom';
+import { LMS_COURSES } from '../commons/urls';
+import { useSelector } from 'react-redux';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,32 +32,70 @@ const ExpandMore = styled((props) => {
 
 export default function CourseInProgressPreview({
   course,
+  courseEnrollmentId,
   setContinueLearning,
   setCourseToContinue,
-  enrollmentDetails,
+  setCurrentCourseEnrollmentId,
+  completedTopics,
 }) {
   const navigate = useNavigate();
+  const token = useSelector((state) => state.login.value.token);
+  const [currentCourse] = useState(course);
+  const [topics, setTopics] = useState([])
+  const [currentCompletedTopics, setCurrentCompletedTopics] = useState(completedTopics == null || completedTopics == undefined ? [] : completedTopics)
   const [expanded, setExpanded] = useState(false);
-  const [certificateId] = useState(enrollmentDetails[0].certificateId);
-  const [courseCompletionPercentage] = useState(
-    Math.floor(
-      (enrollmentDetails[0].completedTopics.length / course.topics.length) * 100
-    )
-  );
+  const [courseCompletionPercentage] = useState(currentCompletedTopics.length === 0 ? 0 : Math.floor((currentCompletedTopics.length / topics.length) * 100));
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const handleContinueLearnig = () => {
-    setCourseToContinue(course);
+    setCourseToContinue(currentCourse);
+    setCurrentCourseEnrollmentId(courseEnrollmentId);
     setContinueLearning(true);
   };
+  const getTopics = async () => {
+    await fetch(LMS_COURSES + "/" + course.courseId + "/topics", {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          response.json()
+            .then((data) => {
+              setTopics(data._embedded.topicDtoList)
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+        } else {
+          response.json()
+            .then((data) => {
+              alert(data.message)
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+        }
+      })
+
+  }
+
+  useEffect(() => {
+    getTopics();
+  }, [])
+
 
   return (
     <Card style={{ margin: '20px', maxWidth: '300px' }}>
       <CardMedia
         component={'img'}
         height='194'
-        image={course.thumbnail}
+        image={currentCourse.thumbnailLink}
         alt='course thumbnail'
         style={{ height: '80px' }}
       />
@@ -67,7 +107,7 @@ export default function CourseInProgressPreview({
           }}
           variant='subtitle2'
         >
-          {course.title}
+          {currentCourse.title}
         </Typography>
       </CardContent>
 
@@ -80,7 +120,7 @@ export default function CourseInProgressPreview({
           alignItems: '',
         }}
       >
-        <CourseProgress currentProgress={courseCompletionPercentage} />
+        <CourseProgress currentProgress={Math.floor((currentCompletedTopics.length / topics.length) * 100)} />
         <Button
           variant='contained'
           onClick={handleContinueLearnig}
@@ -97,12 +137,12 @@ export default function CourseInProgressPreview({
               color: '#230C0F',
             }}
           >
-            {enrollmentDetails[0].completedTopics.length == 0
+            {currentCompletedTopics.length == 0
               ? 'Start Course'
-              : enrollmentDetails[0].completedTopics.length <
-                course.topics.length
-              ? 'Continue Learning'
-              : 'Revisit'}
+              : currentCompletedTopics.length <
+                topics.length
+                ? 'Continue Learning'
+                : 'Revisit'}
           </Typography>
         </Button>
         <ExpandMore
@@ -117,25 +157,13 @@ export default function CourseInProgressPreview({
 
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <Grid container justifyContent='center' style={{ margin: '10px auto' }}>
-          <Grid item xs='12'>
-            <Typography
-              variant='subtitle1'
-              style={{
-                fontFamily: 'monospace',
-              }}
-              align='center'
-            >
-              {enrollmentDetails[0].completedTopics.length}/
-              {course.topics.length} modules done
-            </Typography>
-            <Divider style={{ marginBottom: '20px' }} />
-          </Grid>
           <Grid item xs={6}>
             <Button
               onClick={() =>
-                navigate('/certificates/' + certificateId, {
-                  replace: true,
-                })
+                // navigate('/certificates/' + certificateId, {
+                //   replace: true,
+                // })
+                alert("Pending")
               }
               variant='outlined'
               color='primary'

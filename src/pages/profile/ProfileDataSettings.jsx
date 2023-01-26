@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  CircularProgress,
   Divider,
   Grid,
   makeStyles,
@@ -7,10 +9,16 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import CustomButton from './custom-controls/CustomButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { ROLES } from '../../commons/roles';
+import { LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../../state/reducers/userReducer';
 
 const schema = yup.object({
   firstName: yup
@@ -31,8 +39,8 @@ const schema = yup.object({
       'First name cannot caintain spaces, digits or special characters'
     )
     .required('Description is required.'),
-  title: yup.string().max(200),
-  description: yup.string().max(200),
+  title: yup.string().max(200).nullable(),
+  description: yup.string().max(200).nullable(),
 });
 
 const useStyles = makeStyles({
@@ -51,18 +59,11 @@ const useStyles = makeStyles({
   },
 });
 
-function ProfileDataSettings({
-  userId,
-  nationality,
-  userType,
-  dateJoined,
-  dateModified,
-  firstName,
-  lastName,
-  userTitle,
-  userDescription,
-}) {
+function ProfileDataSettings({ user, setUser }) {
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const loginDetails = useSelector((state) => state.login.value);
   const {
     register,
     handleSubmit,
@@ -76,14 +77,103 @@ function ProfileDataSettings({
   });
 
   useEffect(() => {
-    setValue('firstName', firstName, { shouldValidate: true });
-    setValue('lastName', lastName, { shouldValidate: true });
-    setValue('title', userTitle, { shouldValidate: true });
-    setValue('description', userDescription, { shouldValidate: true });
-  }, [firstName, lastName, userTitle, userDescription]);
+    setValue('firstName', user.firstName, { shouldValidate: true });
+    setValue('lastName', user.lastName, { shouldValidate: true });
+    console.log(loginDetails.role === ROLES.INSTRUCTOR)
+    if (loginDetails.role === ROLES.INSTRUCTOR) {
+      setValue('title', user.title, { shouldValidate: true });
+      setValue('description', user.description, { shouldValidate: true });
+    }
+  }, [user]);
+
+  const saveChanges = async (url, body) => {
+    setIsLoading(true);
+    await fetch(url, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + loginDetails.token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+
+    }).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+
+        response.json().then(data => {
+          dispatch(setLoggedInUser({ user: data }));
+          setUser(data);
+          toast.success("Changes saved successfully", { position: toast.POSITION.BOTTOM_RIGHT })
+        })
+      } else {
+        response.json().then(data => {
+          toast.error(data.message, { position: toast.POSITION.BOTTOM_RIGHT })
+        })
+      }
+    }).catch(error => {
+      if (error.message === 'Failed to fetch') {
+        toast.error("Error connecting to the backend", { position: toast.POSITION.BOTTOM_RIGHT })
+      }
+
+    }).finally(() => {
+      setIsLoading(false);
+    });
+  }
+
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data)
+    switch (loginDetails.role) {
+      case ROLES.INSTRUCTOR:
+        const url1 = LMS_INSTRUCTORS + "/" + user.instructorId;
+        const instructorObj = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: user.email,
+          title: data.title,
+          description: data.description,
+          countryCode: user.country,
+          version: user.version,
+          reviews: null,
+          organizations: null,
+          addresses: null,
+          courses: null,
+          certificates: null,
+          relatives: null
+        }
+        saveChanges(url1, instructorObj);
+        break;
+      case ROLES.STUDENT:
+
+        const url2 = LMS_STUDENTS + "/" + user.studentId;
+        const studentObj = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: user.email,
+          countryCode: user.countryCode,
+          version: user.version,
+          reviews: null,
+          organizations: null,
+          addresses: null,
+          courses: null,
+          certificates: null,
+          relatives: null
+        }
+        console.log(studentObj);
+        saveChanges(url2, studentObj);
+        break;
+      case ROLES.PARENT:
+        const url3 = LMS_INSTRUCTORS;
+        const parentObj = {
+
+        }
+        saveChanges(url3, parentObj);
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -120,7 +210,7 @@ function ProfileDataSettings({
             placeholder='Joine On'
             variant='outlined'
             style={{ marginRight: '0px' }}
-            value={userType}
+            value={loginDetails.role}
             className={classes.textField}
             InputProps={{
               readOnly: true,
@@ -136,7 +226,7 @@ function ProfileDataSettings({
             placeholder='Joine On'
             variant='outlined'
             style={{ marginRight: '0px' }}
-            value={new Date(dateJoined).toDateString()}
+            value={new Date(user.creationDate).toDateString()}
             className={classes.textField}
             size='small'
             InputProps={{
@@ -152,7 +242,7 @@ function ProfileDataSettings({
             placeholder='Last Modified On:'
             variant='outlined'
             style={{ marginRight: '0px' }}
-            value={new Date(dateModified).toDateString()}
+            value={new Date(user.modificationDate).toDateString()}
             className={classes.textField}
             size='small'
             InputProps={{
@@ -184,17 +274,17 @@ function ProfileDataSettings({
             sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
             style={{ display: 'flex' }}
           >
-            <h6 style={{ margin: '5px' }}>{nationality}</h6>
+            <h6 style={{ margin: '5px' }}>{user.countryCode}</h6>
             <img
               loading='lazy'
               width='20'
-              src={`https://flagcdn.com/w20/${nationality.toLowerCase()}.png`}
-              srcSet={`https://flagcdn.com/w40/${nationality.toLowerCase()}.png 2x`}
+              src={`https://flagcdn.com/w20/${user.countryCode.toLowerCase()}.png`}
+              srcSet={`https://flagcdn.com/w40/${user.countryCode.toLowerCase()}.png 2x`}
               alt=''
             />
           </Box>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {isLoading ? <CircularProgress /> : <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label='First Name'
             placeholder='Enter Your First Name'
@@ -215,9 +305,9 @@ function ProfileDataSettings({
             className={classes.textField}
             {...register('lastName')}
             error={errors.lastName ? true : false}
-            helperText={errors.lastName ? errors.firstName.message : ''}
+            helperText={errors.lastName ? errors.lastName.message : ''}
           />
-          <TextField
+          {loginDetails.role === ROLES.INSTRUCTOR && <TextField
             label='Title'
             placeholder='Enter Your Title'
             variant='outlined'
@@ -227,8 +317,8 @@ function ProfileDataSettings({
             {...register('title')}
             error={errors.title ? true : false}
             helperText={errors.title ? errors.title.message : ''}
-          />
-          <TextField
+          />}
+          {loginDetails.role === ROLES.INSTRUCTOR && <TextField
             label='Description'
             placeholder='Enter Description'
             multiline
@@ -239,9 +329,18 @@ function ProfileDataSettings({
             {...register('description')}
             error={errors.description ? true : false}
             helperText={errors.description ? errors.description.message : ''}
-          />
-          <CustomButton type='submit' text={'Save Changes'} color='secondary' />
-        </form>
+          />}
+
+          <Button
+            type='submit'
+            onClick={handleSubmit(onSubmit)}
+            // className={classes.btn}
+            variant={'contained'}
+            color={'secondary'}
+          >
+            Save Changes
+          </Button>
+        </form>}
       </Grid>
     </Grid>
   );

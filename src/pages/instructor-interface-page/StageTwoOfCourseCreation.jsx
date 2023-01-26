@@ -8,13 +8,15 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button, TextField, Typography } from '@material-ui/core';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
+import { LMS_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   title: yup.string().min(10).max(50).required('Course Title is required.'),
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   link: yup
     .string()
@@ -33,6 +35,7 @@ export default function StageTwoOfCourseCreation({
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const token = useSelector((state) => state.login.value.token);
 
   const {
     register,
@@ -45,7 +48,70 @@ export default function StageTwoOfCourseCreation({
     criteriaMode: 'all',
   });
 
+  const saveNewTopic = async (title, description, link, content) => {
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: 0
+    }
+    console.log(body)
+    await fetch(LMS_TOPICS + "?courseId=" + newCourse.id, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        console.log(newCourse.id);
+        if (response.status >= 200 && response.status < 300) {
+          alert("Topic saved successfully");
+        } else {
+          alert("Error saving topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const topic = {
+          id: data.topicId,
+          title: data.title,
+          description: data.description,
+          content: data.content,
+          link: data.link,
+          subTopics: [],
+        };
+
+        newCourse.topics.push(topic);
+        setNewCourse(newCourse);
+
+        console.log(newCourse);
+
+        setIsStageSubmited(true);
+
+        // resetting the fields
+        reset();
+        setEditorState(EditorState.createEmpty());
+        var title = document.getElementById('title');
+        var description = document.getElementById('description');
+        var link = document.getElementById('link');
+        title.value = '';
+        description.value = '';
+        link.value = '';
+
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+
+  }
+
   const onSubmit = (data) => {
+
+
     // extract embedid
     const splitLink = data.link.split('/');
     const embedId = splitLink[splitLink.length - 1];
@@ -56,28 +122,12 @@ export default function StageTwoOfCourseCreation({
       convertToRaw(editorState.getCurrentContent())
     );
 
-    const topic = {
-      title: data.title,
-      description: data.description,
-      content: contentInHtml,
-      link: embedId,
-      subTopics: [],
-    };
+    const newTitle = data.title;
+    const newDescription = data.description;
+    const newContent = contentInHtml;
+    const newLink = embedId;
 
-    newCourse.topics.push(topic);
-    setNewCourse(newCourse);
-
-    setIsStageSubmited(true);
-
-    // resetting the fields
-    reset();
-    setEditorState(EditorState.createEmpty());
-    var title = document.getElementById('title');
-    var description = document.getElementById('description');
-    var link = document.getElementById('link');
-    title.value = '';
-    description.value = '';
-    link.value = '';
+    saveNewTopic(newTitle, newDescription, newLink, newContent);
   };
 
   return (
@@ -100,6 +150,8 @@ export default function StageTwoOfCourseCreation({
         label='Topic Description'
         placeholder='Provide a brief description of the goals and contents of the topic'
         autoComplete='off'
+        multiline
+        minRows={6}
         {...register('description')}
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}

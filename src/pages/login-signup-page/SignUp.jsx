@@ -22,13 +22,11 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../../state/reducers/allUsersReducer';
 import { useState } from 'react';
 import EmailVerification from './EmailVerification';
+import { LMS_INSTRUCTORS_SIGNUP, LMS_RELATIVES_SIGNUP, LMS_STUDENTS_SIGNUP } from '../../commons/urls';
 
 /**
  * The send email url accepts an email object as form data made using POST
  */
-
-const sendEmailUrl =
-  'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
 
 const useStyles = makeStyles({
   textField: {
@@ -87,6 +85,7 @@ export default function SignUp({ setAction }) {
   const dispacth = useDispatch();
   const [email, setEmail] = useState('');
   const [emailSendSuccessfully, setEmailSentSuccessfuly] = useState(false);
+  const [userSaved, setUserSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
 
@@ -133,43 +132,65 @@ export default function SignUp({ setAction }) {
     criteriaMode: 'all',
   });
 
-  const sendVerificationCode = async (email) => {
-    const formData = new FormData();
-    formData.append('emailTo', email.toAddress);
-    formData.append('subject', email.subject);
-    formData.append('message', email.message);
-
-    setIsLoading(true);
-
-    await fetch(sendEmailUrl, {
+  const saveUser = async (url, body) => {
+    await fetch(url, {
       method: 'POST',
       mode: 'cors',
-      body: formData,
+      body: JSON.stringify(body),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
       .then((response) => {
-        if (response.status === 201) {
-          setEmailSentSuccessfuly(true);
+        if (response.status >= 200 && response.status < 300) {
+          setUserSaved(true);
+          alert("User saved successfully");
         }
         return response.json();
       })
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
+  }
 
-    setIsLoading(false);
-  };
+  const saveUserInBackend = (data) => {
+    console.log(data);
+    const userObj = {
+      firstName: data.firstName,
+      lastName: data.secondName,
+      email: data.email,
+      countryCode: data.country,
+      newPassword: data.password,
+      courses: null,
+      organizations: null,
+      reviews: null,
+      addresses: null,
+      relatives: null,
+      certificates: null,
+      version: 0
+    }
+
+    switch (data.userType) {
+      case "STUDENT":
+        saveUser(LMS_STUDENTS_SIGNUP, userObj);
+        break;
+      case "INSTRUCTOR":
+        saveUser(LMS_INSTRUCTORS_SIGNUP, userObj);
+        break;
+      case "PARENT":
+        saveUser(LMS_RELATIVES_SIGNUP, userObj);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   const onSubmit = (data) => {
-    const verificationCode = uuid.slice(14, 18);
-    data.verificationCode = verificationCode;
 
+    // TODO save user
+    saveUserInBackend(data);
     dispacth(addUser(data));
-
-    sendVerificationCode({
-      name: data.secondName,
-      toAddress: data.email,
-      subject: 'Email Verification',
-      message: '<p>' + uuid.slice(14, 18) + '</p>',
-    });
 
     setEmail(data.email);
 
@@ -289,7 +310,7 @@ export default function SignUp({ setAction }) {
                   <Box
                     component='li'
                     sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                    // {...props}
+                  // {...props}
                   >
                     <img
                       loading='lazy'

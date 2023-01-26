@@ -6,7 +6,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import FAQ from './FAQ';
 
 const styles = makeStyles({
@@ -42,6 +43,20 @@ const styles = makeStyles({
 
 export default function Index() {
   const classes = styles();
+  const frequentlyAskedQuestions = useSelector((state) => state.faq.value);
+  const [faq, setFaq] = useState(frequentlyAskedQuestions)
+  const [searchKey, setSearchKey] = useState();
+
+  useEffect(() => {
+
+  }, [searchKey])
+
+  const handleSeachKeyInput = (e) => {
+    e.preventDefault();
+    setSearchKey(e.target.value);
+    setFaq(frequentlyAskedQuestions.filter(item => item.answer.toLowerCase().includes(searchKey) || item.question.toLowerCase().includes(searchKey)))
+  };
+
   return (
     <Container style={{ minHeight: '93.4vh' }}>
       <Grid container className={classes.mainContainer}>
@@ -54,6 +69,7 @@ export default function Index() {
               fullWidth
               variant='outlined'
               className={classes.seachBar}
+              onChange={e => handleSeachKeyInput(e)}
               InputProps={{
                 startAdornment: <Search />,
               }}
@@ -61,7 +77,7 @@ export default function Index() {
           </div>
         </Grid>
         <Grid item xs={12} md={10} className={classes.faqArea}>
-          <FAQ />
+          <FAQ frequentlyAskedQuestions={faq} />
         </Grid>
       </Grid>
     </Container>

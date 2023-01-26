@@ -13,6 +13,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { courseCategories } from '../../data/courses';
 import { useStyles } from './newCourseUseStyles';
+import { useSelector } from 'react-redux';
+import { LMS_COURSES } from '../../commons/urls';
 
 const schema = yup.object({
   category: yup
@@ -23,7 +25,7 @@ const schema = yup.object({
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   thumbnail: yup
     .string()
@@ -41,8 +43,12 @@ const schema = yup.object({
 });
 
 function EditBasics({ course }) {
+  console.log(course);
   const classes = useStyles();
   const [saved, setSaved] = useState(false);
+  const token = useSelector((state) => state.login.value.token);
+  const [courseState, setCourseState] = useState(course);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -55,44 +61,84 @@ function EditBasics({ course }) {
     criteriaMode: 'all',
   });
 
+  const saveChanges = async (category, title, description, thumbnailLink, introductionVideoLink) => {
+    setIsLoading(true);
+    const body = {
+      description,
+      title,
+      thumbnailLink,
+      price: 0,
+      category,
+      introductionVideoLink,
+      version: course.version
+    }
+    await fetch(LMS_COURSES + "/" + course.courseId, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        setIsLoading(false);
+        if (response.status >= 200 && response.status < 300) {
+          setSaved(true);
+          alert("changes saved successfully");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCourseState(data);
+      })
+      .catch((error) => {
+        alert("Error saving changes");
+        setIsLoading(false);
+        console.log(error)
+      });
+  }
+
   const onSubmit = (data) => {
     const splitLink = data.link.split('/');
     const embedId = splitLink[splitLink.length - 1];
-    setSaved(true);
+
+    saveChanges(data.category, data.title, data.description, data.thumbnail, embedId)
+
     reset();
   };
 
   useEffect(() => {
-    if (course.category) {
+    if (courseState.category) {
       setValue('category', course.category, {
         shouldValidate: true,
       });
     }
-    if (course.title) setValue('title', course.title, { shouldValidate: true });
+    if (courseState.title) setValue('title', courseState.title, { shouldValidate: true });
     if (course.description)
-      setValue('description', course.description, {
+      setValue('description', courseState.description, {
         shouldValidate: true,
       });
-    if (course.thumbnail)
-      setValue('thumbnail', course.thumbnail, { shouldValidate: true });
-    if (course.link)
-      setValue('link', 'https://youtu.be/' + course.link, {
+    if (courseState.thumbnailLink)
+      setValue('thumbnail', course.thumbnailLink, { shouldValidate: true });
+    if (courseState.introductionVideoLink)
+      setValue('link', 'https://youtu.be/' + course.introductionVideoLink, {
         shouldValidate: true,
       });
-  }, [course, setValue]);
+  }, [courseState, setValue]);
   return (
     <form className={classes.form}>
       <FormControl sx={{ m: 1, minWidth: 120 }} className={classes.select}>
         <InputLabel id='demo-simple-select-helper-label'>Category</InputLabel>
         <Select
-          disabled={saved}
           labelId='demo-simple-select-helper-label'
           id='demo-simple-select-helper'
           label={'Category'}
           variant='filled'
           {...register('category')}
           error={errors.category ? true : false}
-          defaultValue={course.category}
+          defaultValue={courseState.category}
         >
           <MenuItem value=''>
             <em>None</em>
@@ -109,7 +155,6 @@ function EditBasics({ course }) {
       </FormControl>
 
       <TextField
-        disabled={saved}
         variant='filled'
         label='Course Title'
         placeholder='Provide a brief yet descriptive title'
@@ -121,7 +166,6 @@ function EditBasics({ course }) {
       />
 
       <TextField
-        disabled={saved}
         variant='filled'
         label='Course Description'
         placeholder='Provide a brief description of the goals and contents of the course'
@@ -135,7 +179,6 @@ function EditBasics({ course }) {
       />
 
       <TextField
-        disabled={saved}
         {...register('thumbnail')}
         variant='filled'
         label='Link to thumbnail'
@@ -147,7 +190,6 @@ function EditBasics({ course }) {
       />
 
       <TextField
-        disabled={saved}
         {...register('link')}
         variant='filled'
         label='Introduction Video'
@@ -166,7 +208,6 @@ function EditBasics({ course }) {
           fontWeight: 'bolder',
         }}
         variant='contained'
-        disabled={saved}
         onClick={handleSubmit(onSubmit)}
       >
         Save

@@ -234,11 +234,11 @@ export default function TopicDetails({
               </Grid>
             </Grid>
           </div>
-
           <SubTopicView
             subTopic={topic.subTopics[subtopicIndex]}
-            // key={index}
+          // key={index}
           />
+
           <div
             style={{
               display: 'flex',
@@ -256,10 +256,10 @@ export default function TopicDetails({
                 subtopicIndex === 0
                   ? {}
                   : {
-                      // backgroundColor: '#ff8c00',
-                      color: '#ff8c00',
-                      fontWeight: 'bolder',
-                    }
+                    // backgroundColor: '#ff8c00',
+                    color: '#ff8c00',
+                    fontWeight: 'bolder',
+                  }
               }
             >
               <ArrowBackIos />
@@ -273,9 +273,9 @@ export default function TopicDetails({
                 subtopicIndex + 1 === topic.subTopics.length
                   ? {}
                   : {
-                      color: '#ff8c00',
-                      fontWeight: 'bolder',
-                    }
+                    color: '#ff8c00',
+                    fontWeight: 'bolder',
+                  }
               }
               onClick={() => {
                 document.getElementById('backToTopicButton').scrollIntoView();

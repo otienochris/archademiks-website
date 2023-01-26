@@ -630,9 +630,12 @@ export const coursesSlice = createSlice({
     saveCourse: (state, action) => {
       state.value.push(action.payload);
     },
+    setCourses: (state, action) => {
+      state.value = action.payload;
+    }
   },
 });
 
-export const { deleteCourse, saveCourse, getCourseById } = coursesSlice.actions;
+export const { deleteCourse, saveCourse, getCourseById, setCourses } = coursesSlice.actions;
 
 export default coursesSlice.reducer;

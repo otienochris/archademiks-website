@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   course: {
     margin: '20px',
     position: 'relative',
-    // minHeight: '430px',
+    maxWidth: '400px'
   },
   image: {
     height: '150px',
@@ -46,14 +46,14 @@ const useStyles = makeStyles({
 export default function CourseCard({ course }) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { id, title, category, thumbnail, description, rating, price } = course;
+  const { courseId, title, category, thumbnailLink, description, rating, price } = course;
   return (
     <Card sx={{ width: 350 }} className={classes.course}>
       <CardMedia
         className={classes.image}
         component='img'
-        image={thumbnail}
-        alt={title}
+        image={thumbnailLink}
+        alt={"Image for: " + title}
       />
       <CardContent className={classes.cardContent}>
         <Grid container justifyContent='center'>
@@ -67,14 +67,14 @@ export default function CourseCard({ course }) {
               {title}
             </Typography>
             <Typography variant='body2'>
-              {description.length < 150
+              {description && description.length < 150
                 ? description
-                : description.substr(1, 150) + '...'}
+                : description ? description.substr(1, 150) + '...' : ''}
             </Typography>
           </Grid>
           <Grid container style={{ marginTop: '10px' }}>
             <Grid item xs={6}>
-              <FiveStarRating rating={rating} />
+              {rating ? <FiveStarRating rating={rating} /> : <FiveStarRating rating={0} />}
             </Grid>
             <Grid item xs={6}>
               {price <= 0 ? (
@@ -130,7 +130,7 @@ export default function CourseCard({ course }) {
             fullWidth
             variant='contained'
             endIcon={<ReadMoreIcon fontSize='large' />}
-            onClick={() => navigate('/courses/' + id)}
+            onClick={() => navigate('/courses/' + courseId)}
             className={classes.openBtn}
             style={{ backgroundColor: '#F18805' }}
           >

@@ -10,8 +10,12 @@ import {
   TextField,
   Typography,
   Divider,
+  CircularProgress,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { LMS_COURSES } from '../../commons/urls';
+import { setCourses } from '../../state/reducers/coursesReducers';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -41,13 +45,41 @@ export default function Index() {
   const coursesFromState = useSelector((state) => state.courses.value);
   const [listOfCourses, setListOfCourses] = useState(coursesFromState);
   const [searchKey, setSearchKey] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const token = useSelector((state) => state.login.value.token);
+  const dispacth = useDispatch();
 
   const handleSeachKeyInput = (e) => {
     e.preventDefault();
     setSearchKey(e.target.value);
   };
 
+  const fetchCourses = async () => {
+    await fetch(LMS_COURSES, {
+      method: 'GET',
+      mode: 'cors',
+      Authorization: "Bearer " + token
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        dispacth(setCourses(data._embedded.courseDtoList));
+        console.log(data._embedded.courseDtoList);
+        setListOfCourses(data._embedded.courseDtoList);
+      })
+      .catch((error) => console.log(error));
+  }
+
   useEffect(() => {
+
+    fetchCourses();
+
     const newFilteredList = coursesFromState.filter(
       (courseItem) =>
         courseItem.category.toLowerCase().includes(searchKey.toLowerCase()) ||
@@ -59,7 +91,7 @@ export default function Index() {
         courseItem.rating == searchKey
     );
     setListOfCourses(newFilteredList);
-  }, [searchKey]);
+  }, [isLoading, searchKey]);
 
   return (
     <Container>
@@ -72,8 +104,8 @@ export default function Index() {
           <Grid
             item
             xs={12}
-            // md={3}
-            // style={{ width: '100%', margin: '20px auto' }}
+          // md={3}
+          // style={{ width: '100%', margin: '20px auto' }}
           >
             <h1
               variant='h4'
@@ -121,7 +153,7 @@ export default function Index() {
           style={{ width: '100%' }}
           className={classes.courseListSection}
         >
-          {listOfCourses.map((course, index) => (
+          {isLoading ? <CircularProgress /> : listOfCourses.map((course, index) => (
             <Grid
               key={index}
               item

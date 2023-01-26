@@ -17,6 +17,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftjsToHtml from 'draftjs-to-html';
 import { convertToRaw, ContentState, convertFromHTML } from 'draft-js';
 import { useStyles } from './newCourseUseStyles';
+import { LMS_SUB_TOPICS } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   title: yup.string().min(10).max(50).required('Course Title is required.'),
@@ -33,11 +35,14 @@ const schema = yup.object({
     ),
 });
 
-const onSubmit = (data) => {};
+const onSubmit = (data) => { };
 
-function EditSubtopic({ subtopic }) {
+function EditSubtopic({ setRefresh, setOpenEditPage, subtopic }) {
   const classes = useStyles();
   const blocksFromHTML = convertFromHTML(subtopic.content);
+  const [currentSubTopic, setCurrentSubTopi] = useState(subtopic);
+  const token = useSelector((state) => state.login.value.token);
+  const [saved, setSaved] = useState(false);
   const state = ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
     blocksFromHTML.entityMap
@@ -59,14 +64,69 @@ function EditSubtopic({ subtopic }) {
   });
 
   useEffect(() => {
-    setValue('title', subtopic.title, { shouldValidate: true });
-    setValue('description', subtopic.description, { shouldValidate: true });
+    setValue('title', currentSubTopic.title, { shouldValidate: true });
+    setValue('description', currentSubTopic.description, { shouldValidate: true });
     if (subtopic.link) {
-      setValue('link', 'https://youtu.be/' + subtopic.link, {
+      setValue('link', 'https://youtu.be/' + currentSubTopic.link, {
         shouldValidate: true,
       });
     }
-  }, [subtopic]);
+  }, [subtopic, saved]);
+
+  const saveChanges = async (title, description, link, content) => {
+
+    const body = {
+      title,
+      description,
+      link,
+      content,
+      version: subtopic.version
+    }
+    await fetch(LMS_SUB_TOPICS + "/" + subtopic.subTopicId, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+
+        if (response.status >= 200 && response.status < 300) {
+          alert("Sub-topic saved successfully");
+          setOpenEditPage(false);
+          setSaved(true);
+          setRefresh(state => !state);
+        } else {
+          alert("Error saving sub-topic");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCurrentSubTopi(data);
+      })
+      .catch((error) => {
+
+        console.log(error)
+      });
+  }
+
+  const onSubmit = (data) => {
+    console.log(data)
+    // extract embedid
+    const splitLink = data.link.split('/');
+    const embedId = splitLink[splitLink.length - 1];
+
+    // extract content from editor
+    const contentInHtml = draftjsToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    saveChanges(data.title, data.description, embedId, contentInHtml);
+  };
+
 
   return (
     <form className={classes.form}>

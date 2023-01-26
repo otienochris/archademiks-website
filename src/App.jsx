@@ -16,8 +16,12 @@ import ConfirmOrder from './pages/checkout-page/ConfirmOrder';
 import SuccessfulPayment from './pages/checkout-page/SuccessfulPayment';
 import CertificateView from './components/CertificateView';
 import ResetPasswordView from './pages/login-signup-page/ResetPasswordView';
-import ProfilePage from './components/ProfilePage';
+import ProfilePage from '../src/pages/profile/ProfilePage';
 import TestsPage from './pages/tests-page';
+import RedirectToEmailVerification from './pages/login-signup-page/RedirectToEmailVerification';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 
 export default function App() {
   return (
@@ -80,6 +84,7 @@ export default function App() {
           <Route path='/login-signup' element={<LoginSignupPage />} />
           <Route path='/help' element={<HelpPage />} />
           <Route path='/' element={<LandingPage />} />
+          <Route path='/verify-email/:token' element={<RedirectToEmailVerification />} />
           <Route
             path='/certificates/:certificateId'
             element={<CertificateView />}

@@ -30,6 +30,7 @@ import InstructorPreview from '../../components/InstructorPreview';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { enrollUserToCourse } from '../../state/reducers/courseEnrollementReducer';
+import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
 
 const useStyles = makeStyles({
   mainGridContainer: {
@@ -149,6 +150,7 @@ export default function Index({ courseId2 }) {
   const allCourses = useSelector((state) => state.courses.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const user = useSelector((state) => state.user.value);
+  const token = useSelector((state) => state.login.value.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -156,7 +158,7 @@ export default function Index({ courseId2 }) {
 
   useEffect(() => {
     const filteredCourses = allCourses.filter(
-      (course) => course.id == courseId || course.id == courseId2
+      (course) => course.courseId == courseId || course.courseId == courseId2
     );
     const filteredReviews = reviews.filter(
       (review) => review.typeId == courseId && review.type === 'Course'
@@ -169,24 +171,33 @@ export default function Index({ courseId2 }) {
     setValue(newValue);
   };
 
+  const enrollToCourse = async () => {
+    await fetch(LMS_COURSE_ENROLLMENTS + "/student/" + user.studentId + "/course/" + courseId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status >= 200 && response < 300) {
+          navigate('/students', { replace: true });
+        } else if (response.status == 400) {
+
+        }
+        return response.json()
+      })
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
+  }
+
   const handleGetForFree = () => {
     if (!isLoggedIn) {
       navigate('/login-signup', { replace: true });
     } else {
-      dispatch(
-        enrollUserToCourse({
-          id: Math.floor(Math.random() * 100 + 1),
-          studentId: user.id,
-          courseId: course.id,
-          status: 'Pending',
-          amount: course.price,
-          completionDate: null,
-          creationDate: '2022-02-02',
-          modificationDate: null,
-          completedTopics: [],
-        })
-      );
-      navigate('/students', { replace: true });
+      enrollToCourse();
     }
   };
 
@@ -242,7 +253,7 @@ export default function Index({ courseId2 }) {
         </Grid>
         <Grid item className={classes.imageGrid} xs={12} sm={6} md={5}>
           <img
-            src={course.thumbnail}
+            src={course.thumbnailLink}
             alt='course thumbnail'
             className={classes.img}
           />
@@ -283,12 +294,12 @@ export default function Index({ courseId2 }) {
               {course.topics.length > 1
                 ? `${course.topics.length} topics`
                 : `${course.topics.length} topic`}
-              {}
+              { }
             </Typography>
           </section>
           {user.type === 'STUDENT' ||
-          user.type === undefined ||
-          user.type === '' ? (
+            user.type === undefined ||
+            user.type === '' ? (
             <Button
               style={{
                 margin: '20px auto',

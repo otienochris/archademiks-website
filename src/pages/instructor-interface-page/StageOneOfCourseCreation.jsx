@@ -12,6 +12,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { courseCategories } from '../../data/courses';
+import { LMS_COURSES } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object({
   category: yup
@@ -22,7 +24,7 @@ const schema = yup.object({
   description: yup
     .string()
     .min(100)
-    .max(200)
+    .max(1000)
     .required('Description is required.'),
   thumbnail: yup
     .string()
@@ -46,6 +48,8 @@ export default function StageOneOfCourseCreation({
   setIsStageSubmited,
 }) {
   const [saved, setSaved] = useState(false);
+  const token = useSelector((state) => state.login.value.token);
+  const loggedInInstructor = useSelector((state) => state.user.value);
   const {
     register,
     handleSubmit,
@@ -58,19 +62,69 @@ export default function StageOneOfCourseCreation({
     criteriaMode: 'all',
   });
 
-  const onSubmit = (data) => {
-    newCourse.category = data.category;
-    newCourse.title = data.title;
-    newCourse.description = data.description;
-    newCourse.thumbnail = data.thumbnail;
+  const saveCourse = async (category, title, description, thumbnailLink, introductionVideoLink) => {
+    const body = {
+      description,
+      title,
+      thumbnailLink,
+      price: 0,
+      category,
+      introductionVideoLink,
+      version: 0,
+      topics: null,
+      reviews: null,
+      instructors: null,
+      courseEnrollments: null
+    }
+    await fetch(LMS_COURSES + "?instructorId=" + loggedInInstructor.instructorId, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          alert("Course saved successfully");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        newCourse.id = data.courseId;
+        newCourse.category = category;
+        newCourse.title = title;
+        newCourse.description = description;
+        newCourse.thumbnail = thumbnailLink;
 
-    const splitLink = data.link.split('/');
-    const embedId = splitLink[splitLink.length - 1];
-    newCourse.link = embedId;
-    setNewCourse(newCourse);
-    setSaved(true);
-    reset();
-    setIsStageSubmited(true);
+        const splitLink = introductionVideoLink.split('/');
+        const embedId = splitLink[splitLink.length - 1];
+        newCourse.link = embedId;
+        setNewCourse(newCourse);
+        setSaved(true);
+        reset();
+        setIsStageSubmited(true);
+
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  }
+
+  const onSubmit = (data) => {
+
+    const category = data.category;
+    const title = data.title;
+    const desc = data.description;
+    const thumbnail = data.thumbnail;
+    const link = data.thumbnail;
+
+
+    // save course to backend
+    saveCourse(category, title, desc, thumbnail, link);
+
+
   };
 
   useEffect(() => {

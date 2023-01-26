@@ -11,6 +11,8 @@ import FinancialQuickStat from './FinancialQuickStat';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch } from 'react-redux';
 import { deleteCourse } from '../../state/reducers/coursesReducers';
+import { LMS_COURSES } from '../../commons/urls';
+import { useSelector } from 'react-redux';
 
 const getCategoryBanner = (category) => (
   <Typography
@@ -49,7 +51,7 @@ const cellStyle = {
 const coursesColumns = [
   {
     title: 'Id',
-    field: 'id',
+    field: 'courseId',
     editable: 'never',
     cellStyle: { borderRight: '1px solid #716969' },
   },
@@ -101,16 +103,67 @@ function CoursesTable({ courses }) {
   // const coursesList = useSelector((state) => state.courses.value);
   // const [reload, setReload] = useState(false);
   const [data, setData] = useState(courses);
+  const token = useSelector((state) => state.login.value.token);
   const dispatch = useDispatch();
 
+  const saveChanges = async (id, body) => {
+
+    // const body = {
+    //   description,
+    //   title,
+    //   thumbnailLink,
+    //   price: 0,
+    //   category,
+    //   introductionVideoLink,
+    //   version
+    // }
+    await fetch(LMS_COURSES + "/" + id, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+
+        if (response.status >= 200 && response.status < 300) {
+
+          alert("changes saved successfully");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        alert("Error saving changes");
+        console.log(error)
+      });
+  }
+
+  // console.log(courses)
   const handleDelete = (id) => {
-    setData((current) => current.filter((item) => item.id != id));
+    setData((current) => current.filter((item) => item.courseId != id));
     dispatch(deleteCourse(id));
   };
 
   const handleAdd = () => {
     console.log('adding course');
   };
+
+  const handleEdit = (newData, oldData) => {
+    console.log(newData);
+    console.log(oldData);
+    newData.courseEnrollments = null;
+    newData.courseId = null;
+    newData.instructors = null;
+    newData.reviews = null;
+    newData.topics = null;
+    saveChanges(oldData.courseId, newData);
+  }
 
   const detailPanel = [
     {
@@ -126,7 +179,7 @@ function CoursesTable({ courses }) {
               }}
             >
               <CourseCard
-                course={courses.filter((item) => item.id === rowData.id)[0]}
+                course={courses.filter((item) => parseInt(item.courseId) === parseInt(rowData.courseId))[0]}
               />
             </div>
             <div
@@ -135,30 +188,26 @@ function CoursesTable({ courses }) {
                 flexDirection: 'column',
                 width: '100%',
               }}
-              // style={{ backgroundColor: 'red', width: '100%' }}
+            // style={{ backgroundColor: 'red', width: '100%' }}
             >
               <QuickStart
                 title={'In-progress'}
                 borderColor={'2px solid lightgrey'}
-                data={courseEnrollmentDetails.filter(
-                  (item) =>
-                    item.courseId === rowData.id && item.status === 'pending'
-                )}
+                data={courses.filter((item) => parseInt(item.courseId) === parseInt(rowData.courseId))[0].courseEnrollments}
               />
               <QuickStart
                 borderColor={'2px solid yellowgreen'}
                 title={'Completions'}
-                data={courseEnrollmentDetails.filter(
-                  (item) =>
-                    item.courseId === rowData.id && item.status === 'completed'
+                data={courses.filter((item) => parseInt(item.courseId) === parseInt(rowData.courseId))[0].courseEnrollments.filter(
+                  (item) => item.status === 'COMPLETED'
                 )}
               />
               <QuickStart
                 borderColor={'2px solid red'}
                 title={'Drop-Outs'}
-                data={courseEnrollmentDetails.filter(
+                data={courses.filter((item) => parseInt(item.courseId) === parseInt(rowData.courseId))[0].courseEnrollments.filter(
                   (item) =>
-                    item.courseId === rowData.id && item.status === 'cancelled'
+                    item.courseId === rowData.id && item.status === 'CANCELLED'
                 )}
               />
             </div>
@@ -174,14 +223,12 @@ function CoursesTable({ courses }) {
               <QuickStart
                 title={'Enrollments'}
                 data={courseEnrollmentDetails.filter(
-                  (item) => item.courseId === rowData.id
+                  (item) => item.id === rowData.id
                 )}
               />
               <QuickStart
                 title={'Reviews'}
-                data={reviews.filter(
-                  (item) => item.type === 'Course' && item.typeId === rowData.id
-                )}
+                data={courses.filter((item) => parseInt(item.courseId) === parseInt(rowData.courseId))[0].reviews}
               />
             </div>
           </section>
@@ -200,6 +247,7 @@ function CoursesTable({ courses }) {
       allowEdit={true}
       handleDelete={handleDelete}
       handleAdd={handleAdd}
+      handleEdit={handleEdit}
       allowActions={true}
       detailPanel={detailPanel}
     />

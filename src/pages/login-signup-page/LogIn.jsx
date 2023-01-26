@@ -17,9 +17,10 @@ import { setLoggedInUser } from '../../state/reducers/userReducer';
 import { loginAction } from '../../state/reducers/loginReducer';
 import { TextField } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import { LMS_AUTHENTICATION, LMS_INSTRUCTORS, LMS_STUDENTS, NOTIFICATION_SEND_SIMPLE_MAIL } from '../../commons/urls';
+import { ROLES } from '../../commons/roles';
+import { toast } from 'react-toastify';
 
-const sendEmailUrl =
-  'https://eucossa-notification-service.herokuapp.com/email/send/email-with-attachment';
 const useStyles = makeStyles({
   textField: {
     width: '300px',
@@ -75,38 +76,103 @@ export default function LogIn() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    let userLoggedIn = usersList.filter(
-      (user) => user.email === data.email && user.password === data.password
-    );
-
-    if (userLoggedIn.length == 0) {
-      setWrongCredentials(true);
-      alert('Wrong password');
-    } else {
-      const userDetails = userLoggedIn[0];
-      localStorage.setItem('user', JSON.stringify(userDetails));
-      localStorage.setItem('isLoggedIn', JSON.stringify(true));
-      switch (userDetails.type) {
-        case 'INSTRUCTOR':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/instructor');
-          break;
-        case 'STUDENT':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/students');
-          break;
-        case 'ADMIN':
-          dispatch(setLoggedInUser({ user: userDetails }));
-          dispatch(loginAction({ isLoggedIn: true, token: 'hfoshfsofh' }));
-          navigate('/admin');
-          break;
-        default:
-          break;
+  const fetchLoggedInUserDetails = async (url, token, role) => {
+    console.log("url " + url)
+    await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
-    }
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          response.json().then((data) => {
+            dispatch(setLoggedInUser({ user: data }));
+            if (!wrongCredentials) {
+              switch (role) {
+                case ROLES.INSTRUCTOR:
+                  navigate('/instructor');
+                  break;
+                case ROLES.STUDENT:
+                  navigate('/students');
+                  break;
+                case ROLES.SUPER_ADMIN:
+                  navigate('/admin');
+                  break;
+                case ROLES.ADMIN:
+                  navigate('/admin');
+                  break;
+                default:
+                  break;
+              }
+            }
+          })
+        } else if (response.status == 400) {
+          response.body(data => {
+            toast.error(data.message, {
+              position: toast.POSITION.BOTTOM_RIGHT
+            });
+          })
+        }
+      })
+      .catch((error) => {
+        toast.error("Error occurred while ", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
+        console.log(error)
+      });
+  }
+
+  const authenticateUser = async (username, password) => {
+    await fetch(LMS_AUTHENTICATION, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({ username, password }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then(data => {
+          const role = data.role;
+          const token = data.token;
+          dispatch(loginAction({ isLoggedIn: true, token, role }));
+          toast.success("Welcome Back", {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
+          switch (role) {
+            case ROLES.INSTRUCTOR:
+              fetchLoggedInUserDetails(LMS_INSTRUCTORS + "/username/" + username, token, role);
+              break;
+            case ROLES.STUDENT:
+              fetchLoggedInUserDetails(LMS_STUDENTS + "/username/" + username, token, role);
+              break;
+            case ROLES.ADMIN:
+            case ROLES.SUPER_ADMIN:
+              dispatch(setLoggedInUser({ user: { firstName: "SUPER", lastName: "ADMIN" } }));
+              navigate('/admin');
+              break;
+            default:
+              break;
+          }
+        })
+      } else if (response.status >= 400 && response.status < 500) {
+        response.json().then(data => {
+          toast.error(data.message, { position: toast.POSITION.TOP_CENTER });
+        })
+      }
+    })
+      .catch((error) => {
+        console.log(error)
+      });
+  }
+
+  const onSubmit = (data) => {
+    authenticateUser(data.email, data.password);
   };
 
   const sendChangePasswordCode = async (emailToSendCode) => {
@@ -119,7 +185,7 @@ export default function LogIn() {
 
     setIsLoading(true);
 
-    await fetch(sendEmailUrl, {
+    await fetch(NOTIFICATION_SEND_SIMPLE_MAIL, {
       method: 'POST',
       mode: 'cors',
       body: formData,

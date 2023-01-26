@@ -16,6 +16,8 @@ import PaypalForm from './PaypalForm';
 import MpesaForm from './MpesaForm';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { LMS_COURSES } from '../../commons/urls';
+import { setCourses } from '../../state/reducers/coursesReducers';
 
 const addressObject = {
   city: '',
@@ -77,24 +79,64 @@ const useStyles = makeStyles({
 export default function Index() {
   const dispacth = useDispatch();
   const { courseId } = useParams();
-  const allCourses = useSelector((state) => state.courses.value);
-  const [course] = useState(
-    allCourses.filter((course) => parseInt(course.id) === parseInt(courseId))[0]
-  );
+  const [allCourses, setAllCourses] = useState();
+  const token = useSelector((state) => state.login.value.token);
+  const [course, setCourse] = useState([]);
   const classes = useStyles();
   const user = useSelector((state) => state.user.value);
   const isLoggedIn = useSelector((state) => state.login.value.isLoggedIn);
   const courseEnrollments = useSelector(
     (state) => state.courseEnrollments.value
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(true);
+
+  const fetchCourses = async () => {
+    setIsLoading(true);
+    await fetch(LMS_COURSES, {
+      method: 'GET',
+      mode: 'cors',
+      // Authorization: "Bearer " + token
+    })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setIsLoading(false);
+          setSuccess(true);
+        } else {
+          setIsLoading(false);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // dispacth(setCourses(data._embedded.courseDtoList));
+        console.log(data)
+        setAllCourses(data._embedded.courseDtoList);
+        // console.log(data._embedded.courseDtoList.filter((course) => parseInt(course.courseId) === parseInt(courseId))[0])
+        setCourse(data._embedded.courseDtoList.filter((course) => parseInt(course.courseId) === parseInt(courseId))[0])
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+      });
+  }
+
+  // fetchCourses();
 
   useEffect(() => {
+    fetchCourses();
     // set buyer
+    console.log(user);
     initialOrderDetails.buyer.firstName = user.firstName;
     initialOrderDetails.buyer.lastName = user.lastName;
     initialOrderDetails.buyer.email = user.email;
     // set address
-    initialOrderDetails.buyer.addresses.SHIPPING_ADDRESS = user.addresses[0];
+    initialOrderDetails.buyer.addresses.SHIPPING_ADDRESS = user.addresses ? user.addresses[0] : {
+      city: 'Nairobi',
+      country: 'Kenya',
+      countryCode: '254',
+      postalCode: '2002',
+      street: 'Kangundo',
+    };
 
     //set description
     initialOrderDetails.orderDescription = 'Course Purchase: ' + course.title;
@@ -113,7 +155,9 @@ export default function Index() {
       'courseEnrollments',
       JSON.stringify(courseEnrollments)
     ); // carry foward this state after redirect
-  }, [course, courseId]);
+
+    console.log(course);
+  }, [courseId]);
 
   return (
     <Container>
@@ -132,66 +176,70 @@ export default function Index() {
           </Typography>
         </Grid>
         <Grid container justifyContent='center'>
-          <Grid item xs={12} md={6} lg={4}>
-            <CourseCard course={course} />
-          </Grid>
+          {!isLoading && success && <>
 
-          <Grid item xs={12} md={6} lg={8} className={classes.options}>
-            <Typography variant='h5' className={classes.paymentOptionTitle}>
-              Payment Options
-            </Typography>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                style={{
-                  fontWeight: 'bolder',
-                  color: '#393424',
-                  backgroundImage:
-                    'linear-gradient(to right, #FEFCFB, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
-                }}
-              >
-                1. Lipa Na Mpesa
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container justifyContent='center'>
+            <Grid item xs={12} md={6} lg={4}>
+              <CourseCard course={course} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={8} className={classes.options}>
+              <Typography variant='h5' className={classes.paymentOptionTitle}>
+                Payment Options
+              </Typography>
+              <Accordion >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  style={{
+                    fontWeight: 'bolder',
+                    color: '#393424',
+                    backgroundImage:
+                      'linear-gradient(to right, #FEFCFB, #A6EBC9, #61FF7E, #5EEB5B, #62AB37)',
+                  }}
+                >
+                  1. Lipa Na Mpesa
+                </AccordionSummary>
+                <AccordionDetails disabled="true">
+                  <Grid container justifyContent='center'>
+                    <Grid item xs={12} lg={6} className={classes.paymentSection}>
+                      <MpesaForm
+                        course={course}
+                        orderDetails={initialOrderDetails}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <img
+                        src='/images/tillForPayment.png'
+                        alt='till number'
+                        className={classes.img}
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  style={{
+                    fontWeight: 'bolder',
+                    color: '#FEFCFB',
+                    backgroundImage:
+                      'linear-gradient(to right, #0A1128, #001F54, #034078, #2997D8, #FEFCFB)',
+                  }}
+                >
+                  2. Paypal
+                </AccordionSummary>
+                <AccordionDetails>
                   <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                    <MpesaForm
+                    <PaypalForm
                       course={course}
                       orderDetails={initialOrderDetails}
                     />
                   </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <img
-                      src='/images/tillForPayment.png'
-                      alt='till number'
-                      className={classes.img}
-                    />
-                  </Grid>
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                style={{
-                  fontWeight: 'bolder',
-                  color: '#FEFCFB',
-                  backgroundImage:
-                    'linear-gradient(to right, #0A1128, #001F54, #034078, #2997D8, #FEFCFB)',
-                }}
-              >
-                2. Paypal
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid item xs={12} lg={6} className={classes.paymentSection}>
-                  <PaypalForm
-                    course={course}
-                    orderDetails={initialOrderDetails}
-                  />
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+          </>
+          }
         </Grid>
       </Grid>
       <Footer />

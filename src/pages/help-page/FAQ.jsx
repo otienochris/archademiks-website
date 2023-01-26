@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import AccountFAQ from './AccountFAQ';
 import CourseFAQ from './CourseFAQ';
 
-function FAQ() {
-  const frequentlyAskedQuestions = useSelector((state) => state.faq.value);
+function FAQ({frequentlyAskedQuestions}) {
+  
   const [selectedTab, setSelectedTab] = useState(0);
 
   console.log(frequentlyAskedQuestions);

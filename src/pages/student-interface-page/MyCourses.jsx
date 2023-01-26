@@ -1,24 +1,19 @@
 import { Typography, Box, Grid, Divider } from '@material-ui/core';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import CourseInProgressPreview from '../../components/CourseInProgressPreview';
 
 export default function MyCourses({
-  courses,
+  courseEnrollments,
   setContinueLearning,
   setCourseToContinue,
+  setCurrentCourseEnrollmentId
 }) {
-  const userId = useSelector((state) => state.user.value.id);
-  const enrollmentDetails = useSelector((state) =>
-    state.courseEnrollments.value.filter((item) => item.studentId === userId)
-  );
-
   return (
     <>
       <Typography variant='h6'>My Courses</Typography>
       <Divider />
       <Grid container>
-        {courses.map((course, index) => (
+        {courseEnrollments.map((courseEnrollment, index) => (
           <Grid item xs={12} sm={8} md={4} key={index}>
             <Box
               sx={{
@@ -28,15 +23,12 @@ export default function MyCourses({
               }}
             >
               <CourseInProgressPreview
-                course={course}
+                course={courseEnrollment.course}
+                courseEnrollmentId={courseEnrollment.courseEnrollmentId}
+                completedTopics={courseEnrollment.completedTopicsIds}
                 setContinueLearning={setContinueLearning}
                 setCourseToContinue={setCourseToContinue}
-                enrollmentDetails={enrollmentDetails.filter(
-                  (enrollmentDetail) =>
-                    parseInt(enrollmentDetail.courseId) ===
-                      parseInt(course.id) &&
-                    parseInt(enrollmentDetail.studentId) === parseInt(userId)
-                )}
+                setCurrentCourseEnrollmentId={setCurrentCourseEnrollmentId}
               />
             </Box>
           </Grid>
