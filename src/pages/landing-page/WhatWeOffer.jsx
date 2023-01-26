@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import {
   Container,
   Grid,
   makeStyles,
   Paper,
-  Slide,
   Typography,
 } from '@material-ui/core';
 import SchoolIcon from '@mui/icons-material/School';
@@ -45,9 +44,6 @@ const useStyles = makeStyles({
 });
 export default function WhatWeOffer(props) {
   const classes = useStyles();
-  const containerRef = React.useRef(null);
-
-  const isInViewport = useIsInViewport(containerRef);
 
   return (
     <Container>
@@ -58,109 +54,71 @@ export default function WhatWeOffer(props) {
         container
         justifyContent='space-around'
         className={classes.gridContainer}
-        ref={containerRef}
       >
         <Grid item xs={10} sm={6} md={3}>
-          <Slide
-            direction='right'
-            in={isInViewport}
-            container={containerRef.current}
-            {...(isInViewport ? { timeout: 500 } : {})}
-          >
-            <Paper className={classes.paper} variant='outlined'>
-              <SchoolIcon className={classes.icon} style={{ fontSize: 50 }} />
-              <Typography
-                align='center'
-                variant='h4'
-                style={{ color: '#ff8c00' }}
-              >
-                Certification
-              </Typography>
-              <Typography align='center' variant='body2'>
-                Certifications are the surest way to prove what you have learned
-                and mastered. Akademi offers affordable courses that grant
-                certificates of completion that are easily downloadable and
-                sharable on social media.
-              </Typography>
-            </Paper>
-          </Slide>
+
+          <Paper className={classes.paper} variant='outlined'>
+            <SchoolIcon className={classes.icon} style={{ fontSize: 50 }} />
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
+              Certification
+            </Typography>
+            <Typography align='center' variant='body2'>
+              Certifications are the surest way to prove what you have learned
+              and mastered. Akademi offers affordable courses that grant
+              certificates of completion that are easily downloadable and
+              sharable on social media.
+            </Typography>
+          </Paper>
+
         </Grid>
         <Grid item xs={10} sm={6} md={3}>
-          <Slide
-            direction='left'
-            in={isInViewport}
-            container={containerRef.current}
-            {...(isInViewport ? { timeout: 1500 } : {})}
-          >
-            <Paper className={classes.paper} variant='outlined'>
-              <VerifiedIcon className={classes.icon} style={{ fontSize: 50 }} />
-              <Typography
-                align='center'
-                variant='h4'
-                style={{ color: '#ff8c00' }}
-              >
-                Quality Content
-              </Typography>
-              <Typography align='center' variant='body2'>
-                Our courses go through intense review and scrutiny by
-                professionals to yield high quality content that meets current
-                market needs. Enrolling and completing Akademi's courses
-                improves your competitiveness globally.
-              </Typography>
-            </Paper>
-          </Slide>
+
+          <Paper className={classes.paper} variant='outlined'>
+            <VerifiedIcon className={classes.icon} style={{ fontSize: 50 }} />
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
+              Quality Content
+            </Typography>
+            <Typography align='center' variant='body2'>
+              Our courses go through intense review and scrutiny by
+              professionals to yield high quality content that meets current
+              market needs. Enrolling and completing Akademi's courses
+              improves your competitiveness globally.
+            </Typography>
+          </Paper>
+
         </Grid>
         <Grid item xs={10} sm={6} md={3}>
-          <Slide
-            direction='left'
-            in={isInViewport}
-            container={containerRef.current}
-            {...(isInViewport ? { timeout: 3500 } : {})}
-          >
-            <Paper className={classes.paper} variant='outlined'>
-              <SupportAgentIcon
-                className={classes.icon}
-                style={{ fontSize: 50 }}
-              />
-              <Typography
-                align='center'
-                variant='h4'
-                style={{ color: '#ff8c00' }}
-              >
-                Support
-              </Typography>
-              <Typography align='center' variant='body2'>
-                We value our clients. Therefore, we aim to provide the best
-                learning experience through user friendly platform that require
-                little support. However, if stuck, our support team are few
-                seconds away.
-              </Typography>
-            </Paper>
-          </Slide>
+
+          <Paper className={classes.paper} variant='outlined'>
+            <SupportAgentIcon
+              className={classes.icon}
+              style={{ fontSize: 50 }}
+            />
+            <Typography
+              align='center'
+              variant='h4'
+              style={{ color: '#ff8c00' }}
+            >
+              Support
+            </Typography>
+            <Typography align='center' variant='body2'>
+              We value our clients. Therefore, we aim to provide the best
+              learning experience through user friendly platform that require
+              little support. However, if stuck, our support team are few
+              seconds away.
+            </Typography>
+          </Paper>
+
         </Grid>
       </Grid>
     </Container>
   );
-}
-
-function useIsInViewport(ref) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-
-  const observer = useMemo(
-    () =>
-      new IntersectionObserver(([entry]) =>
-        setIsIntersecting(entry.isIntersecting)
-      ),
-    []
-  );
-
-  useEffect(() => {
-    observer.observe(ref.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [ref, observer]);
-
-  return isIntersecting;
 }
