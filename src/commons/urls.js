@@ -1,9 +1,12 @@
 export const API_VERSION1 = "/api/v1";
-export const SECOND_MACHINE = "http://192.168.0.102"
-// export const SECOND_MACHINE = "http://localhost"
+export const HTTPS_PROTOCOL = "https://"
+export const GLOBAL_BASE_URL = 'explorersanddevelopers.or.ke'
+export const LMS_SERVICE_NAME = 'lms-service';
+export const NOTIFICATION_SERVICE_NAME = 'notification-service'
+export const SECOND_MACHINE = HTTPS_PROTOCOL + LMS_SERVICE_NAME + GLOBAL_BASE_URL
 
 // Notification urls
-export const NOTIFICATION_BASE_URL = SECOND_MACHINE + ":8081/notification-service";
+export const NOTIFICATION_BASE_URL = HTTPS_PROTOCOL + NOTIFICATION_SERVICE_NAME + '.' + GLOBAL_BASE_URL + "/notification-service";
 export const NOTIFICATION_SEND_SIMPLE_MAIL = NOTIFICATION_BASE_URL + "/mail/send-simple-message"
 
 // Payment urls
@@ -11,8 +14,7 @@ export const PAYMENT_BASE_URL = SECOND_MACHINE + ":8082/payment-service";
 
 
 // lms urls
-// export const LMS_BASE_URL = "http://localhost:8083/lms";
-export const LMS_BASE_URL = SECOND_MACHINE + ":8083/lms";
+export const LMS_BASE_URL = HTTPS_PROTOCOL + LMS_SERVICE_NAME + '.' + GLOBAL_BASE_URL + '/lms';
 export const LMS_BASE_URL_WITH_VERSION = LMS_BASE_URL + API_VERSION1;
 
 export const LMS_AUTHENTICATION = LMS_BASE_URL + API_VERSION1 + "/authentication";
