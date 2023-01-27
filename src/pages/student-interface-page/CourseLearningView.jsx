@@ -48,8 +48,8 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
   const [isLoading, setIsLoading] = useState(true);
   const role = useSelector(state => state.login.value.role);
   const [currentCourse] = useState(course);
-  const [completedTopics, setCompletedTopics] = useState(currentCourseEnrollment.completedTopicsIds == null || currentCourseEnrollment.completedTopicsIds == undefined ? [] : currentCourseEnrollment.completedTopicsIds)
-  const [completedSubTopics, setCompletedSubTopics] = useState(currentCourseEnrollment.completedSubTopicsIds == null || currentCourseEnrollment.completedSubTopicsIds == undefined ? {} : currentCourseEnrollment.completedSubTopicsIds)
+  const [completedTopics, setCompletedTopics] = useState(currentCourseEnrollment == undefined || currentCourseEnrollment.completedTopicsIds == undefined || currentCourseEnrollment.completedTopicsIds == null ? [] : currentCourseEnrollment.completedTopicsIds)
+  const [completedSubTopics, setCompletedSubTopics] = useState(currentCourseEnrollment == undefined || currentCourseEnrollment.completedSubTopicsIds == null || currentCourseEnrollment.completedSubTopicsIds == undefined ? {} : currentCourseEnrollment.completedSubTopicsIds)
 
   useEffect(() => { }, [courseEnrollment])
 
@@ -130,8 +130,7 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
     <>
       <Grid container justifyContent={'center'}>
         <Grid item xs={12}>
-          <Typography variant='h4'>{currentCourse.title}</Typography>
-          <Divider />
+          <Typography variant='h4' style={{ padding: '10px', backgroundColor: 'black', color: 'white' }}>{currentCourse.title}</Typography>
         </Grid>
         <Grid item={12} style={{ width: '100%' }}>
           {isLoading ? <CircularProgress /> : <List>
@@ -177,24 +176,23 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
               id='topic'
               style={{
                 margin: '10px',
-                width: '100%',
+                // width: '100%',
               }}
             >
               <div style={{
                 display: 'flex',
-                flexDirection: 'row'
+                flexDirection: 'column'
               }}>
 
                 <Button
                   startIcon={<ArrowBack />}
-                  variant='contained'
+                  variant='text'
                   style={{
-                    backgroundColor: '#ff8c00',
-                    color: 'black',
+                    color: 'maroon',
                     fontWeight: 'bolder',
-                    margin: '10px auto',
-                    padding: '10px',
-                    width: '120px'
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    width: '220px'
                   }}
                   onClick={() => {
                     setCompleteTopic(false);
@@ -202,9 +200,9 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                     setSubtopicIndex(0);
                   }}
                 >
-                  Back
+                  back to all topics
                 </Button>
-                <Typography variant='h4' style={{ flexGrow: 1, backgroundColor: 'black', color: 'white', padding: '20px', marginLeft: '5px' }} align='center'>{completeTopic && selectedTopic.title}</Typography>
+                <Typography variant='h5' style={{ flexGrow: 1, backgroundColor: 'black', color: 'white', padding: '10px', marginLeft: '5px' }} align='center'>{completeTopic && selectedTopic.title}</Typography>
 
               </div>
             </DialogTitle>
@@ -221,23 +219,19 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                       __html: `${completeTopic && selectedTopic.content}`,
                     }}
                   />
-                  <Grid item xs={12}>
+                  <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Button
                       endIcon={<ArrowForwardIos />}
                       style={{
-                        backgroundColor: '#ff8c00',
-                        color: 'black',
+                        color: 'maroon',
                         fontWeight: 'bolder',
-                        margin: '10px auto',
-                        padding: '10px',
-                        width: '120px'
                       }}
                       onClick={() => {
                         setSubtopicsOpened(true);
                         document.getElementById('topic').scrollIntoView();
                       }}
                     >
-                      Continue
+                      Proceed to subtopics
                     </Button>
                     <Divider />
                   </Grid>
@@ -328,24 +322,7 @@ export default function CourseLearningView({ course, currentCourseEnrollment, se
                 </>
               )}
             </DialogContent>
-            <DialogActions
-              style={{
-                margin: 'auto',
-              }}
-            >
-              <Button
-                startIcon={<Close />}
-                variant='outlined'
-                onClick={() => {
-                  setCompleteTopic(false);
-                  setSubtopicsOpened(false);
-                  setSubtopicIndex(0);
-                }}
-                style={{ margin: 'auto' }}
-              >
-                Exit
-              </Button>
-            </DialogActions>
+
           </Container>
         </Dialog>
       </Grid>

@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { Add, ExpandMore } from '@material-ui/icons';
+import { Add, ArrowBackOutlined, ExpandMore } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -76,7 +76,11 @@ function EditSubtopics({ courseId }) {
 
   return (
     <>
-      {isLoading ? <CircularProgress /> : allTopics.map((topic, index) => (
+      {isLoading ? <Container style={{
+        height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+      }}>
+        <CircularProgress />
+      </Container> : allTopics.map((topic, index) => (
         <Accordion style={{ margin: '5px auto' }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant='h6'>
@@ -160,12 +164,13 @@ function EditSubtopics({ courseId }) {
             }}
           >
             <Button
-              variant='contained'
+              variant='text'
+              startIcon={<ArrowBackOutlined />}
               onClick={() => {
                 setSubtopicSeleted(false);
                 setOpenEditPage(false);
               }}
-              style={{ backgroundColor: '#ff8c00' }}
+              style={{ color: 'maroon', marginRight: '20px', fontWeight: 'bolder' }}
             >
               Cancel
             </Button>
@@ -201,11 +206,12 @@ function EditSubtopics({ courseId }) {
             }}
           >
             <Button
-              variant='contained'
+              variant='text'
+              startIcon={<ArrowBackOutlined />}
               onClick={() => {
                 setAddNewSubtopic(false);
               }}
-              style={{ backgroundColor: '#ff8c00' }}
+              style={{ color: 'maroon', fontWeight: 'bolder', marginRight: '20px' }}
             >
               Cancel
             </Button>
