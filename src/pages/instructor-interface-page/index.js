@@ -171,8 +171,7 @@ export default function Index() {
         ) : viewCourse ? (
           <div style={{ margin: '5px auto' }}>
             <Button
-              variant='contained'
-              color='secondary'
+              variant='text'
               startIcon={<ArrowLeftOutlined />}
               onClick={() => {
                 setViewCourse(false);
@@ -181,12 +180,11 @@ export default function Index() {
               }}
               style={{
                 margin: '30px auto',
-                backgroundColor: '#ff8c00',
-                color: 'black',
+                color: 'maroon',
                 fontWeight: 'bolder',
               }}
             >
-              Back to my courses
+              Back to all my courses
             </Button>
             <Divider />
             <CourseLearningView
@@ -198,8 +196,7 @@ export default function Index() {
         ) : editCourse ? (
           <div style={{ margin: '5px auto' }}>
             <Button
-              variant='contained'
-              color='secondary'
+              variant='text'
               startIcon={<ArrowLeftOutlined />}
               onClick={() => {
                 setViewCourse(false);
@@ -208,12 +205,11 @@ export default function Index() {
               }}
               style={{
                 margin: '30px auto',
-                backgroundColor: '#ff8c00',
-                color: 'black',
+                color: 'maroon',
                 fontWeight: 'bolder',
               }}
             >
-              Back to my courses
+              Back to all my courses
             </Button>
             {/* <Divider /> */}
             <EditCourseView course={courseToViewOrEdit} />

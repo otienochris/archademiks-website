@@ -11,9 +11,6 @@ import { list } from '../../data/courses';
 
 const useStyles = makeStyles({
   mainContainer: {
-    marginTop: '30px auto',
-    width: '100%',
-    minHeight: '50vh',
     borderTop: '2px solid #E0E8EC',
     borderBottom: '2px solid #E0E8EC',
     display: 'flex',
@@ -23,12 +20,11 @@ const useStyles = makeStyles({
   categories: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'center',
     justifyItems: 'center',
   },
   category: {
-    margin: '20px',
+    margin: '5px',
   },
   spans: {
     color: '#ff8c00',
@@ -42,8 +38,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     justifyItems: 'center',
     width: '100%',
-    backgroundColor: 'white',
-    margin: '20px 5px',
+    // backgroundColor: 'white',
+    margin: '5px',
   },
 });
 
@@ -96,7 +92,7 @@ export default function MostPopularCourses() {
         backgroundImage: 'url("/main_background.jpg")',
       }}
     >
-      <Grid container className={classes.mainContainer}>
+      <Grid container>
         <Grid item xs={12}>
           <Typography variant='h4' align='center' className={classes.mainTitle}>
             <span className={classes.spans}>Most Popular</span> Courses
@@ -115,24 +111,26 @@ export default function MostPopularCourses() {
             All Courses
           </Button>
         </Grid>
-        {categories.map((category, index) => (
-          <Grid
-            key={index}
-            item
-            xs={4}
-            sm={3}
-            md={2}
-            className={classes.category}
-          >
+
+        <Grid
+          item
+          xs={12}
+        // sm={3}
+        // md={2}
+        >
+          {categories.map((category, index) => (
             <Button
+              className={classes.category}
+              key={index}
               style={{ color: 'white', borderColor: '#ff8c00' }}
               onClick={() => filterByCategory(category)}
               variant='outlined'
             >
               {category}
             </Button>
-          </Grid>
-        ))}
+          ))}
+        </Grid>
+
         <Grid container justifyContent='center'>
           {listOfCourses.map((course, index) => (
             <Grid

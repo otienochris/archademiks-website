@@ -12,6 +12,7 @@ import * as yup from 'yup';
 
 import { Email } from '@material-ui/icons';
 import { useState } from 'react';
+import { PAYMENT_BASE_URL } from '../../commons/urls';
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -30,14 +31,12 @@ function PaypalForm({ orderDetails, course }) {
     criteriaMode: 'all',
   });
 
-  const baseUrlForPayment = 'http://localhost:8082/payment-service';
-
   const handlePaypal = async (data) => {
     localStorage.setItem('courseId', JSON.stringify(course.id));
     setIsLoading(true);
     orderDetails.buyer.email = data.email;
 
-    await fetch(baseUrlForPayment + '/paypal/payment/authorize', {
+    await fetch(PAYMENT_BASE_URL + '/paypal/payment/authorize', {
       method: 'POST',
       mode: 'cors',
       redirect: 'follow',

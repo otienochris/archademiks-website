@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
+import { LMS_COURSE_ENROLLMENTS, PAYMENT_BASE_URL, SECOND_MACHINE } from '../../commons/urls';
 import {
   enrollUserToCourse,
   setCourseEnrollments,
@@ -66,12 +66,10 @@ function ConfirmOrder() {
   const user = localStorage.getItem('user');
   const token = useSelector((state) => state.login.value.token);
 
-  const baseUrlForPayment = 'http://localhost:8082/payment-service';
-
   const reviewPaymentUrl =
-    baseUrlForPayment + '/paypal/payment/review/' + paymentId;
+    PAYMENT_BASE_URL + '/paypal/payment/review/' + paymentId;
   const executePaymenturl =
-    baseUrlForPayment +
+    PAYMENT_BASE_URL +
     '/paypal/payment/execute-payment/' +
     paymentId +
     '/' +
