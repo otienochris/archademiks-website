@@ -22,6 +22,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSelector } from 'react-redux';
 import { LMS_COURSE_ENROLLMENTS } from '../../commons/urls';
+import { ArrowBack, ArrowBackOutlined } from '@material-ui/icons';
 
 export default function Index() {
   // const date = new Date();
@@ -184,17 +185,15 @@ export default function Index() {
         <Container style={{ minHeight: '87vh', width: '100%' }}>
           <Button
             onClick={() => setContinueLearning(false)}
-            variant='contained'
-            startIcon={<ArrowBackIcon />}
-            color='primary'
+            variant='text'
+            startIcon={<ArrowBackOutlined />}
             style={{
-              margin: '20px auto',
-              backgroundColor: '#ff8c00',
-              color: 'black',
+              marginBottom: '10px',
+              color: 'maroon',
               fontWeight: 'bolder',
             }}
           >
-            Back to My Courses
+            Back to all My Courses
           </Button>
           <CourseLearningView
             setRefresh={setRefresh}

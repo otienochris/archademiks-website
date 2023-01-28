@@ -13,6 +13,7 @@ import {
   Slide,
   Typography,
 } from '@material-ui/core';
+import { ArrowBackIosOutlined } from '@material-ui/icons';
 import { ListItemButton } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -103,34 +104,33 @@ function EditTopics({ courseId }) {
       >
         <Container>
           <DialogTitle
-            style={{
-              backgroundColor: 'black',
-              color: 'white',
-              textAlign: 'center',
-              margin: '10px',
-            }}
-          >
-            Edit Topic
-          </DialogTitle>
-          <DialogContent>
-            {topicSelected && <EditTopic setOpenEditPage={setOpenEditPage} setIsLoading={setIsLoading} topic={topicToBeEdited} />}
-          </DialogContent>
-          <DialogActions
-            style={{
-              margin: '10px',
-            }}
           >
             <Button
-              variant='contained'
+              variant='text'
+              startIcon={<ArrowBackIosOutlined />}
               onClick={() => {
                 setTopicSeleted(false);
                 setOpenEditPage(false);
               }}
-              style={{ backgroundColor: '#ff8c00' }}
+              style={{ color: 'maroon', fontWeight: 'bolder', marginBottom: '10px' }}
             >
-              Cancel
+              Back to all topics
             </Button>
-          </DialogActions>
+            <Typography
+              variant='h5'
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+                textAlign: 'center',
+                padding: '10px',
+              }}
+            >
+              Edit Topic
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            {topicSelected && <EditTopic setOpenEditPage={setOpenEditPage} setIsLoading={setIsLoading} topic={topicToBeEdited} />}
+          </DialogContent>
         </Container>
       </Dialog>
     </Grid>
