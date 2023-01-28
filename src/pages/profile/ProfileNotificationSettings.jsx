@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  Container,
   Divider,
   FormControlLabel,
   FormGroup,
@@ -28,6 +29,7 @@ function ProfileNotificationSettings({ userType, userId, notifications }) {
     criteriaMode: 'all',
   });
 
+
   const onSubmit = (data) => {
     data.userId = userId;
     console.log(data);
@@ -35,10 +37,20 @@ function ProfileNotificationSettings({ userType, userId, notifications }) {
   };
 
   useEffect(() => {
-    setValue('promotion', notifications.promotions);
-    setValue('announcement', notifications.announcements);
-    setValue('purchase', notifications.purchases);
-    setValue('dropout', notifications.dropouts);
+    if (notifications != undefined) {
+      if (notifications.promotions != undefined) {
+        setValue('promotion', notifications.promotions);
+      }
+      if (notifications.announcements != undefined) {
+        setValue('announcement', notifications.announcements);
+      }
+      if (notifications.purchases != undefined) {
+        setValue('purchase', notifications.purchases);
+      }
+      if (notifications.dropouts != undefined) {
+        setValue('dropout', notifications.dropouts);
+      }
+    }
   }, []);
 
   return (
@@ -74,62 +86,64 @@ function ProfileNotificationSettings({ userType, userId, notifications }) {
         >
           I want to receive notifications on:
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormGroup>
-            {userType === 'STUDENT' || userType === 'PARENT' ? (
-              <>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked={notifications.promotions}
-                      {...register('promotion')}
-                    />
-                  }
-                  label='Promotions, course recommendations, and helpful resources from Akademy'
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked={notifications.announcements}
-                      {...register('announcement')}
-                    />
-                  }
-                  label="Announcements from instructors whose course(s) I'm enrolled in."
-                />
-              </>
-            ) : (
-              <>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked={notifications.purchases}
-                      {...register('purchase')}
-                    />
-                  }
-                  label='Each course purchase.'
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked={notifications.dropouts}
-                      {...register('dropout')}
-                    />
-                  }
-                  label='Each course dropout.'
-                />
-              </>
-            )}
-            <Button
-              color={'secondary'}
-              variant={'contained'}
-              onClick={handleSubmit}
-              type='submit'
-              style={{ margin: '40px 0px 20px 0px', width: '200px' }}
-            >
-              Submit Changes
-            </Button>
-          </FormGroup>
-        </form>
+        {notifications == undefined ?
+          <Container>Not yet allowed to configure notification settings</Container> :
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormGroup>
+              {userType === 'STUDENT' || userType === 'PARENT' ? (
+                <>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={notifications == undefined && notifications.promotions}
+                        {...register('promotion')}
+                      />
+                    }
+                    label='Promotions, course recommendations, and helpful resources from Akademy'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={notifications == undefined && notifications.announcements}
+                        {...register('announcement')}
+                      />
+                    }
+                    label="Announcements from instructors whose course(s) I'm enrolled in."
+                  />
+                </>
+              ) : (
+                <>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={notifications == undefined && notifications.purchases}
+                        {...register('purchase')}
+                      />
+                    }
+                    label='Each course purchase.'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        defaultChecked={notifications.dropouts}
+                        {...register('dropout')}
+                      />
+                    }
+                    label='Each course dropout.'
+                  />
+                </>
+              )}
+              <Button
+                color={'secondary'}
+                variant={'contained'}
+                onClick={handleSubmit}
+                type='submit'
+                style={{ margin: '40px 0px 20px 0px', width: '200px' }}
+              >
+                Submit Changes
+              </Button>
+            </FormGroup>
+          </form>}
       </Grid>
     </Grid>
   );

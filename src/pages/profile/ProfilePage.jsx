@@ -24,7 +24,6 @@ function ProfilePage() {
     setSelectedTab(newValue);
   };
 
-
   var id;
   useEffect(() => {
     const role = loginDetails.role;
