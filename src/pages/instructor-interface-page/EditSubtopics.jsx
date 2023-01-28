@@ -146,22 +146,6 @@ function EditSubtopics({ courseId }) {
       >
         <Container>
           <DialogTitle
-            style={{
-              backgroundColor: 'black',
-              color: 'white',
-              textAlign: 'center',
-              margin: '10px',
-            }}
-          >
-            Edit Sub-topic
-          </DialogTitle>
-          <DialogContent>
-            {subtopicSelected && <EditSubtopic setRefresh={setRefresh} setOpenEditPage={setOpenEditPage} subtopic={subtopicToBeEdited} />}
-          </DialogContent>
-          <DialogActions
-            style={{
-              margin: '10px',
-            }}
           >
             <Button
               variant='text'
@@ -170,11 +154,26 @@ function EditSubtopics({ courseId }) {
                 setSubtopicSeleted(false);
                 setOpenEditPage(false);
               }}
-              style={{ color: 'maroon', marginRight: '20px', fontWeight: 'bolder' }}
+              style={{ color: 'maroon', marginRight: '20px', fontWeight: 'bolder', marginBottom: '5px' }}
             >
-              Cancel
+              Back to all subtopics
             </Button>
-          </DialogActions>
+            <Typography
+              variant='h5'
+              startIcon={<ArrowBackOutlined />}
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+                textAlign: 'center',
+                padding: '10px',
+              }}>
+
+              Edit Sub-topic
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            {subtopicSelected && <EditSubtopic setRefresh={setRefresh} setOpenEditPage={setOpenEditPage} subtopic={subtopicToBeEdited} />}
+          </DialogContent>
         </Container>
       </Dialog>
 

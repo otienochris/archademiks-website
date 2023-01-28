@@ -109,8 +109,8 @@ export default function CreateCourse({ setCreateNewCourse }) {
   return (
     <Container>
       <Grid container>
-        <Grid item xs={12}>
-          <Stepper activeStep={step} className={classes.stepperSection}>
+        <Grid item xs={12} >
+          <Stepper activeStep={step} style={{ display: 'flex' }} className={classes.stepperSection}>
             {stepsDetails.map((stepItem, index) => (
               <Step key={index} style={{ color: '#ff8c00' }}>
                 <StepLabel>{stepItem.title}</StepLabel>
