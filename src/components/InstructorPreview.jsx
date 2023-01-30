@@ -30,51 +30,45 @@ export default function InstructorPreview({ instructor }) {
         <Typography>{instructor.description}</Typography>
       </CardContent>
 
-      <CardActions style={{ display: 'block', backgroundColor: '#0D0221', padding: '10px auto' }}>
-        <Typography style={{ color: 'white' }}>Contact me through:</Typography>
-        <Divider component={'hr'} style={{ border: '1px solid white', margin: '5px auto 5px 0px', maxWidth: '150px' }} />
-        <div style={{ display: 'flex', width: '100%', margin: '10px auto' }}>
-
-
-          <IconButton
-            aria-label='whatsapp'
-            style={{ borderLeft: '1px solid yellowgreen', borderRight: '1px solid yellowgreen', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+      <CardActions style={{ display: 'block', backgroundColor: '#0D0221', padding: '10px auto', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+        <IconButton
+          aria-label='whatsapp'
+          style={{ borderLeft: '1px solid yellowgreen', borderRight: '1px solid yellowgreen', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+        >
+          <a
+            href={instructor.contacts == undefined || instructor.contacts[3].url === null || instructor.contacts[3].url === '' ? 'https://api.whatsapp.com/send?phone=+254772348798' : `https://api.whatsapp.com/send?phone=${instructor.contacts[3].url}`}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ textDecoration: 'none', color: 'yellowgreen' }}
           >
-            <a
-              href={instructor.contacts == undefined || instructor.contacts[3].url === null || instructor.contacts[3].url === '' ? 'https://api.whatsapp.com/send?phone=+254772348798' : `https://api.whatsapp.com/send?phone=${instructor.contacts[3].url}`}
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ textDecoration: 'none', color: 'yellowgreen' }}
-            >
-              <WhatsAppIcon /> <span style={{ fontSize: '0.5em' }}>Whatsapp</span>
-            </a>
-          </IconButton>
-          <IconButton
-            aria-label='share'
-            style={{ borderLeft: '1px solid white', borderRight: '1px solid white', borderRadius: '5px', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+            <WhatsAppIcon /> <span style={{ fontSize: '0.5em' }}>Whatsapp</span>
+          </a>
+        </IconButton>
+        <IconButton
+          aria-label='share'
+          style={{ borderLeft: '1px solid white', borderRight: '1px solid white', borderRadius: '5px', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+        >
+          <a
+            href={instructor.contacts == undefined || instructor.contacts[0].url === null || instructor.contacts[0].url === '' ? 'https://www.linkedin.com/in/christopher-otieno-556779193/' : instructor.contacts[0].url}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ textDecoration: 'none', color: 'white' }}
           >
-            <a
-              href={instructor.contacts == undefined || instructor.contacts[0].url === null || instructor.contacts[0].url === '' ? 'https://www.linkedin.com/in/christopher-otieno-556779193/' : instructor.contacts[0].url}
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ textDecoration: 'none', color: 'white' }}
-            >
-              <LinkedInIcon /> <span style={{ fontSize: '0.5em' }}>LinkedIn</span>
-            </a>
-          </IconButton>
-          <IconButton
-            style={{ borderLeft: '1px solid #ff8c00', borderRight: '1px solid #ff8c00', borderRadius: '5px', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+            <LinkedInIcon /> <span style={{ fontSize: '0.5em' }}>LinkedIn</span>
+          </a>
+        </IconButton>
+        <IconButton
+          style={{ borderLeft: '1px solid #ff8c00', borderRight: '1px solid #ff8c00', borderRadius: '5px', borderRadius: '5px', padding: '5px', margin: 'auto 10px auto 0px' }}
+        >
+          <a
+            href={instructor.contacts == undefined || instructor.contacts[2].url === null || instructor.contacts[2].url === '' ? 'https://archademiks.slack.com/archives/C03BAMJV0JJ' : instructor.contacts[2].url}
+            target='_blank'
+            rel='noopener noreferrer'
+            style={{ textDecoration: 'none', color: '#ff8c00' }}
           >
-            <a
-              href={instructor.contacts == undefined || instructor.contacts[2].url === null || instructor.contacts[2].url === '' ? 'https://archademiks.slack.com/archives/C03BAMJV0JJ' : instructor.contacts[2].url}
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ textDecoration: 'none', color: '#ff8c00' }}
-            >
-              <ConnectWithoutContactIcon /> <span style={{ fontSize: '0.5em' }}>Slack</span>
-            </a>
-          </IconButton>
-        </div>
+            <ConnectWithoutContactIcon /> <span style={{ fontSize: '0.5em' }}>Slack</span>
+          </a>
+        </IconButton>
       </CardActions>
     </Card>
   );
