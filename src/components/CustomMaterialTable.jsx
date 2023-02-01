@@ -71,8 +71,7 @@ function CustomMaterialTable({
             onRowAdd: (newData) =>
               new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  console.log(newData);
-
+                  handleAdd(newData);
                   resolve();
                 }, 1000);
               }),

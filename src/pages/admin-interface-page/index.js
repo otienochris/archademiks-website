@@ -1,4 +1,4 @@
-import { Container, Grid, Tab, Tabs } from '@material-ui/core';
+import { Container, Grid, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { setCourses } from '../../state/reducers/coursesReducers';
 import AdminDashboard from './AdminDashboard';
 import CoursesTable from './CoursesTable';
 import UsersTable from './UsersTable';
+import UsersView from './UsersView';
 
 const useStyles = makeStyles({
   tabs: {
@@ -76,7 +77,8 @@ export default function Index() {
           dateJoined: student.creationDate,
           dataModified: student.modificationDate,
           country: student.countryCode,
-          version: student.version
+          version: student.version,
+          isAccountDisabled: student.accountDisabled
         }))
 
         studentList.map(student => users.push(student));
@@ -106,7 +108,8 @@ export default function Index() {
           dateJoined: instructor.creationDate,
           dataModified: instructor.modificationDate,
           country: instructor.countryCode,
-          version: instructor.version
+          version: instructor.version,
+          isAccountDisabled: instructor.accountDisabled
         }))
 
         instructorsList.map(instructor => users.push(instructor));
@@ -134,25 +137,28 @@ export default function Index() {
             onChange={handleChange}
             centered
             className={classes.tabs}
-            variant='fullWidth'
+          // variant='fullWidth'
           >
             <Tab label={'Overview'} />
             <Tab label={'Users'} />
             <Tab label={'Courses'} />
+            <Tab label={'Reports'} />
           </Tabs>
         </Grid>
         <Grid item xs={12}>
           {value == '0' ? (
             <AdminDashboard course={list} users={users} />
           ) : value == '1' ? (
-            <UsersTable
-              courses={courses}
-              users={users}
-              courseEnrollmentDetails={courseEnrollmentDetails}
-            />
-          ) : (
+            // <UsersTable
+            //   courses={courses}
+            //   users={users}
+            //   courseEnrollmentDetails={courseEnrollmentDetails}
+            // />
+
+            <UsersView users={users} />
+          ) : value == 2 ? (
             <CoursesTable courses={courses} />
-          )}
+          ) : <Typography>Nothing Here</Typography>}
         </Grid>
       </Grid>
     </Container>

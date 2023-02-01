@@ -235,7 +235,6 @@ export default function SignUp({ setAction }) {
               </MenuItem>
               <Divider />
               <MenuItem value='STUDENT'>Student</MenuItem>
-              <MenuItem value='INSTRUCTOR'>Instructor</MenuItem>
               <MenuItem value='PARENT'>Parent</MenuItem>
             </Select>
             <FormHelperText>

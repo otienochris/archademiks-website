@@ -4,9 +4,10 @@ import { Button, CircularProgress, Container, Dialog, DialogActions, DialogConte
 import CourseCard from '../../components/CourseCard';
 import { useDispatch } from 'react-redux';
 import { ROLES } from '../../commons/roles';
-import { LMS_COURSE_ENROLLMENTS, LMS_INSTRUCTORS, LMS_STUDENTS } from '../../commons/urls';
+import { LMS_COURSE_ENROLLMENTS, LMS_INSTRUCTORS, LMS_INSTRUCTORS_SIGNUP, LMS_RELATIVES_SIGNUP, LMS_STUDENTS, LMS_STUDENTS_SIGNUP } from '../../commons/urls';
 import { useSelector } from 'react-redux';
 import { ArrowBack } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 
 const cellStyle = {
   borderRight: '1px solid #716969',
@@ -55,6 +56,36 @@ const courseEnrollmentsColumns = [
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
+
+
+export const saveUser = async (url, body) => {
+  await fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(body),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then(data => {
+          // setUserSaved(true);
+          console.log(data);
+          toast("User created successfully", { position: toast.POSITION.BOTTOM_RIGHT })
+          return data;
+        })
+      } else {
+        response.json().then(exception => {
+          console.log(exception);
+          return exception;
+        });
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+}
 
 function UsersTable({ users, courses, courseEnrollmentDetails }) {
   const dispatch = useDispatch();
@@ -214,8 +245,42 @@ function UsersTable({ users, courses, courseEnrollmentDetails }) {
 
   }
 
-  const handleAdd = () => {
-    console.log('adding user');
+  const autoGeneratePassword = () => {
+    return Math.random().toString(36).slice(-8);
+  }
+
+  const handleAdd = (newData) => {
+    console.log("Password: " + autoGeneratePassword());
+    console.log(newData);
+
+    const userObj = {
+      firstName: newData.firstName,
+      lastName: newData.lastName,
+      email: newData.email,
+      countryCode: "KE",
+      newPassword: autoGeneratePassword(),
+      courses: null,
+      organizations: null,
+      reviews: null,
+      addresses: null,
+      relatives: null,
+      certificates: null,
+      version: 0
+    }
+
+    switch (newData.role) {
+      case ROLES.INSTRUCTOR:
+        saveUser(LMS_INSTRUCTORS_SIGNUP, userObj)
+        break;
+      case ROLES.STUDENT:
+        saveUser(LMS_STUDENTS_SIGNUP, userObj)
+        break;
+      case ROLES.PARENT:
+        saveUser(LMS_RELATIVES_SIGNUP, userObj)
+        break;
+      default:
+        break;
+    }
   };
 
   const courseDetailPanel = [
