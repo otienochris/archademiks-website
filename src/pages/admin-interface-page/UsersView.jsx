@@ -1,7 +1,7 @@
-import { Button, Container, Grid, IconButton, Checkbox, makeStyles, Table, TextField, Typography, Divider } from '@material-ui/core'
+import { Button, Container, Grid, IconButton, Checkbox, makeStyles, Table, TextField, Typography, Divider, TablePagination } from '@material-ui/core'
 import { DeleteForever, More, PersonAdd, Search, Sort, VerticalAlignBottom, VerticalAlignTop } from '@material-ui/icons';
 import { ReadMore } from '@mui/icons-material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const useStyles = makeStyles({
     top: {
@@ -234,11 +234,62 @@ const data = [
         country: 'KE',
         role: 'ROLE_STUDENT',
         creationDate: '2022-09-01'
+    },
+    {
+        firstName: 'Christopher',
+        lastName: 'Otieno',
+        email: 'otienochris98@gmail.com',
+        isAccountDisabled: true,
+        country: 'KE',
+        role: 'ROLE_STUDENT',
+        creationDate: '2022-09-01'
+    },
+    {
+        firstName: 'Christopher',
+        lastName: 'Otieno',
+        email: 'otienochris98@gmail.com',
+        isAccountDisabled: true,
+        country: 'KE',
+        role: 'ROLE_STUDENT',
+        creationDate: '2022-09-01'
+    }, {
+        firstName: 'Christopher',
+        lastName: 'Otieno',
+        email: 'christopherochiengotieno@gmail.com',
+        isAccountDisabled: true,
+        country: 'KE',
+        role: 'ROLE_STUDENT',
+        creationDate: '2022-09-01'
     }]
 
 function UsersView({ users }) {
 
-    const [stateUsers, setCurrentUsers] = useState(data);
+    const totalCount = users.length;
+    const [stateUsers, setStateUsers] = useState(users);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    useEffect(() => {
+
+        if (page == 0) {
+            setStateUsers(users.slice(page, rowsPerPage));
+        } else if ((totalCount - (page * rowsPerPage)) <= rowsPerPage) {
+            setStateUsers(users.slice((page * rowsPerPage), totalCount))
+        } else {
+            setStateUsers(users.slice((page * rowsPerPage), (page * rowsPerPage) + rowsPerPage))
+        }
+
+    }, [page, rowsPerPage])
+
 
     const classes = useStyles();
 
@@ -290,7 +341,16 @@ function UsersView({ users }) {
                     </div>
                 </>)}
             </div>
-
+            <TablePagination
+                size='medium'
+                style={{ margin: '10px 0px' }}
+                component="div"
+                count={totalCount}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </div>
     )
 }
